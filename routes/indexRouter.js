@@ -17,7 +17,7 @@ router.get('/test', async function(req, res, next) {
 
         let users=await req.knex("v_admin_participaint")
 
-        res.json(txt)
+        res.json(users)
 
     }
     catch (e) {
