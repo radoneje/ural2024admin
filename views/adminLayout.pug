@@ -1,0 +1,46 @@
+include elems/mainHead
+  block head
+body
+      .iam(onclick="document.location.href='/logout'") #{user.name}
+      .tower
+        .menu
+          if user.isUser
+            .menuItem(onclick="document.location.href='/users'") Люди
+            .menuItem(onclick="document.location.href='/company'") Компании
+            .menuItem.menuAlertBox#filterMenuItem(onclick="document.location.href='/filter'") Модерация БР
+              .menuAlert
+            .menuItem#filterMenuItem(onclick="document.location.href='/tickets'") Билеты
+            .menuItem#filterMenuItem(onclick="document.location.href='/access'") Доступ
+            .menuItem.menuAlertBox#checkMenuItem(onclick="document.location.href='/check'") Проверка
+              .menuAlert
+            .menuItem(onclick="document.location.href='/accounting'") Бухгалтерия
+            .menuDivaider
+            .menuItem(onclick="document.location.href='/hotels'") Гостиницы
+            .menuItem(onclick="document.location.href='/info'") Информация
+            .menuDivaider
+            .menuItem(onclick="document.location.href='/personal'") Персонал
+            .menuItem(onclick="document.location.href='/service'") Подрядчики
+            .menuDivaider
+          if user.isContent
+            .menuItem.menuItem(onclick="document.location.href='/news/ru'")  Новости
+            .menuItem(onclick="document.location.href='/news/en'")  ENG news
+            .menuItem(onclick="document.location.href='/pgmSpeakers'") Спикеры
+            .menuItem(onclick="document.location.href='/pgm'") Программа
+            .menuItem(onclick="document.location.href='/photobank'") Фотобанк
+            .menuItem(onclick="document.location.href='/restorants'") Рестораны
+            .menuItem(onclick="document.location.href='/files'") Файлы
+            .menuItem(onclick="document.location.href='/broadcast'") Трансляция
+            .menuDivaider
+          if user.isMessages
+            .menuItem.menuAlertBox#feedbackMenuItem(onclick="document.location.href='/feedback'")  Вопр. организ.
+              .menuAlert
+            .menuItem#feedbackBotMenuItem(onclick="document.location.href='/feedbackBot'") Вопр из бота
+              .menuAlert
+            .menuItem(onclick="document.location.href='/q_frombot'") Вопр. спикерам
+            .menuDivaider
+            .menuItem Рассылки email
+            .menuItem(onclick="document.location.href='/spamBot'") Рассылки бот
+            .menuDivaider
+          .menuItem(onclick="document.location.href='/notes'") Памятка
+        .work
+          block content

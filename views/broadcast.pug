@@ -1,0 +1,73 @@
+extends adminLayout
+
+block content
+
+
+    #loader
+        .loaderLine
+
+    .hidden.fullHeight#broadcastApp
+        .flex.beetwen
+            h4 Трансляции
+        .scrollBox.mt-3
+            div
+                .btn.btn-success.mt-2(v-if="status.IsButton" v-on:click="status.IsButton=!status.IsButton;updateStatus()") Кнопка на сайте показана
+                .btn.btn-secondary.mt-2(v-else v-on:click="status.IsButton=!status.IsButton;updateStatus()") Кнопка на сайте выключена
+            .mt-2
+                .btn.btn-success(v-if="status.status" v-on:click="status.status=!status.status;updateStatus()") Показана трансляция
+                .btn.btn-info(v-else v-on:click="status.status=!status.status;updateStatus()") Показана заглушка
+            .mt2
+                .spkDetails.flex.left
+                    .spkLeft.half.mt-2
+                            .liveImgWr
+                                    img(:src="'https://ifcongress.ru/static/image/small/'+ status.poster_ru")
+                            .btn.btn-sm.btn-secondary(v-on:click="changeStatusImg('ru')") Изменить заглушку
+                    .spkRight.half
+                        .liveImgWr
+                            img(:src="'https://ifcongress.ru/static/image/small/'+ status.poster_en")
+                        .btn.btn-sm.btn-secondary(v-on:click="changeStatusImg('en')") Change picture
+            //.mt-2.news
+                .spkDetails.flex.left
+                    .spkLeft.half
+                            input(placeholder="лид заглушки" v-model="status.alert_lid_ru" v-on:change="updateStatus()")
+                            input.mt2(placeholder="текст заглушки" v-model="status.alert_title_ru" v-on:change="updateStatus()")
+
+                    .spkRight.half
+                        input(placeholder="LID " v-model="status.alert_lid_en" v-on:change="updateStatus()")
+                        input.mt2(placeholder="Text" v-model="status.alert_title_en" v-on:change="updateStatus()")
+            .mt-2.aLiveHall(v-for="hall in halls")
+                div
+                    h4 {{hall.hallcode}}
+                    .btn.btn-success.mt-2(v-if="hall.isEnable" v-on:click="hall.isEnable=!hall.isEnable;updateHall(hall)") Трансляция включена
+                    .btn.btn-secondary.mt-2(v-else v-on:click="hall.isEnable=!hall.isEnable;updateHall(hall)") Трансляция выключена
+                .mt-2.news
+                    .spkDetails.flex.left
+                        .spkLeft.half
+                            input.mt2(placeholder="название зала" v-model="hall.halltitle_ru" v-on:change="updateHall(hall)")
+                            .liveImgWr
+                                img(:src="'https://ifcongress.ru/static/image/small/'+ hall.poster_ru")
+                            .btn.btn-sm.btn-secondary(v-on:click="changePosterImg('ru', hall)") Изменить постер
+                            input.mt2(placeholder="URL трансляции" v-model="hall.url_ru" v-on:change="updateHall(hall)")
+                        .spkRight.half
+                            input.mt2(placeholder="hall title" v-model="hall.halltitle_en" v-on:change="updateHall(hall)")
+                            .liveImgWr
+                                img(:src="'https://ifcongress.ru/static/image/small/'+ hall.poster_en")
+                            .btn.btn-sm.btn-secondary(v-on:click="changePosterImg('en', hall)") ChangePoster
+                            input.mt2(placeholder="broadcast URL " v-model="hall.url_en" v-on:change="updateHall(hall)")
+
+
+
+
+
+
+
+
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+    script(src="/lib/vue.js")
+    script.
+
+        let frontUrl = !{JSON.stringify(frontUrl)}
+    script(src="/javascripts/broadcastScript.js")
+
+

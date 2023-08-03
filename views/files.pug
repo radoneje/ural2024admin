@@ -1,0 +1,64 @@
+extends adminLayout
+
+block content
+
+    h4 Файлы
+
+    #loader
+        .loaderLine
+
+    .hidden.fullHeight#fileApp
+        each file in files
+            .flex.left.mt-3
+                div(style="width:300px;") #{file.title}
+                .btn-group.btn-group-sm
+                    .btn.btn-sn.btn-success(v-on:click="uploadFile("+file.id+")") Загрузить
+                    .btn.btn-sn.btn-info(v-on:click="downloadFile('"+file.key+"')")  Скачать
+                    .btn.btn-sn.btn-secondary(v-on:click="copyFile('https://ifcongress.ru/static/key/"+file.key+"')")  Скопировать
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+    script(src="/lib/vue.js")
+
+
+    script.
+        let fileApp=new Vue({
+            el:"#fileApp",
+            data:{
+
+            },
+            methods:{
+                copyFile:async function(txt){
+                    await copyToClpboard(txt)
+                },
+                downloadFile:function(key){
+                    document.location.href = "https://ifcongress.ru" + "/static/key/"+key
+                },
+                uploadFile:function(id){
+                    let inp = document.createElement("input")
+                    inp.type = "file"
+                    //inp.accept = "*"
+                    inp.click()
+                    inp.onchange = async () => {
+                        let file=inp.files[0]
+                        formData = new FormData()
+                        formData.append('file', file, file.name);
+                        let ret = await fetch("https://api.ifcongress.ru" + "/api/uploadFile", {
+                            method: 'post',
+                            body: formData,
+                        })
+                        if (ret.ok) {
+                            let fileid=await ret.json();
+                            await postJson("/api/staticfile/",{id,fileid})
+                            console.log(fileid)
+                            alert("файл загружен!")
+                        }
+                    }
+                }
+            },
+            watch:{},
+            mounted:async function(){
+                setTimeout(()=>{loader.parentNode.removeChild(loader);document.getElementById("fileApp").classList.remove("hidden") },1000)
+
+            }
+        })
+

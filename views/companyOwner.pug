@@ -1,0 +1,16 @@
+h4 Ответственный за компанию:
+.flex.center.mt-3
+        .ownerBox#ownerBox(style="max-width:600px")
+            label ФИО
+            input(name="ownerFio" type="email" field)
+            label.mt-2 телефон
+            input(name="ownerPhone" type="email" field)
+            label.mt-2 email
+            input(name="ownerEmail" type="email" field)
+            label.mt-2 password
+            input(name="ownerPass" type="password" field)
+            .btn.btn.btn-success.mt-3#saveOwnerBtn Сохранить
+            div
+            label.mt-3 Ссылка для добавления сотрудников
+            input#ownerLink(type="text" value="https://ifca.usermod.ru"+"/companyStaff/" readonly)
+            .btn.bts-sn.btn-outline-secondary#ownerLinkBtn Скопировать

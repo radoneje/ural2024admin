@@ -1,0 +1,105 @@
+extends adminLayout
+
+block content
+
+
+
+
+
+  #loader
+    .loaderLine
+
+  .hidden.fullHeight#app
+    h4.flex.left.center.beetwen
+      div(style="margin-right:24px") Подрядчики
+      .btn-group(style="margin-right:24px")
+        .btn.btn-outline-secondary(v-on:click="addServiceCompany()")
+          <iconify-icon icon="material-symbols:add-box-outline"></iconify-icon>
+        .btn.btn-outline-secondary(onclick="window.open('/api/personalAccessExcel')") Скачать списки для входа
+
+    .usersMenu.flex
+
+      .usersMenuItem(v-for="type in types" v-bind:class="{active:typeid==type.id}" v-on:click="typeid=type.id") {{type.title}}
+      .usersMenuItem(v-bind:class="{active:typeid==null}" v-on:click="typeid=null") Все
+    .userTableHead.flex.pt-2.pb-2
+      .userTableHeadDate(v-on:click="sortCompanyBy('id')") Дата рег.
+      .userTableHeadF(v-on:click="sortCompanyBy('name')") Название
+    .scrollBox
+      .company.flex.left.hidden(v-for="c in company")
+        .userLeft
+          .companyNameBoxWr.flex.left
+            .companyNameBox
+              .userName
+                  input(placeholder="короткое название" v-model="c.shortName" readonly  v-on:change="changeCompany(c, 'shortName')" ondblclick="this.removeAttribute('readonly')" onblur="this.setAttribute('readonly','readonly')")
+              .companyRow.mt-2
+                label  За что отвечает
+                input(placeholder="" v-model="c.profile" readonly  v-on:change="changeCompany(c, 'profile')" ondblclick="this.removeAttribute('readonly')" onblur="this.setAttribute('readonly','readonly')")
+
+              .companyRow.mt-2
+                  b {{c.contactPerson}}
+              .companyRow.mt-2.small
+                div {{c.name}}
+                div id: {{c.id}} ИНН {{c.inn}} ОГРН {{c.ogrn}}
+                div  {{c.address}}
+                div  Руководитель {{c.director}}
+                div  {{c.phone}}
+              .userCommentBox.mt-3
+                textarea(placeholder="комментарий" v-model="c.comment" readonly  v-on:change="changeCompany(c, 'comment')" ondblclick="this.removeAttribute('readonly')" onblur="this.setAttribute('readonly','readonly')")
+            .companyUsersBox
+              .flex.center.left.input-group
+                  select(v-model="c.defaultUserType" v-on:change="changeCompany(c, 'defaultUserType')")
+                    option(:value="type.id" v-for="type in types" ) {{type.title}}
+                  .btn.btn-sm.btn-outline-secondary(v-on:click="addUserToCompany(c)") добавить
+              .companyUsers
+                .companyUser(v-for="user in c.users" v-on:dblclick="showUser(user)")
+                  .companyUserBox.flex.beetwen
+                    div
+                      img(:src="frontUrl+'/static/image/small/'+user.photoid" loading="lazy")
+                    .companyUserName(style="width:calc(100% - 38px - 38px)") {{user.f}} {{user.i}} {{user.o}}
+                      .small
+                        span (
+                        span(v-for="(t, i) in user.types")
+                          span(v-if="i") ,
+                          span {{t.title}}
+                        span &nbsp;)
+                    div(style="color:var(--bs-success);font-size:2em" v-if="user.statusid>100")
+                      iconify-icon( icon="material-symbols:check-box-rounded")
+                    div(style="color:var(--bs-warning);font-size:2em" v-if="user.statusid>0 && user.statusid<100")
+                        iconify-icon( icon="ic:outline-watch-later")
+                    div(style="color:var(--bs-danger);font-size:2em" v-if="user.statusid<=0")
+                      iconify-icon( icon="ic:outline-block")
+
+
+        .userRight.flex.left
+
+          .userFilesBox()
+            .btn.btn-sm(v-on:click="uploadUserFile(c)") Загрузить файл
+            .userFiles(v-bind:class="{fileOver:c.dragOver}" v-on:dragenter="dragOver($event, c)" v-on:dragover="dragOver($event, c)"  v-on:dragleave="dragLeave($event,c)" v-on:drop="drop($event,c)" dropable)
+              .userNoFile(v-if="!c.files || !c.files.length") Нет файлов, <br> перетащите сюда или загрузите
+              .userFile.small(v-for="file in c.files")
+                iconify-icon( icon="ic:baseline-file-download" v-on:click="downloadFile(file.guid)")
+                iconify-icon( icon="material-symbols:add-link-rounded" v-on:click="copyToClpboard(frontUrl+'/static/file/'+file.guid)")
+                span &nbsp;{{file.originalname}}&nbsp;
+                iconify-icon(icon="ic:baseline-delete-forever" v-on:click="deleteFile(file.guid, c)" )
+          .companyTypesBox
+            div Выбрать действие
+            .btn.btn-secondary.btn-sm(v-on:click="getCompanyOwnerLink(c)") Доступ для старшего
+            .btn.btn-secondary.btn-sm.mt-2(v-on:click="setCompanyAllUsersStatus( 110, c)") Разрешить доступ всем
+            .btn.btn-secondary.btn-sm.mt-2(v-on:click="setCompanyAllUsersStatus( 0, c)") Отменить доступ всем
+
+
+
+
+
+  <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+  script(src="/lib/vue.js")
+  script.
+    let backUrl=!{JSON.stringify(backUrl)}
+    let frontUrl=!{JSON.stringify(frontUrl)}
+    let typeid=!{JSON.stringify(typeid)};
+    let types=!{JSON.stringify(types)};
+    let companyTypes=!{JSON.stringify(companyTypes)}
+  script(src="/javascripts/companyScript.js")
+
+
+

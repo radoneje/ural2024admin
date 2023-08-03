@@ -1,0 +1,104 @@
+extends adminLayout
+
+block content
+
+
+
+    #loader
+        .loaderLine
+    .hidden.fullHeight.mt-6#app
+        h4.flex.left.center.beetwen
+            div(style="margin-right:24px") Счета
+            .btn-group(style="margin-right:24px")
+                .btn.btn-outline-secondary(v-on:click="getAllInvoces()") Скачать все счета в Excel
+
+
+        .usersMenu.flex
+            .usersMenuItem(v-for="type in types" v-bind:class="{active:typeid==type.id}" v-on:click="typeid=type.id") {{type.title}}
+            .usersMenuItem(v-bind:class="{active:typeid==null}" v-on:click="typeid=null") Все
+
+
+        .userTableHead.flex.pt-2.pb-2
+            .userTableHeadDate(v-on:click="sortUserBy('id')") Дата рег.
+            .userTableHeadF(v-on:click="sortUserBy('f')" style="width: calc(100% - 550px);") Фамилия
+            .userTableHeadS(v-on:click="sortUserBy('invoceno')") номер счета
+
+
+        .scrollBox
+            .user(v-for="user in users" )
+                .flex.left.hidden.userContainer
+                    div
+                        .userPhoto
+                            img(:src="frontUrl+'/static/image/small/'+user.photoid" loading="lazy")
+                            .userId.small id:{{user.id}}
+                    .filterWr.flex.left
+                        .userFilterBox.flex.left(style="width: calc(100% - 440px);")
+                            .userNameWrv
+                                .userName  {{user.f}} {{user.i}} {{user.o}}
+                                    .small {{user.position}}
+                                    .small.tUserTypes.flex.left(v-if="user.types" )
+                                        .tUserType(v-for="type in user.types") {{type.title}}
+
+                                .userCompany  {{user.email}} {{user.phone}}
+                                b.small Представляет:
+                                .userCompany.small
+                                    .userCompanyName(v-html="user.company")
+                                .userCompany.small(v-if="user.isPaySelf")
+                                    b.small Плательщик:
+                                        span.selected Сам как физ.лицо
+                                div(v-else)
+                                    b.small Плательщик:
+                                    .userCompany.small
+                                        .userCompanyName(v-html="user.paycompany")
+
+
+
+
+
+                        .userStatusWr
+                            div
+                                b СЧЕТ № ФК-{{user.invoiceid}}
+                                .mt-1 от {{user.invoiceDate}}
+                                .btn.btn-sm.btn-outline-secondary.mt-2(v-on:click="downloadInvoce(user)") Скачать счет
+                            .mt-2
+                                .btn.btn-sm.btn-outline-secondary.mt-2(:onclick="'window.open(\"https://ifcongress.ru/static/invoiceshort/'+user.invoiceguid+'\")'") Скачать кор. счет
+                            .mt-2(v-if="user.isEdo && !user.isPaySelf")
+                                .btn.btn-sm.btn-outline-secondary.mt-2(:onclick="'window.open(\"https://ifcongress.ru/static/edoAgreement/'+user.invoiceguid+'\")'") Скачать согл. ЭДО
+
+                            .mt-2
+                                div
+                                    b АКТ № ФК-{{user.invoiceid}}
+                                .btn.btn-sm.btn-outline-secondary.mt-2(v-on:click="downloadAkt(user)") Скачать акт
+
+
+                            .mt-2(v-if="user.isPay")
+                                div.small скидка {{user.discount}}%
+                                div.small
+                                    b Сумма {{150-(150*(user.discount/100))}}тр.
+
+
+                        .filterMakeBox(style="width:220px")
+                            div
+                                label.small текущий статус:
+                                .userStatus.small(:style="'background-color:'+user.statuscolor") {{user.status}}
+                            .btn-group.mt-2(v-if="user.statusid>=100 ")
+                                div Оплачено
+                            .btn-group.mt-2(v-if="user.statusid<100 ")
+                                .btn.btn-success( v-on:click="userSetInvoicePay(user)") Подтвердить получение оплаты
+                            //.btn-group.mt-2(v-if="!user.isPay")
+                                div Без оплаты
+                .userCommentBox.mt-3
+                    textarea(placeholder="комментарий" v-model="user.comment" readonly  v-on:change="changeUser(user, 'comment')" ondblclick="this.removeAttribute('readonly')" onblur="this.setAttribute('readonly','readonly')")
+
+
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+    script(src="/lib/vue.js")
+    if view
+        script let view = !{JSON.stringify(view)}
+
+    script let frontUrl = !{JSON.stringify(frontUrl)}; let typeid = !{JSON.stringify(typeid)}; let types = !{JSON.stringify(types)};
+    script(src="/javascripts/usersScript.js")
+
+
+

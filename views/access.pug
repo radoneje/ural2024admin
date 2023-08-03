@@ -1,0 +1,129 @@
+extends adminLayout
+
+block content
+
+    h4 Доступ участников
+
+    #loader
+        .loaderLine
+
+    .hidden.fullHeight#accessApp
+        .mt-2.btn-group
+            .btn(v-for="z in accesZones" v-on:click="zone=z;" v-bind:class="{'btn-success':z.id==zone.id, 'btn-secondary':z.id!=zone.id}") {{z.title}}
+        .mt-2.flex.left
+            .accessColumn
+                h6 Доступ разрешен ({{getZoneUsers().length}}):
+                .mt-2
+                    input#seatAccessFind(type="text" placeholder="Найти участника")
+                .mt-2.accessScroll.sectAccess
+                    .seatInfoUser.list.flex.center.left(v-for="u in getZoneUsers()"  )
+                        .seatInfoUserPhoto
+                            img(:src='"https://ifcongress.ru/static/image/small/" + u.photoid' loading="lazy")
+                        div
+                            .seatInfoUserName {{u.f}} {{u.i}} {{u.o}}
+                            .seatInfoUserCompany {{u.type}}
+
+                            .seatInfoUserCompany {{u.companyShort}}
+                        .seatInfoUserRemove(v-on:click="userRemoveZone(u)") Запретить доступ
+            .accessColumn
+                h6 Все участники:
+                .mt-2
+                    input#seatInfoFind(type="text" placeholder="Найти участника")
+                .mt-2.accessScroll.sectUsers
+
+                        .seatInfoUser.list.flex.center.left(v-for="u in users" :already="checkUserIsZone(u)" v-on:click="userAddZone(u)")
+                            .seatInfoUserPhoto
+                                img(:src='"https://ifcongress.ru/static/image/small/" + u.photoid' loading="lazy")
+                            div
+                                .seatInfoUserName {{u.f}} {{u.i}} {{u.o}}
+                                .seatInfoUserCompany {{u.type}}
+                                .seatInfoUserCompany {{u.companyShort}}
+
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+    script(src="/lib/vue.js")
+    script.
+
+
+
+    script.
+        let accessApp = new Vue({
+            el: "#accessApp",
+            data: {
+                accesZones:[],
+                zone:{},
+                users:[]
+            },
+            methods: {
+                userAddZone:async function(user){
+                    user.zones.forEach(zz=>{
+                        if(zz.id==this.zone.id)
+                            zz.access=true;
+                    })
+                    await postJson("/api/setUserAccesZone",{userid:user.id, zoneid:this.zone.id, access:true})
+                },
+                userRemoveZone: async function (user) {
+                    if(confirm("Запретить?")) {
+                        user.zones.forEach(zz => {
+                            if (zz.id == this.zone.id)
+                                zz.access = false;
+                        })
+                        await postJson("/api/setUserAccesZone", {userid: user.id, zoneid: this.zone.id, access: false})
+                    }
+                },
+                getZoneUsers:function (){
+                   return this.users.filter(u=>this.checkUserIsZone(u))
+                },
+                checkUserIsZone:function (user){
+                    return user.zones.filter(zz=>{return zz.id==this.zone.id && zz.access }).length>0
+                }
+            },
+            watch: {},
+            mounted: async function () {
+
+                this.accesZones=await getJson("/api/accesZones");
+                this.zone=this.accesZones[0];
+                this.users=await getJson("/api/usersAccessZones")
+                setTimeout(() => {
+                    loader.parentNode.removeChild(loader);
+                    document.getElementById("accessApp").classList.remove("hidden")
+                }, 1000)
+
+            }
+        })
+
+
+        let findCtrl = document.getElementById("seatInfoFind");
+        findUser(findCtrl, "sectUsers")
+        findCtrl = document.getElementById("seatAccessFind");
+        findUser(findCtrl, "sectAccess")
+
+        function findUser(findCtrl, sect) {
+            findCtrl.focus();
+            findCtrl.onkeyup = () => {
+                let txt = findCtrl.value;
+                if (txt) {
+                    var find = null;
+                    document.querySelectorAll("."+sect+" .seatInfoUser").forEach(ctrl => {
+                        let name = ctrl.querySelector(".seatInfoUserName").innerText.toLowerCase();
+                        if (name && !find && name.indexOf(txt.toLowerCase()) == 0) {
+                            find = ctrl;
+                            ctrl.classList.add("find")
+                        } else
+                            ctrl.classList.remove("find")
+                    });
+                    if (find)
+                        find.scrollIntoView({block: "nearest", inline: "nearest"});
+                } else {
+                    document.querySelectorAll(".seatInfoUser.find").forEach(ctrl => {
+                        ctrl.classList.remove("find")
+                    })
+                }
+
+                console.log(txt)
+            }
+        }
+
+
+
+

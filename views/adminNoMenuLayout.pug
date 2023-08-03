@@ -1,0 +1,41 @@
+doctype html
+html(lang="ru")
+  head
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    meta(charset="utf-8")
+    title="ADMIN ifcongress"
+    link(rel='stylesheet', href='/lib/reset.css')
+    link(rel="stylesheet" href="/lib/cropper.min.css" )
+    link(rel='stylesheet', href='/lib/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/1020.css' )
+    script(src="/lib/bootstrap.bundle.min.js")
+    script(src="/lib/cropper.min.js")
+    script(src="/javascripts/utils.js")
+    block head
+  body
+      .iam(onclick="alert(123); document.location.href='/logout'") #{user.name}
+      .tower
+        .menu
+          .menuItem(onclick="document.location.href='/users'") Люди
+          .menuItem(onclick="document.location.href='/company'") Компании
+          .menuItem(onclick="document.location.href='/filter'") Модерация БР
+          .menuDivaider
+          .menuItem(onclick="document.location.href='/personal'") Персонал
+          .menuItem(onclick="document.location.href='/service'") Подрядчики
+          .menuDivaider
+          .menuItem Новости
+          .menuItem ENG news
+          .menuItem Программа
+          .menuItem Спикеры
+          .menuDivaider
+          .menuItem Вопр. организ.
+          .menuItem Вопр из бота
+          .menuItem Вопр. спикерам
+          .menuDivaider
+          .menuItem Рассылки email
+          .menuItem Рассылки бот
+          .menuDivaider
+          .menuItem(onclick="document.location.href='/notes'") Памятка
+        .work
+          block content

@@ -1,0 +1,5 @@
+.userFile.small(fileid=file.guid)
+    iconify-icon( icon="ic:baseline-file-download" onclick="downloadFile('"+file.guid+"')")
+    iconify-icon( icon="material-symbols:add-link-rounded" onclick="copyToClpboard("+frontUrl+'/static/file/'+file.guid)
+    span &nbsp;!{file.originalname}&nbsp;
+    iconify-icon(icon="ic:baseline-delete-forever" onclick="userDeleteFile('"+file.guid+"',"+ user.id+")" )

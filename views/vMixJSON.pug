@@ -1,0 +1,54 @@
+extends layout
+
+block content
+
+    h4 JSON для Титров
+
+    #loader
+        .loaderLine
+
+    .hidden.fullHeight#feedbackApp(style="padding: 24px;")
+        .scrollBox
+            div Выберите сессию:
+                .qbotSeccionWr
+                    each s in sessions
+                        .qBotSessionItem
+                            a(href="/vMixJSON/" + s.id style="text-decoration: none;color: var(--bs-body-color);")
+                                div !{s.dayru} !{s.tsru}
+                                div !{s.halltitle_ru} !{s.title_ru}
+                            .btn.btn-sm.btn-success.copyLink(onclick="navigator.clipboard.writeText('https://ifca.usermod.ru/vMixJSON/"+s.id+"'); this.innerHTML='Скопировано';setTimeout(()=>{this.innerHTML='Копировать ссылку'},1000)") Копировать ссылку
+                            a.btn.btn-sm.btn-success.copyLink(href='https://ifca.usermod.ru/vMixJSONExcel/'+s.id download="titleExcel.xlsx") Скачать Excel
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+    script(src="/lib/vue.js")
+    script.
+        document.querySelectorAll(".copyLink").forEach(e=>{
+            console.log(e)
+            e.addEventListener("click", async(event)=>{
+                event.preventDefault();
+                event.stopPropagation();
+                console.log("click");
+                let link="https://ifca.usermod.ru/"+e.target.parentNode.getAttribute("href")
+                await navigator.clipboard.writeText(link);
+                e.target.innerHTML="скопировано"
+                setTimeout(()=>{e.target.innerHTML="Копировать ссылку"},1000)
+            }
+            )
+        })
+
+    script.
+        let feedbackApp=new Vue({
+            el:"#feedbackApp",
+            data:{
+
+            },
+            methods:{
+
+            },
+            watch:{},
+            mounted:async function(){
+                setTimeout(()=>{loader.parentNode.removeChild(loader);document.getElementById("feedbackApp").classList.remove("hidden") },1000)
+
+            }
+        })
+

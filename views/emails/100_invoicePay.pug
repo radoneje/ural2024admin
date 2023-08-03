@@ -1,0 +1,9 @@
+html
+    body
+        p
+            b(style="font-size:1.2em") Здравствуйте, #{user.i} #{user.o}!
+        p
+            div Благодарим за оплату счета.
+            div Информация о местах, сроках и порядке получения бейджа участника будет доступна в личном кабинете.&nbsp;
+                a(href="https://ifcongress.ru/personal?token=" + user.guid) https://ifcongress.ru/personal?token=#{user.guid}
+        include mailFooter

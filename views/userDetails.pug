@@ -1,0 +1,93 @@
+.pUserWr
+    .pUserHead.flex
+        div
+            .pUserPhoto
+                img(src=frontUrl+"/static/image/middle/"+user.photoid ondblclick="onChangeUserPhoto(this)" userid=user.id userguid=user.guid)
+            .pUserShortCompany
+                .small Название компании для бейджа:
+                input(onchange="onChangeUser(this)" userid=user.id, userguid=user.guid field="companyShort"  value=user.companyShort ondblclick="this.removeAttribute('readonly')" readonly onblur="this.setAttribute('readonly','readonly')")
+
+        .pUserCartWr
+            .pUserCart.flex.left
+                .puserNameWr
+
+                    .puserName #{user.f} #{user.i} #{user.o}
+                    .pUserType
+                        span id: #{user.id},&nbsp;
+                        each type in user.types
+                            span #{type.title}&nbsp;
+                    .pUserType #{user.phone?user.phone.replace(/^7/,"+7"):""}  #{user.email}
+                    .pUserPassport.mt-3
+                        div
+                            b Паспорт:
+                            span &nbsp;#{user.passportSerial} #{user.passportNumber}
+                        div выдан #{user.passportDate}, код подразделения: #{user.passportCode}
+                    .pUserPassport.mt-3
+                        .small
+                            b должность:
+                        input(placeholder="укажите должность" onchange="onChangeUser(this)" userid=user.id, userguid=user.guid field="position"  value=user.position ondblclick="this.removeAttribute('readonly')" readonly onblur="this.setAttribute('readonly','readonly')")
+                    if user.isProxy
+                        div.mt-3
+                            b Контактное лицо:
+                            div #{user.proxyi}  #{user.proxyphone} #{user.proxyemail}
+                .puserNameWr
+                    .pStatusesBox
+                        each status in statuses
+                            .pStatus(onclick="onChangeUserStatus(this)" userid=user.id, userguid=user.guid statusid=status.id active=user.statusid==status.id) #{status.title}
+    .pUserBodyWr
+        .mt-2(v-if="user.isPay")
+            label.small скидка
+            div
+                select(onchange="onChangeUser(this)" userid=user.id, userguid=user.guid field="discount" value=user.discount )
+                    option(value="0" selected=user.discount==0) Без скидки
+                    option(value="10" selected=user.discount==10) 10%
+                    option(value="20" selected=user.discount==20) 20%
+                    option(value="30" selected=user.discount==30) 30%
+                    option(value="40" selected=user.discount==40) 40%
+                    option(value="50" selected=user.discount==50) 50%
+
+        .puserTypes.small.flex.left.mt-3
+            each type in types
+                .puserType(v-on:click="changeCompanyType(type, c)"  class=(user.types.filter(t => t.id == type.id).length) ? "active" : "" typeid=type.id userid=user.id onclick="onChangeUserType(this)") #{type.title}
+        .flex.left
+            .small.companyCell
+                b Представляет компанию:
+                .mt-1 #{user.company.name}
+                    div ИНН #{user.company.inn}
+                    div #{user.company.director}
+                    div #{user.company.address}
+                    div #{user.company.phone?user.company.phone.replace(/^7/,"+7"):""}
+
+                    div #{user.company.profile}
+
+            if    user.payCompanyId
+                .small.companyCell
+                    b Оплачивает компания:
+                    .mt-1 #{user.payCompany.name}
+                        div ИНН #{user.payCompany.inn}
+                        div #{user.payCompany.director}
+                        div #{user.payCompany.address}
+                        div #{user.payCompany.phone}
+                    .mt-2
+                        .puserType(onclick="changeCompanyEdo(this,"+user.payCompany.id+")" class=user.payCompany.isEdo?"active":"") ЭДО
+            if user.isPaySelf
+                .small.companyCell
+                    b Оплачивает самостоятельно
+            .small.companyCell
+                .flex.center.left
+                    b Файлы:&nbsp;&nbsp;
+                        .btn.btn-sm.btn-outline-secondary(onclick="uploadUserFile("+user.id+")")
+                            iconify-icon(icon="ic:round-file-upload")
+                .userFiles#userDetailFiles.mt-2(v-bind:class="{fileOver:user.dragOver}" v-on:dragenter="dragOver($event, user)" v-on:dragover="dragOver($event, user)"  v-on:dragleave="dragLeave($event,user)" v-on:drop="drop($event,user)" dropable)
+
+                    each file in user.files
+                        include userFile
+
+    .small.companyComment
+            b Комментарий:
+            textarea(onchange="onChangeUser(this)"  userid=user.id, userguid=user.guid field="comment"  placeholder="комментарий" ondblclick="this.removeAttribute('readonly')" readonly onblur="this.setAttribute('readonly','readonly')" ) #{user.comment}
+    script.
+
+
+
+

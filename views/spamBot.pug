@@ -1,0 +1,99 @@
+extends adminLayout
+
+block content
+
+    h4 Рассылка в ТГ бот
+
+    #loader
+        .loaderLine
+
+    .hidden.fullHeight#feedbackApp
+        .scrollBox
+            .timeslotWr.mt-3
+                .timeslotHead(style="color:black")
+                .timeslotBody
+                    textarea.form-control(placeholder="Текст сообщения")
+                    .flex.right
+                        .btn.btn-sm.btn-success(onclick="addFile()") Приложить картинку
+                    #botFilesWr
+                    .btn.btn-sm.btn-warning.mt-2(onclick="sendMessage(this)") Отправить сообщение всем
+
+            each m in messages
+                .timeslotWr.mt-3
+                    .timeslotHead(style="color:black")
+
+                        div #{m.formattedDate}, отправлено от #{m.name}
+                    .timeslotBody #{m.text}
+                        .mFilesWr
+
+
+
+
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+    script(src="/lib/vue.js")
+
+    script.
+        async function  addFile(){
+            let input=document.createElement("input")
+            input.type="file";
+            input.style.display="none"
+            input.accept="image/*"
+            document.body.appendChild(input)
+            input.click();
+            input.onchange=async ()=>{
+                let formData = new FormData()
+                formData.append('file', input.files[0], input.files[0].name);
+                let ret = await fetch("https://api.ifcongress.ru" + "/api/uploadFile", {
+                    method: 'post',
+                    body: formData,
+                })
+                if (ret.ok) {
+                    let fileguid=await ret.json()
+                    let item=document.createElement("div")
+                    item.classList.add("feedBackFile");
+                    item.classList.add("mt-1");
+                    item.onclick=()=>{document.location.href="https://ifcongress.ru/static/file/"+(fileguid)}
+                    item.setAttribute("fileid", fileguid)
+                    item.innerText=input.files[0].name
+                    botFilesWr.appendChild(item)
+                }
+            }
+        }
+        async function sendMessage( ctrl){
+            if(!confirm("Отправить сообщение?"))
+                return;
+            let txtarea=ctrl.parentNode.querySelector("textarea")
+            let text=txtarea.value;
+            let files=[];
+            botFilesWr.querySelectorAll(".feedBackFile").forEach(elem=>{
+                files.push(elem.getAttribute("fileid"))
+            })
+            if(text.length>2) {
+                await postJson("/api/messageToAllBot", { text, files});
+                alert("Сообщение отправлено")
+                document.location.reload();
+
+            }else
+                txtarea.focus();
+            updateAlerts();
+        }
+        updateAlerts();
+
+
+    script.
+        let feedbackApp=new Vue({
+            el:"#feedbackApp",
+            data:{
+
+            },
+            methods:{
+
+            },
+            watch:{},
+            mounted:async function(){
+                setTimeout(()=>{loader.parentNode.removeChild(loader);document.getElementById("feedbackApp").classList.remove("hidden") },1000)
+
+            }
+        })
+

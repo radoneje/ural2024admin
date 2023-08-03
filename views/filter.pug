@@ -1,0 +1,80 @@
+extends adminLayout
+
+block content
+
+  h4.flex.left.center.beetwen
+    div(style="margin-right:24px") На согласование БР
+
+
+  #loader
+    .loaderLine
+  .hidden.fullHeight.mt-6#app
+    .usersMenu.flex
+      .usersMenuItem(v-for="type in types" v-bind:class="{active:typeid==type.id}" v-on:click="typeid=type.id") {{type.title}}
+      .usersMenuItem(v-bind:class="{active:typeid==null}" v-on:click="typeid=null") Все
+
+    .userTableHead.flex.pt-2.pb-2
+
+    .scrollBox
+      .user(v-if="users.length==0")
+        .userName Нет участников для модерации
+
+      .user(v-for="user in users" v-if="user.statusid>0 && user.statusid<=50")
+        .flex.left.hidden.userContainer
+          div
+            .userPhoto
+              img(:src="frontUrl+'/static/image/small/'+user.photoid" loading="lazy")
+              .userId.small id:{{user.id}}
+          .filterWr.flex.left
+            .userFilterBox.flex.left
+              .userNameWrv
+                .userName  {{user.f}} {{user.i}} {{user.o}}
+
+
+                .userCompany  {{user.email}} {{user.phone?user.phone.replace(/^7/,"+7"):""}}
+                  .small {{user.position}}
+                .userCompany.small(v-if="user.company")
+                  .userCompanyName {{user.company.name}} ({{user.company.shortName}})
+                  .userCompanyName ИНН {{user.company.inn}}, {{user.company.address}}
+                .small.tUserTypes.flex.left.mt-2(v-if="types" )
+                  .tUserType(v-for="type in types" v-on:click="userSetType(type.id, user)" v-bind:class="{active:type.id==user.typeid}" ) {{type.title}}
+
+
+
+            .userStatusWr
+                label.small текущий статус:
+                .userStatus.small(:style="'background-color:'+user.statuscolor") {{user.status}}
+                .mt-2(v-if="user.isPay")
+                  label.small скидка
+                  div
+                    select(v-model="user.discount" v-on:change="changeUser(user, 'discount')")
+                      option(value="0") Без скидки
+                      option(value="10") 10%
+                      option(value="20") 20%
+                      option(value="30") 30%
+                      option(value="40") 40%
+                      option(value="50") 50%
+
+            .filterMakeBox
+              .btn-group.mt-2
+                .btn.btn-danger( v-on:click="userSetStatus(50, user)") Отклонить
+                .btn.btn-warning( v-on:click="userSetStatus(30, user)") Запросить подробности
+                .btn.btn-success( v-on:click="userSetStatus(40, user)") Разрешить
+
+
+
+        .userCommentBox.mt-3
+            textarea(placeholder="комментарий" v-model="user.comment" readonly  v-on:change="changeUser(user, 'comment')" ondblclick="this.removeAttribute('readonly')" onblur="this.setAttribute('readonly','readonly')")
+
+
+
+  <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+  script(src="/lib/vue.js")
+  if view
+    script let view=!{JSON.stringify(view)}
+
+  script let frontUrl=!{JSON.stringify(frontUrl)}; let typeid=!{JSON.stringify(typeid)}; let types=!{JSON.stringify(types)};
+  script(src="/javascripts/usersScript.js")
+
+
+

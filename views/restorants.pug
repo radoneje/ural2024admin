@@ -1,0 +1,130 @@
+extends adminLayout
+
+block content
+
+    h4 Рестораны
+
+    #loader
+        .loaderLine
+
+    .hidden.fullHeight#photobankApp
+        .mt-4.flex.center.left
+            .btn-group.mt-2
+                .btn(v-for="item in bank" v-on:click="day=item" v-bind:class="{'btn-success':item.id==day.id, 'btn-secondary':item.id!=day.id}") {{item.time}} {{item.title}}
+        .scrollBox
+            .mt-2
+                .btn.btn-sm.btn-outline-success(v-on:click="addRestoranit(day)") Добавить ресторан
+
+            .mt-4.photoFolders
+                .mt-4.photoFolder(v-for="item in day.items")
+                    .photoFolderHead
+                        .flex.center.left
+                            input.photoSort(type="number" v-model="item.sort" v-on:change="change(item)")
+                            .btn.btn-sm.btn-outline-secondary.photoPgmEnable(v-if="!item.isEnabled" v-on:click="item.isEnabled=!item.isEnabled;change(item)") Скрыт
+                            .btn.btn-sm.btn-success.photoPgmEnable(v-else v-on:click="item.isEnabled=!item.isEnabled;change(item)") Показан
+                            input.photoFolderTitle(v-model="item.title" v-on:change="change(item)" placeholder="Название")
+                            .btn.btn-sm.btn-danger.photoPgmEnable(v-on:click="deleteItem(item, day)") Удалить
+
+                    .photoFolderBody
+                        .mt-2
+                            input.photoFolderTitle(v-model="item.address" v-on:change="change(item)" placeholder="Адрес")
+                            input.photoFolderTitle(v-model="item.phone" v-on:change="change(item)" placeholder="Телефон")
+                        .mt-1.news(style="padding: 0;")
+                            textarea( v-model="item.lid"  placeholder="Лид" v-on:change="change(item)" style="width: 100%;")
+                        .mt-1.news(style="padding: 0;")
+                            input.photoFolderTitle(v-model="item.map" v-on:change="change(item)" placeholder="Ссылка на Яндекс-карту")
+                        .mt-1.news(style="padding: 0;")
+                            textarea( v-model="item.descr"  placeholder="Описание" v-on:change="change(item)" style="width: 100%;")
+                        .mt-1.news(style="padding: 0;")
+                            textarea( v-model="item.discount"  placeholder="Текст скидки" v-on:change="change(item, day)" style="width: 100%;")
+
+
+                        .mt-2.photoWr.flex
+                            .photoBox(v-for="photo in item.photos" )
+                                .photoContainer
+                                    .photoContainerElem
+
+                                        image.photoImage.photoImageLink(:src="'https://ifcongress.ru/static/image/small/'+photo" loading="lazy" v-on:click="showPhoto(photo)")
+
+
+                                        .photoEnable.photoBtn.btn.btn-sm.btn-danger( v-on:click="deletePhoto(photo, item)") Удалить
+
+
+                                        .photoCover.photoBtn.btn.btn-sm.btn-warning(v-if="item.coverphotoid==photo" v-on:click="item.coverphotoid=photo;change(item)") Обложка
+                                        .photoCover.photoBtn.btn.btn-sm.btn-secondary(v-else v-on:click="item.coverphotoid=photo;change(item)") сделать обложкой
+
+                        .btn.btn-sm.btn-outline-success(v-on:click="addPhoto(item)") Добавить фото
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+    script(src="/lib/vue.js")
+    script.
+        let photobankApp = new Vue({
+            el: "#photobankApp",
+            data: {
+                bank:[],//[{id:1,time:"08:00-10:00", title:"Утрений трек"},{id:2,time:"18:00-22:00", title:"Бизнес-Ужин"},{id:3,time:"22:00-02:00", title:"Вечерний Трек"} ],
+                day:{},
+            },
+            methods: {
+                showPhoto: async function (photo) {
+                   let f= await createPopUp("/showPhoto/"+photo.fileid)
+                    f.onclick=()=>{
+                       closePopUp()
+                    }
+                },
+                change:async function(item){
+                    await postJson("/api/restorant",item)
+                },
+                deletePhoto: async function (photo, item) {
+                    item.photos=item.photos.filter(p=>p!=photo);
+                    await this.change(item);
+                },
+                deleteItem: async function (item, day) {
+                    item.isDeleted=true;
+                    await this.change(item);
+                    day.items=day.items.filter(i=>i.id!=item.id);
+                },
+                unLinkToPgm: async function (folder) {
+
+                    let r = await postJson("/api/photoUnLinkToSession", {folderid: folder.id})
+                    folder.pgmsessionod=null
+
+                },
+                linkToPgm: async function(folder){
+                   await createPopUp("/photoLinkToSession/"+folder.id)
+
+                    document.querySelectorAll(".photoSelectSess").forEach(elem=>{
+                        elem.onclick=async()=>{
+                            let sessionid=elem.getAttribute("sessionid")
+                            let r=await postJson("/api/photoLinkToSession",{folderid:folder.id,sessionid })
+                            folder.pgmsessionod=sessionid
+                            folder.titleru = r.titleru;
+                            folder.titleen = r.titleen;
+                            closePopUp();
+                        }
+                    })
+                },
+                addPhoto:async function(item){
+                    let photoid=await getPhoto(16/9);
+                    item.photos.push(photoid)
+                    await this.change(item)
+                },
+
+                addRestoranit:async function(day){
+                    let f=await postJson("/api/restorant",{dayid:day.id})
+                   day.items.unshift(f)
+                }
+            },
+            watch: {},
+            mounted: async function () {
+                this.bank=await getJson("/api/restorant");
+                this.day=this.bank[0];
+                setTimeout(() => {
+                    loader.parentNode.removeChild(loader);
+                    document.getElementById("photobankApp").classList.remove("hidden")
+                }, 1000)
+
+            }
+        })
+
+
+

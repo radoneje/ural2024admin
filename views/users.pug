@@ -1,0 +1,115 @@
+extends adminLayout
+
+block content
+
+  h4.flex.left.center.beetwen
+    div(style="margin-right:24px") Люди
+    .btn-group(style="margin-right:24px")
+      .btn.btn-outline-secondary(onclick="if(confirm('очистить?')) document.location.href='/clearSpamList'") Очистить спам-лист
+      .btn.btn-outline-secondary(onclick="window.open('/api/transfersExcel')") Трансферы
+      .btn.btn-outline-secondary(onclick="window.open('/api/bageDeliveryExcel')") Беджи курьером
+      .btn.btn-outline-secondary(onclick="window.open('/api/userexcel')")
+       <iconify-icon icon="file-icons:microsoft-excel"></iconify-icon>
+
+  #loader
+    .loaderLine
+  .hidden.fullHeight.mt-6#app
+    .usersFilter
+      select(v-model="currStatus")
+        option(selected="true" value=0) Все статусы
+        option(:value="item.id" v-for="item in status") {{item.title}}
+    .usersMenu.flex.mt-2
+      .usersMenuItem(v-for="type in types" v-bind:class="{active:typeid==type.id}" v-on:click="typeid=type.id") {{type.title}}
+      .usersMenuItem(v-bind:class="{active:typeid==null}" v-on:click="typeid=null") Все
+
+    .userTableHead.flex.pt-2.pb-2
+      .userTableHeadDate(v-on:click="sortUserBy('id')") Дата рег.
+      .userTableHeadF(v-on:click="sortUserBy('f')") Фамилия
+      .userTableHeadS(v-on:click="sortUserBy('statusid')") Статус
+      .userTableHeadCont(v-on:click="sortUserBy('email')") Контакт
+      .userTableHeadContPerson(v-on:click="sortUserBy('proxyi')") Контактное лицр
+    .scrollBox
+      .user(v-for="user in users.filter(u=>{ if(currStatus==0) return true; else return currStatus==u.statusid })")
+        .flex.left.hidden
+          div
+            .userPhoto(v-on:dblclick="showUser(user)")
+              img(:src="frontUrl+'/static/image/small/'+user.photoid" loading="lazy")
+              .userId.small id:{{user.id}}
+              .userKadr.small(v-on:click="cropUserPicture(user)")
+                iconify-icon(icon="material-symbols:crop")
+            .small {{user.date}}
+            .small
+              .tUserType(v-bind:class="{active:user.sex}" v-on:click="user.sex=!user.sex;changeUser(user, 'sex')")
+                span(v-if="user.sex") Мальчик
+                span(v-else) Девочка
+
+
+          .userLeft
+            .userNameBox.flex.left
+              .userNameWr(v-on:dblclick="showUser(user)")
+                .userName  {{user.f}} {{user.i}} {{user.o}}
+                .userCompany
+                  .userCompanyName {{user.position}}
+                  .userCompanyName(v-if="user.companyShort") {{user.companyShort}}
+                  .userCompanyName(v-else) {{user.companyName}}
+                  .small(v-if="user.companyid!=user.payCompanyId && user.payCompanyId!=null") Платит: {{user.payCompanyName}}
+                  .small(v-if="user.isPaySelf") Платит сам
+                .small.tUserTypes.flex.left.mt-2(v-if="types" )
+                  .tUserType(v-for="type in types" v-on:click="userSetType(type.id, user)" v-bind:class="{active:type.id==user.typeid}" ) {{type.title}}
+
+
+              .userStatusWr
+                .userStatus.small(:style="'background-color:'+user.statuscolor+'; cursor:pointer'" v-on:dblclick="showUser(user)" v-on:click="showUserStatusLog(user)") {{user.status}}
+                .mt-2(v-if="user.isPay")
+                  label.small скидка
+                  div
+                    select(v-model="user.discount" v-on:change="changeUser(user, 'discount')")
+                      option(value="0") Без скидки
+                      option(value="10") 10%
+                      option(value="20") 20%
+                      option(value="30") 30%
+                      option(value="40") 40%
+                      option(value="50") 50%
+                  label.small Сумма {{150-(150*(user.discount/100))}}тр.
+                .mt-3
+                  .btn-group.btn-group-sm
+                    .btn.btn-outline-secondary(v-on:click="copyToClpboard(frontUrl+'/personal?token='+user.guid)" data-bs-toggle="tooltip" data-bs-title="Копировать ссылку на ЛК")
+                      iconify-icon(icon="material-symbols:add-link-rounded")
+                    .btn(v-on:click="sendLkInvoice(user)" data-bs-toggle="tooltip" data-bs-title="Отправить ссылку на ЛК" v-bind:class="{'btn-success':user.lkmail, 'btn-outline-secondary':!user.lkmail}")
+                      iconify-icon(icon="material-symbols:attach-email-outline-rounded")
+                    .btn.btn-outline-secondary(v-on:click="uploadUserFile(user)" data-bs-toggle="tooltip" data-bs-title="Загрузить файл для пользователя")
+                      iconify-icon(icon="ic:round-file-upload")
+                    .btn(v-on:click="takeBage(user, 'MSK')" data-bs-toggle="tooltip" data-bs-title="Выдать бейдж" v-bind:class="{'btn-success':user.isbage, 'btn-outline-secondary':!user.isbage}")
+                      iconify-icon(icon="material-symbols:badge-outline")
+                    .btn(v-on:click="user.isspamlist=!user.isspamlist;changeUser(user, 'isspamlist')" data-bs-toggle="tooltip" data-bs-title="Добавить в Спам-Лист" v-bind:class="{'btn-success':user.isspamlist, 'btn-outline-secondary':!user.isspamlist}")
+                      iconify-icon(icon="ic:outline-email")
+                  .mt-2(v-if="user.ticket" v-on:click="windowOpen('https://ifcongress.ru/static/ticket/'+user.id+'/ru')")
+                    small {{user.ticket}}
+
+              .userContactWr
+                .userCompany.small
+                input.userPhone(v-model="user.phone" readonly ondblclick="this.removeAttribute('readonly')" v-on:change="changeUser(user, 'phone', true)" onblur="this.setAttribute('readonly','readonly')")
+                input.userEmail(v-model="user.email" readonly ondblclick="this.removeAttribute('readonly')" v-on:change="changeUser(user, 'email', true)" onblur="this.setAttribute('readonly','readonly')")
+                input.userHotel(v-model="user.hotel" readonly ondblclick="this.removeAttribute('readonly')" v-on:change="changeUser(user, 'hotel', true)" onblur="this.setAttribute('readonly','readonly')" placeholder="отель")
+                input.userHotel(v-model="user.hotelfrom" readonly ondblclick="this.removeAttribute('readonly')" v-on:change="changeUser(user, 'hotelfrom', true)" onblur="this.setAttribute('readonly','readonly')" placeholder="отель c")
+                input.userHotel(v-model="user.hoteltill" readonly ondblclick="this.removeAttribute('readonly')" v-on:change="changeUser(user, 'hoteltill', true)" onblur="this.setAttribute('readonly','readonly')" placeholder="отель по")
+
+          .userRight.flex.left
+            .userContactWr
+              .userCompany.small
+              input.userPhone(v-model="user.proxyi" readonly ondblclick="this.removeAttribute('readonly')" v-on:change="changeUser(user, 'proxyi', true)" onblur="this.setAttribute('readonly','readonly')")
+              input.userPhone(v-model="user.proxyphone" readonly ondblclick="this.removeAttribute('readonly')" v-on:change="changeUser(user, 'proxyphone', true)" onblur="this.setAttribute('readonly','readonly')")
+              input.userEmail(v-model="user.proxyemail" readonly ondblclick="this.removeAttribute('readonly')" v-on:change="changeUser(user, 'proxyemail', true)" onblur="this.setAttribute('readonly','readonly')")
+        .userCommentBox.mt-3
+            textarea(placeholder="комментарий" v-model="user.comment" readonly  v-on:change="changeUser(user, 'comment', true)" ondblclick="this.removeAttribute('readonly')" onblur="this.setAttribute('readonly','readonly')")
+
+
+
+  <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+  script(src="/lib/vue.js")
+  script(src="/lib/moment.min.js")
+  script let frontUrl=!{JSON.stringify(frontUrl)}; let typeid=!{JSON.stringify(typeid)}; let types=!{JSON.stringify(types)};let status=!{JSON.stringify(status)}
+  script(src="/javascripts/usersScript.js")
+
+
+

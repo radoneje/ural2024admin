@@ -1,0 +1,8 @@
+
+div Выберите сессию:
+    .qbotSeccionWr
+        each s in sessions
+            a.qBotSessionItem(href="/question/"+s.id)
+                div !{s.dayru} !{s.tsru}
+                div !{s.halltitle_ru} !{s.title_ru}
+

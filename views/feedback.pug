@@ -1,0 +1,82 @@
+extends adminLayout
+
+block content
+
+    h4 Сообщения обратной связи из ЛК
+
+    #loader
+        .loaderLine
+
+    .hidden.fullHeight#feedbackApp
+        .scrollBox
+            each m in messages
+                .timeslotWr.mt-3
+                    .timeslotHead(style="color:black")
+                        if m.isNew
+                            .small.mb-2.feddbackBage(feedbackid=m.id style="background:yellow; padding: 4px 8px;width: max-content;") НОВОЕ
+                        div #{m.formattedDate} от #{m.user.f} #{m.user.i} #{m.user.o} #{m.user.email} #{m.user.phone}
+                    .timeslotBody #{m.text}
+
+                        .mFilesWr
+                        if(m.filesobject)
+                            each f in m.filesobject
+                                .mFiles.mt-2
+                                    a(href=frontUrl+"/static/file/"+f.guid download=f.originalname) #{f.originalname}
+                        .mReply.small(feedbackid=m.id)
+                            if(m.answer)
+                                .mReplyWr.mt-2
+                                    b.small Ответ:
+                                    .small #{m.answer}
+                        .mReplyWr.mt-2
+                            textarea.form-control(placeholder="текст ответа в ЛС")
+                            .btn-group.btn-group-sm
+                                .btn.btn-sm.btn-success(onclick="messageToUser("+m.user.id+", this, "+m.id+")") Отправить в Информацию ЛК
+                                if m.isNew
+                                    .btn.btn-sm.btn-info(onclick="feedbackOld("+m.id+")") Пометить прочитанным для всех
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+    script(src="/lib/vue.js")
+    script.
+        async function feedbackOld(feedbackid) {
+            await postJson("/api/feedbackOld", { feedbackid});
+            let badge=document.querySelector(".feddbackBage[feedbackid='"+feedbackid+"']")
+            if(badge)
+                badge.style.display="none"
+            updateAlerts();
+        }
+        async function messageToUser(userid, ctrl, feedbackid){
+            if (!confirm("Отправить сообщение?"))
+                return;
+            let txtarea=ctrl.parentNode.parentNode.querySelector("textarea")
+            let text=txtarea.value;
+            if(text.length>2) {
+                await postJson("/api/messageToUser", {userid, text, feedbackid});
+                alert("Сообщение отправлено")
+                document.querySelector(".mReply[feedbackid='" + feedbackid + "']").innerText=text;
+                txtarea.value = ""
+                let badge = document.querySelector(".feddbackBage[feedbackid='" + feedbackid + "']")
+                if (badge)
+                    badge.style.display = "none"
+            }else
+                txtarea.focus();
+            updateAlerts();
+        }
+        updateAlerts();
+
+
+    script.
+        let feedbackApp=new Vue({
+            el:"#feedbackApp",
+            data:{
+
+            },
+            methods:{
+
+            },
+            watch:{},
+            mounted:async function(){
+                setTimeout(()=>{loader.parentNode.removeChild(loader);document.getElementById("feedbackApp").classList.remove("hidden") },1000)
+
+            }
+        })
+

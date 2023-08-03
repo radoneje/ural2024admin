@@ -1,0 +1,68 @@
+extends adminLayout
+
+block content
+
+  h4.flex.left.center.beetwen
+    div(style="margin-right:24px") Проверка данных после разрешения БР
+
+
+  #loader
+    .loaderLine
+  .hidden.fullHeight.mt-6#app
+    .usersMenu.flex
+      .usersMenuItem(v-for="type in types" v-bind:class="{active:typeid==type.id}" v-on:click="typeid=type.id") {{type.title}}
+      .usersMenuItem(v-bind:class="{active:typeid==null}" v-on:click="typeid=null") Все
+
+    .userTableHead.flex.pt-2.pb-2
+
+    .scrollBox
+      .user(v-if="users.length==0")
+        .userName Нет участников для модерации
+
+      .user(v-for="user in users" v-if="user.statusid==40 ||  user.statusid==55")
+        .flex.left.hidden.userContainer
+          div
+            .userPhoto(v-on:dblclick="showUser(user)")
+              img(:src="frontUrl+'/static/image/small/'+user.photoid" loading="lazy")
+              .userId.small id:{{user.id}}
+          .filterWr.flex.left
+            .userFilterBox.flex.left
+              .userNameWrv(v-on:dblclick="showUser(user)")
+                .userName  {{user.f}} {{user.i}} {{user.o}}
+                  .small {{user.position}}
+
+                .userCompany  {{user.email}} {{user.phone?user.phone.replace(/^7/,"+7"):""}}
+                .userCompany.small(v-if="user.company")
+                  .userCompanyName {{user.company.name}} ({{user.company.shortName}})
+                  .userCompanyName ИНН {{user.company.inn}} ОГРН {{user.company.ogrn}}, {{user.company.address}}
+
+
+
+            .userStatusWr
+                label.small текущий статус:
+                .userStatus.small(:style="'background-color:'+user.statuscolor") {{user.status}}
+
+            .filterMakeBox
+              .btn-group.mt-2
+
+                .btn.btn-warning(v-if="user.statusid==40" v-on:click="userSetStatus(55, user)") Взять на проверку
+                .btn.btn-secondary(v-else ) Взят на проверку
+                .btn.btn-success(v-if="user.typeid==1" v-on:click="userSetStatus(60, user)") Разрешить оплату
+                .btn.btn-success(v-else v-on:click="userSetStatus(110, user)") Разрешить доступ
+        .small.tUserTypes.flex.left.mt-3(v-if="types" )
+          .tUserType(v-for="type in types" v-on:click="userSetType(type.id, user)" v-bind:class="{active:type.id==user.typeid}" ) {{type.title}}
+        .userCommentBox.mt-2
+            textarea(placeholder="комментарий" v-model="user.comment" readonly  v-on:change="changeUser(user, 'comment')" ondblclick="this.removeAttribute('readonly')" onblur="this.setAttribute('readonly','readonly')")
+
+
+
+  <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+  script(src="/lib/vue.js")
+  if view
+    script let view=!{JSON.stringify(view)}
+
+  script let frontUrl=!{JSON.stringify(frontUrl)}; let typeid=!{JSON.stringify(typeid)}; let types=!{JSON.stringify(types)};
+  script(src="/javascripts/usersScript.js")
+
+
+

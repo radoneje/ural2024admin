@@ -1,0 +1,139 @@
+extends adminLayout
+
+block content
+
+    h4 Билеты на историческую сцену Театра
+
+    #loader
+        .loaderLine
+
+    .hidden.fullHeight#ticketsApp
+        .mt-4.flex.center.left
+            #main(style="position: relative; width: 810px;")
+                img(height="645px" width="810px" src="/images/historyScene.png")
+
+                .seats
+                    each seat in seats
+                        .seat(id="seat"+seat.id style="top:"+seat.top+"px;left:"+seat.left+"px;" size=seat.size data=JSON.stringify(seat) used=seat.userid)
+    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+    script(src="/lib/vue.js")
+
+    script.
+        let ticketsApp = new Vue({
+            el: "#ticketsApp",
+            data: {},
+            methods: {},
+            watch: {},
+            mounted: async function () {
+                setTimeout(() => {
+                    loader.parentNode.removeChild(loader);
+                    document.getElementById("ticketsApp").classList.remove("hidden")
+                }, 1000)
+
+            }
+        })
+
+        let seats=document.querySelectorAll(".seat");
+        for (let seat of seats)
+        {
+            seat.onclick=async (e)=>{
+                document.querySelectorAll(".seatInfo").forEach(elem2=>{
+                    document.body.removeChild(elem2)
+                })
+                document.querySelectorAll(".seat.open").forEach(elem2 => {
+                    elem2.classList.remove("open")
+                })
+
+                seat.classList.add("open")
+                let elem=document.createElement("div")
+                elem.classList.add("seatInfo")
+                //elem.style.left=e.pageX+"px"
+                //elem.style.top=e.pageY+"px"
+                document.body.appendChild(elem)
+
+
+                let seatData=JSON.parse(seat.getAttribute("data"))
+                let r=await fetch("/getSeatInfo/"+seatData.id)
+                if (r.ok) {
+                    elem.innerHTML = await r.text()
+                    let findCtrl=document.getElementById("seatInfoFind");
+                    findCtrl.focus();
+                    findCtrl.onkeyup=()=>{
+                        let txt=findCtrl.value;
+                        if(txt) {
+                            var find = null;
+                            document.querySelectorAll(".seatInfoUser").forEach(ctrl => {
+                                let name = ctrl.querySelector(".seatInfoUserName").innerText.toLowerCase();
+                                if(name && !find && name.indexOf(txt.toLowerCase())==0) {
+                                    find = ctrl;
+                                    ctrl.classList.add("find")
+                                }
+                                else
+                                    ctrl.classList.remove("find")
+                            });
+                            if(find)
+                                find.scrollIntoView({block: "nearest", inline: "nearest"});
+                        }
+                        else{
+                            document.querySelectorAll(".seatInfoUser.find").forEach(ctrl => {
+                                ctrl.classList.remove("find")
+                            })
+                        }
+
+                        console.log(txt)
+                    }
+                    document.querySelector("#seatInfoClose").onclick=()=>{
+                        document.body.removeChild(elem)
+                        seat.classList.remove("open")
+                    }
+                    let removeBtn=document.querySelector("#removeBtn")
+                    if(removeBtn)
+                    removeBtn.onclick=async ()=>{
+                        await postJson("/api/setUserSeat",{userid:null,seatid:seatData.id })
+                        seat.removeAttribute("used")
+                        document.body.removeChild(elem)
+                        seat.classList.remove("open")
+                    }
+                    document.querySelectorAll(".seatInfoUser.list").forEach(ctrl=>{
+
+                        ctrl.onclick=async()=>{
+                            //alert(ctrl.getAttribute("userid"))
+                            let userid=ctrl.getAttribute("userid")
+                            await postJson("/api/setUserSeat",{userid,seatid:seatData.id })
+                            document.querySelectorAll(".seat[used='"+userid+"']").forEach(item=>{
+                                item.removeAttribute("used")
+                                seat.classList.remove("open")
+                            })
+                            seat.setAttribute("used", userid)
+                            document.body.removeChild(elem)
+                            seat.classList.remove("open")
+                        }
+                    })
+
+                }
+
+            }
+        }
+        function userSearch(type){
+            document.querySelectorAll(".btnSearchFilter").forEach(e=>{
+                if(e.innerHTML==type)
+                {
+                    e.classList.remove("btn-secondary")
+                    e.classList.add("btn-warning");
+                    document.querySelectorAll(".seatInfoUserType").forEach(elem=>{
+                        let item=elem.parentNode.parentNode
+                        if(elem.innerHTML=="{"+type+"}")
+                            item.style.display="block"
+                        else
+                            item.style.display="none"
+                    })
+                }
+                else {
+                    e.classList.add("btn-secondary")
+                    e.classList.remove("btn-warning")
+                }
+
+            })
+        }
+
+

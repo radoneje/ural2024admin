@@ -1,0 +1,81 @@
+extends adminLayout
+
+block content
+
+
+    #loader
+        .loaderLine
+
+    .hidden.fullHeight#hotelApp
+        .flex.beetwen
+            h4 Гостиницы
+
+            .mt-2.btn-group-sm.btn-group
+                .btn.btn-success.btn-sm(v-on:click="addHotels()") Добавить гостиницу
+                .btn.btn-info.btn-sm(v-on:click="getHotelsBooking()") Скачать инфо о брони
+
+        .scrollBox.mt-3
+            .hotelsW
+                .timeslotItem(v-for="hotel in hotels")
+                    .timeslotHead
+                        .flex.beetwen.mt-2
+                                .btn.btn-sm.btn-secondary(v-if="!hotel.isEnabled" v-on:click="hotel.isEnabled=!hotel.isEnabled; saveHotel(hotel,'isEnabled')" style="width:calc(160px)") На сайте выключен
+                                .btn.btn-sm.btn-success(v-if="hotel.isEnabled" v-on:click="hotel.isEnabled=!hotel.isEnabled; saveHotel(hotel,'isEnabled')" style="width:calc(160px)") На сайте включен
+                                input(v-model="hotel.nameru"  v-on:change="saveHotel(hotel,'nameru')" placeholder="Русское название" style="margin:0 12px; width:calc(50% - 184px);; font-size:18px")
+                                input(v-model="hotel.nameen" v-on:change="saveHotel(hotel,'nameen')" placeholder="English Name" style="margin:0 12px; width:calc(50% - 130px); font-size:18px")
+                                .btn.btn-danger.btn-sm(v-on:click="deleteHotels(hotel)" style="width:calc(100px)") Удалить
+                        .flex.beetwen.mt-2
+                            div
+                                label.small **
+                                input(v-model="hotel.stars" type="number"  v-on:change="saveHotel(hotel,'stars')"  style="margin:0 12px; width:calc(50px);")
+                                .photoWr(style="position:relative; width:150px;padding-bottom:99px" v-on:click="hotelAddPhoto(hotel)")
+                                    .hotelPhoto(style="position:absolute;left:0;top:0;width:100%;height:100%")
+                                        .mt-2.btn.bts-sm.btn-outline-secondary(v-if="!hotel.photoid") Фото
+                                        img(v-else :src="'https://ifcongress.ru/static/image/small/'+hotel.photoid" loading="lazy" style="width:100%; height:auto")
+
+                            textarea(v-model="hotel.descrru" v-on:change="saveHotel(hotel,'descrru')" placeholder="описание" style="width:calc(50% - 180px);margin:0 12px;margin-left:22px;padding:4px;box-sizing:border-box;")
+                            textarea(v-model="hotel.descren" v-on:change="saveHotel(hotel,'descren')" placeholder="description" style="width:calc(50% - 24px);margin:0 12px;padding:4px;box-sizing:border-box;")
+                        .flex.beetwen.mt-2
+                            .blank( style="width:calc(160px)")
+                            input(v-model="hotel.addressru"  v-on:change="saveHotel(hotel,'addressru')" placeholder="Адрес" style="margin:0 12px; width:calc(50% - 184px);; font-size:18px")
+                            input(v-model="hotel.addressen" v-on:change="saveHotel(hotel,'addressen')" placeholder="Address" style="margin:0 12px; width:calc(50% - 130px); font-size:18px")
+                            .blank( style="width:calc(100px)")
+                        .flex.beetwen.mt-2
+                            .blank( style="width:calc(160px)")
+                            input(v-model="hotel.email"  v-on:change="saveHotel(hotel,'email')" placeholder="Email для оповещения о брони" style="margin:0 12px; width:calc(50% - 184px);; font-size:18px")
+                            input(type="number" v-model="hotel.capacity" v-on:change="saveHotel(hotel,'capacity')" placeholder="Кол-во номеров" style="margin:0 12px; width:calc(50% - 130px); font-size:18px")
+                            .blank( style="width:calc(100px)")
+                        .flex.beetwen.mt-2
+                            .blank( style="width:calc(160px)")
+                            input(v-model="hotel.link"  v-on:change="saveHotel(hotel,'link')" placeholder="Сайт гостиницы" style="margin:0 12px; width:calc(50% - 184px);; font-size:18px")
+
+
+                    .timeslotBody
+                        .mt-2.btn.bts-sm.btn-secondary(v-on:click="hotelAddRoom(hotel)") Добавить номер
+                        .roomsWr
+                            .roomItem.mt-2(v-for="room in hotel.rooms" v-if="hotel.rooms")
+                                .flex.beetwen
+                                    input(v-model="room.sort" type="number"  v-on:change="saveRoom(room,'sort')"  style="margin:0 4px; width:calc(50px);")
+                                    input(v-model="room.price" type="number"  v-on:change="saveRoom(room,'price')"  style="margin:0 4px; width:calc(90px);")
+                                    .btn.btn-sm.btn-success(v-if="room.isEnabled" v-on:click="room.isEnabled=!room.isEnabled; saveRoom(room,'isEnabled')")
+                                        <iconify-icon icon="icons8:idea"></iconify-icon>
+                                    .btn.btn-sm.btn-secondary(v-else v-on:click="room.isEnabled=!room.isEnabled; saveRoom(room,'isEnabled')")
+                                        <iconify-icon icon="icons8:idea"></iconify-icon>
+                                    input(v-model="room.titleru"  v-on:change="saveRoom(room,'titleru')" placeholder="Тип номера" style="margin:0 4px; width:calc(50% - 184px);; font-size:18px")
+                                    input(v-model="room.titleen" v-on:change="saveRoom(room,'titleen')" placeholder="Room type name" style="margin:0 4px; width:calc(50% - 130px); font-size:18px")
+                                    .btn.btn-sm.btn-danger(v-on:click="deleteRoom(room, hotel)")
+                                        <iconify-icon icon="material-symbols:disabled-by-default-outline-rounded"></iconify-icon>
+                                .flex.beetwen
+                                    input(v-model="room.descrru"  v-on:change="saveRoom(room,'descrru')" placeholder="Описание номера" style="margin:8px 4px; width:calc(50% - 12px);; font-size:18px")
+                                    input(v-model="room.descren" v-on:change="saveRoom(room,'descren')" placeholder="Room description" style="margin:8px 4px; width:calc(50% - 12px); font-size:18px")
+
+
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+    script(src="/lib/vue.js")
+    script.
+
+        let frontUrl = !{JSON.stringify(frontUrl)}
+    script(src="/javascripts/hotelsScript.js")
+
+

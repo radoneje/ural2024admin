@@ -1,0 +1,158 @@
+extends adminLayout
+
+block content
+
+    h4 Фотобанк
+
+    #loader
+        .loaderLine
+
+    .hidden.fullHeight#photobankApp
+        .mt-4.flex.center.left
+            .btn-group.mt-2
+                .btn(v-for="item in bank" v-on:click="day=item" v-bind:class="{'btn-success':item.id==day.id, 'btn-secondary':item.id!=day.id}") {{item.title_ru}}
+        .scrollBox
+            .mt-2
+                .btn.btn-sm.btn-outline-success(v-on:click="addPhotoFolder(day)") Добавить папку
+
+            .mt-4.photoFolders
+                .mt-4.photoFolder(v-for="folder in day.folders")
+                    .photoFolderHead
+                        .flex.center.left
+                            input.photoSort(type="number" v-model="folder.sort" v-on:change="changeFolder(folder)")
+                            .btn.btn-sm.btn-outline-secondary.photoPgmEnable(v-if="!folder.isEnabled" v-on:click="folder.isEnabled=!folder.isEnabled;changeFolder(folder)") Скрыта
+                            .btn.btn-sm.btn-success.photoPgmEnable(v-else v-on:click="folder.isEnabled=!folder.isEnabled;changeFolder(folder)") Показана
+                            input.photoFolderTitle(:readonly="folder.pgmsessionod" v-model="folder.titleru" v-on:change="changeFolder(folder)" placeholder="Название папки")
+                            input.photoFolderTitle(:readonly="folder.pgmsessionod" v-model="folder.titleen" v-on:change="changeFolder(folder)" placeholder="Folders title")
+                        .mt-2
+                            .btn.btn-sm.btn-outline-success(v-if="!folder.pgmsessionod" v-on:click="linkToPgm(folder)") Привязать к программе
+                            .btn.btn-sm.btn-warning(v-else v-on:click="unLinkToPgm(folder)") Отвязать от программы
+                    .photoFolderBody
+                        .btn.btn-sm.btn-outline-success(v-on:click="addPhoto(folder)") Добавить фото
+                        .mt-2.photoWr.flex
+                            .photoBox(v-for="photo in folder.photos" v-if="photo.isDeleted==false")
+
+                                .photoContainer
+                                    .photoContainerElem
+                                        image.photoImage(v-if="!photo.fileid" src="/images/noimage.png" loading="lazy")
+                                        image.photoImage.photoImageLink(v-else :src="'https://ifcongress.ru/static/image/small/'+photo.fileid" loading="lazy" v-on:click="showPhoto(photo)")
+                                    div(v-if="photo.fileid")
+                                        input.photoSort(type="number" v-model="photo.sort" v-on:change="changePhoto(photo)")
+                                        .photoEnable.photoBtn.btn.btn-sm.btn-success(v-if="photo.isEnabled" v-on:click="photo.isEnabled=false;changePhoto(photo)") Показано
+                                        .photoEnable.photoBtn.btn.btn-sm.btn-secondary(v-else v-on:click="photo.isEnabled=true;changePhoto(photo)") Скрыто
+
+                                        .photoCover.photoBtn.btn.btn-sm.btn-warning(v-if="folder.coverphotoid==photo.fileid" v-on:click="folder.coverphotoid=photo.fileid;changeFolder(folder)") Обложка
+                                        .photoCover.photoBtn.btn.btn-sm.btn-secondary(v-else v-on:click="folder.coverphotoid=photo.fileid;changeFolder(folder)") сделать обложной
+
+                                    .photoDelBtn.photoBtn.btn.btn-sm.btn-danger(v-on:click="photo.isDeleted=true;changePhoto(photo)") Удалить
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+    script(src="/lib/vue.js")
+    script.
+        let photobankApp = new Vue({
+            el: "#photobankApp",
+            data: {
+                bank:[],
+                day:{}
+            },
+            methods: {
+                showPhoto: async function (photo) {
+                   let f= await createPopUp("/showPhoto/"+photo.fileid)
+                    f.onclick=()=>{
+                       closePopUp()
+                    }
+                },
+                changePhoto:async function(photo){
+                    await postJson("/api/photo",photo)
+                },
+                unLinkToPgm: async function (folder) {
+
+                    let r = await postJson("/api/photoUnLinkToSession", {folderid: folder.id})
+                    folder.pgmsessionod=null
+
+                },
+                linkToPgm: async function(folder){
+                   await createPopUp("/photoLinkToSession/"+folder.id)
+
+                    document.querySelectorAll(".photoSelectSess").forEach(elem=>{
+                        elem.onclick=async()=>{
+                            let sessionid=elem.getAttribute("sessionid")
+                            let r=await postJson("/api/photoLinkToSession",{folderid:folder.id,sessionid })
+                            folder.pgmsessionod=sessionid
+                            folder.titleru = r.titleru;
+                            folder.titleen = r.titleen;
+                            closePopUp();
+                        }
+                    })
+                },
+                addPhoto:async function(folder){
+                    let inp=document.createElement("input")
+                    inp.type="file";
+                    inp.style.display="none";
+                    document.body.appendChild(inp);
+                    inp.accept="image/jpeg, image/png"
+                    inp.setAttribute("multiple","multiple")
+                    inp.click();
+                    inp.onchange=async ()=>{
+                        console.log(inp)
+                        for(let file of inp.files){
+                            let photo=await postJson("/api/photo",{folderid:folder.id})
+                            folder.photos.push(photo)
+                            let formData = new FormData()
+                            formData.append('file', file, file.name);
+
+                            fetch("https://api.ifcongress.ru" + "/api/uploadFile", {
+                                method: 'post',
+                                body: formData,
+                            }).then(async (ret)=>{
+                                if(ret.ok)
+                                {
+                                    photo.fileid= await ret.json();
+                                    await postJson("/api/photo",photo)
+                                }
+                            })
+                            /*
+                            photofileid
+                            let formData = new FormData()
+                                formData.append('file', file, file.name);
+
+                                let ret = await fetch("https://api.ifcongress.ru" + "/api/uploadFile", {
+                                    method: 'post',
+                                    body: formData,
+                                })
+                                if (ret.ok) {
+                                    let fileid = await ret.json();
+                            * */
+                        }
+                    }
+                },
+                changeFolder: async function (folder) {
+                    let f = await postJson("/api/photofolder", folder)
+
+                },
+                addPhotoFolder:async function(day){
+                    let f=await postJson("/api/photofolder",{dayid:day.id})
+                   day.folders.unshift(f)
+                }
+            },
+            watch: {},
+            mounted: async function () {
+                this.bank=await getJson("/api/photabank");
+                this.bank.forEach(d=>{
+                    if(!d.folders) d.folders=[]
+                    d.folders.forEach(f=>{
+                        console.log(d.folders)
+                        if(!f.photos) f.photos=[]
+                    })
+                })
+                this.day=this.bank[0];
+                setTimeout(() => {
+                    loader.parentNode.removeChild(loader);
+                    document.getElementById("photobankApp").classList.remove("hidden")
+                }, 1000)
+
+            }
+        })
+
+
+

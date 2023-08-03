@@ -1,0 +1,20 @@
+html
+    body
+        p
+            b(style="font-size:1.2em") Здравствуйте, #{user.i} #{user.o}!
+        p
+            div Сообщение от Оргкомитета Финансового конгресса Банка России:
+            //div You have a message from the Organising Committee of the Financial Congress of the Bank of Russia:
+        p
+            div !{message}
+
+        p
+            span Ваша ссылка для доступа к личному кабинету участника Конгресса:&nbsp;
+                a(href="https://ifcongress.ru/personal?token=" + user.guid) <b>https://ifcongress.ru/personal?token=#{user.guid}</b>
+                span ,&nbsp;
+        p
+            div Это постоянно действующая ссылка на Вашу персональную страницу.
+
+        include mailFooter
+
+

@@ -1,0 +1,123 @@
+extends adminLayout
+
+
+block content
+
+    h4 Новости !{lang.toUpperCase()}
+
+    #loader
+        .loaderLine
+
+    .hidden.fullHeight#newsApp
+        .btn.btn-success(v-on:click="addNews()") Добавить новость
+        .scrollBox.mt-3
+            .company.news(v-for="n in news")
+                .newsDate
+                    input(placeholder="" type="number" v-model="n.sort" v-on:change="changeNews(n)" style="width: 100px")
+                .newsHead.flex.left
+                    .newsPhotoBox
+                        .userPhoto
+                            img(:src="frontUrl+'/static/image/small/'+n.photoid" loading="lazy" v-if="n.photoid")
+                        .btn.btn-sm.btn-secondary(v-on:click="changePhoto(n)") Изменить фото
+                    .newsTitleBox
+                        .newsDate
+                            input(placeholder="дата" v-model="n.date" v-on:change="changeNews(n)")
+                        .newsTitle.mt-2
+                            input(placeholder="Заголовок" v-model="n.title" v-on:change="changeNews(n)")
+                        .newsLid.mt-2
+                            //textarea(placeholder="Лид" v-model="n.lid"  v-on:change="changeNews(n)")
+                            div
+                                b лид:
+                            p.mt-1(v-html="n.lid")
+                            .btn.btn-sm.btn-success.mt-2(v-on:click="editLid(n)") Редактировать лид
+                .newsText.mt-2
+                        //textarea(placeholder="Текст" v-model="n.text" v-on:change="changeNews(n)")
+                        div
+                            b текст:
+                        p.mt-1(v-html="n.text")
+                        .btn.btn-sm.btn-success.mt-2(v-on:click="editText(n)") Редактировать текст
+                .btn-group-sm.mt-2
+                    .btn.btn-secondary(v-if="n.status==0" v-on:click="n.status=2;changeNews(n)")
+                        span Опубликовать
+                    .btn.btn-success(v-if="n.status==2" v-on:click="n.status=0;changeNews(n)")
+                        span Опубликовано, снять с публикации
+
+
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+    script(src="/lib/vue.js")
+    script.
+        let lang=!{JSON.stringify(lang)}
+        let frontUrl=!{JSON.stringify(frontUrl)}
+    script.
+        let newsApp=new Vue({
+            el:"#newsApp",
+            data:{
+                news:[],
+                frontUrl
+            },
+            methods:{
+                editLid: async function (n) {
+
+                    await createPopUp("/editText");
+                    editorjs.innerHTML = n.lid
+                    let editor = await ClassicEditor.create(document.querySelector('#editorjs'), {
+                        toolbar: {items: ['Link', 'bulletedList']}
+                    })
+                    //editor.disableAutoInline = true;
+                    editor.config.width = "100%"
+                    editor.config.height = 500;
+                    editor.config.removeButtons = 'Bold,Italic,Underline,NumberedList,Indent,Blockquote,Table,Styles,MediaEmbed';
+
+                    saveText.onclick = async () => {
+                        n.lid = editor.getData()
+                        await this.changeNews(n)
+                        closePopUp()
+                    }
+
+                },
+                editText:async function(n) {
+
+                    await createPopUp("/editText");
+                    editorjs.innerHTML=n.text
+                    let editor=await ClassicEditor.create(document.querySelector( '#editorjs' ),{
+                        toolbar:{items:['Link', 'bulletedList']}
+                    })
+                    //editor.disableAutoInline = true;
+                    editor.config.width="100%"
+                    editor.config.height= 500;
+                    editor.config.removeButtons = 'Bold,Italic,Underline,NumberedList,Indent,Blockquote,Table,Styles,MediaEmbed';
+
+                    saveText.onclick=async ()=>{
+                        n.text=editor.getData()
+                        await this.changeNews(n)
+                        closePopUp()
+                    }
+
+                },
+                changePhoto:async function(n){
+                    let photoid=await getPhoto(1);
+                    n.photoid=photoid
+                    await this.changeNews(n);
+                },
+                changeNews: async function (n) {
+                    let news = await postJson("/api/news/" + lang, n)
+                },
+                addNews: async function () {
+                    let news = await postJson("/api/news/" + lang)
+                    this.news.unshift(...news)
+                },
+                updateNews:async function(){
+                     this.news=await getJson("/api/news/"+lang)
+                }
+            },
+            watch:{},
+            mounted:async function(){
+                await this.updateNews();
+                setTimeout(()=>{loader.parentNode.removeChild(loader);document.getElementById("newsApp").classList.remove("hidden") },1000)
+
+            }
+        })
+

@@ -1,0 +1,84 @@
+extends adminLayout
+
+block content
+  if typeid==1
+    h4.flex.left.center.beetwen
+      div Компании
+      .btn-group(style="margin-right:24px")
+        .btn.btn-outline-secondary(onclick="window.open('/api/companyexcel')")
+          <iconify-icon icon="file-icons:microsoft-excel"></iconify-icon>
+
+  if typeid==2
+    h4 СМИ
+  #loader
+    .loaderLine
+
+  .hidden.fullHeight#app
+    .usersMenu.flex
+      .usersMenuItem(v-for="type in types" v-bind:class="{active:typeid==type.id}" v-on:click="typeid=type.id") {{type.title}}
+      .usersMenuItem(v-bind:class="{active:typeid==null}" v-on:click="typeid=null") Все
+    .userTableHead.flex.pt-2.pb-2
+      .userTableHeadDate(v-on:click="sortCompanyBy('id')") Дата рег.
+      .userTableHeadF(v-on:click="sortCompanyBy('name')") Название
+    .scrollBox
+      .company.flex.left.hidden(v-for="c in company")
+        .userLeft
+          .companyNameBoxWr.flex.left
+            .companyNameBox
+              .userName {{c.name}}
+
+              .companyRow.mt-2
+                  input(placeholder="короткое название" v-model="c.shortName" readonly  v-on:change="changeCompany(c, 'shortName')" ondblclick="this.removeAttribute('readonly')" onblur="this.setAttribute('readonly','readonly')")
+              .companyRow.mt-2
+                  div {{c.phone}}
+              .companyRow.mt-2.small
+                div id: {{c.id}} ИНН {{c.inn}} ОГРН {{c.ogrn}}
+                div  {{c.address}}
+                div  Руководитель {{c.director}}
+              .userCommentBox.mt-3
+                textarea(placeholder="комментарий" v-model="c.comment" readonly  v-on:change="changeCompany(c, 'comment')" ondblclick="this.removeAttribute('readonly')" onblur="this.setAttribute('readonly','readonly')")
+            .companyUsersBox
+              .btn.btn-sm(v-on:click="uploadUserFile(c)") Добавить сотрудника
+              .companyUsers
+                .companyUser(v-for="user in c.users" v-on:dblclick="showUser(user)")
+                  .companyUserBox.flex.left
+                    div
+                      img(:src="frontUrl+'/static/image/small/'+user.photoid" loading="lazy")
+                    .companyUserName {{user.f}} {{user.i}} {{user.o}}
+                      .small {{user.position}}
+                      .small
+                        span (
+                        span(v-for="(t, i) in user.types")
+                          span(v-if="i") ,
+                          span {{t.title}}
+                        span &nbsp;)
+
+        .userRight.flex.left
+
+          .companyTypesBox
+            .btn-sm.mb-2() Категории компании
+            .companyType(v-on:dblclick="changeCompanyType(ct,c)" v-bind:class="{active:(c.typeids.filter(cc=>cc==ct.id).length>0)}" v-for="ct in companyTypes") {{ct.title}}
+          .userFilesBox()
+            .btn.btn-sm(v-on:click="uploadUserFile(c)") Загрузить файл
+            .userFiles(v-bind:class="{fileOver:c.dragOver}" v-on:dragenter="dragOver($event, c)" v-on:dragover="dragOver($event, c)"  v-on:dragleave="dragLeave($event,c)" v-on:drop="drop($event,c)" dropable)
+              .userNoFile(v-if="!c.files || !c.files.length") Нет файлов, <br> перетащите сюда или загрузите
+              .userFile.small(v-for="file in c.files")
+                iconify-icon( icon="ic:baseline-file-download" v-on:click="downloadFile(file.guid)")
+                iconify-icon( icon="material-symbols:add-link-rounded" v-on:click="copyToClpboard(frontUrl+'/static/file/'+file.guid)")
+                span &nbsp;{{file.originalname}}&nbsp;
+                iconify-icon(icon="ic:baseline-delete-forever" v-on:click="deleteFile(file.guid, c)" )
+
+
+
+  <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+  script(src="/lib/vue.js")
+  script.
+    let backUrl=!{JSON.stringify(backUrl)}
+    let frontUrl=!{JSON.stringify(frontUrl)}
+    let typeid=!{JSON.stringify(typeid)};
+    let types=!{JSON.stringify(types)};
+    let companyTypes=!{JSON.stringify(companyTypes)}
+  script(src="/javascripts/companyScript.js")
+
+
+

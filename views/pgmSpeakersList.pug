@@ -1,0 +1,6 @@
+.pgmSpeakersList
+    each spk in speakers
+        .pgmSpeakersItem.flex.left(speakerid=spk.id)
+            .pgmSpeakersItemPhoto
+                img(src=frontUrl+"/static/image/small/"+spk.photoid loading="lazy")
+            .pgmSpeakersItemName #{spk.fru} #{spk.iru} #{spk.companyru}

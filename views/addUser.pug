@@ -1,0 +1,121 @@
+.pUserWr#addUserApp
+    include elems/userHead
+    .mt-3.mb-3.divaider
+    .pUserBodyWr
+        .flex.center
+            .btn-group(v-if="!hidePaySelect")
+
+                .btn.btn-sm(v-bind:class="{'btn-success':payType==1,  'btn-outline-secondary':payType!=1}" v-on:click="payType=1") Оплачивает сам
+                .btn.btn-sm(v-bind:class="{'btn-success':payType==0,  'btn-outline-secondary':payType!=0}" v-on:click="payType=0") Оплачивает компания
+                .btn.btn-sm(v-bind:class="{'btn-success':payType==2,  'btn-outline-secondary':payType!=2}" v-on:click="payType=2") Оплачивает другое юр лицо
+        .flex.left.mt-3
+
+            .padLeft(style="width:33%")
+                div(v-if="!hideProxy")
+                    .btn.btn-secondary.btn-sm(v-on:click="user.isProxy=!user.isProxy" v-bind:class="{'btn-success':user.isProxy}")
+                        span(v-if="user.isProxy") Есть представитель
+                        span(v-else) Добавить представителя
+                    .mt-3(v-if="user.isProxy" )
+                        input(type="hidden" v-model="user.isProxy")
+                        .aUserRow.mb-2
+                            label Имя представителя
+                            input(v-model="user.proxyi")
+                        .aUserRow.mb-2
+                            label Email представителя
+                            input(v-model="user.proxyemail")
+                        .aUserRow.mb-2
+                            label Телефон представителя
+                            input(v-model="user.proxyphone")
+
+            .padLeft(style="width:33%")
+                .aUserRow.mb-2
+                    label ИНН Компании&nbsp;
+                        span.subLabelLink(v-on:click="loadCompanyByINN('company')" ) загрузить данные
+                    input(v-model="user.company.inn"  notarrow type="number")
+                .aUserRow.mb-2
+                    label Название
+                    input(v-model="user.company.name" readonly)
+                .aUserRow.mb-2
+                    label Короткое название
+                    input(v-model="user.company.shortName" )
+                .aUserRow.mb-2
+                    label ОГРН
+                    input(v-model="user.company.ogrn" readonly)
+                .aUserRow.mb-2
+                    label Руководитель
+                    input(v-model="user.company.director" readonly)
+                .aUserRow.mb-2
+                    label Адрес
+                    input(v-model="user.company.address" readonly)
+                .aUserRow.mb-2
+                    label Телефон
+                    input(v-model="user.company.phone" )
+                .aUserRow.mb-2
+                    label Подписант
+                    input(v-model="user.company.signater")
+                .aUserRow.mb-2
+                    label Профиль деятельности
+                    input(v-model="user.company.profile")
+                .aUserRow.mb-2
+                    label Контактное лицо
+                    input(v-model="user.company.contactPerson")
+            .padLeft(style="width:33%" v-if="payType==2 && hidePaySelect")
+
+                .aUserRow.mb-2
+                    label ИНН Пательщика&nbsp;
+                        span.subLabelLink(v-on:click="loadCompanyByINN('companyPay')" ) загрузить данные
+                    input(v-model="user.companyPay.inn" notarrow type="number")
+                .aUserRow.mb-2
+                    label Название Пательщика
+                    input(v-model="user.companyPay.name" readonly)
+                .aUserRow.mb-2
+                    label Короткое название
+                    input(v-model="user.companyPay.shortName" )
+                .aUserRow.mb-2
+                    label ОГРН Пательщика
+                    input(v-model="user.companyPay.ogrn" readonly)
+                .aUserRow.mb-2
+                    label Руководитель Пательщика
+                    input(v-model="user.companyPay.director" readonly)
+                .aUserRow.mb-2
+                    label Адрес Пательщика
+                    input(v-model="user.companyPay.address" readonly)
+                .aUserRow.mb-2
+                    label Телефон Пательщика
+                    input(v-model="user.companyPay.phone"  )
+                .aUserRow.mb-2
+                    label Подписант Пательщика
+                    input(v-model="user.companyPay.signater" )
+            .padLeft.text-secondary(style="width:33%" v-if="payType==0")
+                .aUserRow.mb-2
+                    label ИНН Компании Пательщика
+                    input(v-model="user.company.inn" notarrow type="number")
+                .aUserRow.mb-2
+                    label Название Пательщика
+                    input(v-model="user.company.name" readonly)
+                .aUserRow.mb-2
+                    label Короткое название
+                    input(v-model="user.company.shortName" readonly)
+                .aUserRow.mb-2
+                    label ОГРН Пательщика
+                    input(v-model="user.company.ogrn" readonly)
+                .aUserRow.mb-2
+                    label Руководитель Пательщика
+                    input(v-model="user.company.director" readonly)
+                .aUserRow.mb-2
+                    label Адрес Пательщика
+                    input(v-model="user.company.address" readonly)
+                .aUserRow.mb-2
+                    label Телефон Пательщика
+                    input(v-model="user.company.phone" readonly )
+                .aUserRow.mb-2
+                    label Подписант Пательщика
+                    input(v-model="user.company.signater" readonly)
+        .companyComment.mt-2
+            label Комментарий
+            textarea(v-model="user.comment")
+        .flex.center.right
+            .btn.btn-success.mt-3(v-on:click="saveUser()") Сохранить
+
+
+

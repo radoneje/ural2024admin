@@ -1,0 +1,47 @@
+include layout
+block body
+    .container.mt-2
+        u.nav
+            lo.nav-item
+                a.nav-link(href="/q_frombot")  Все сессии
+        h4 Вопросы на сессию: <br>!{session.title_ru}
+        #loader
+            .loaderLine
+        #feedbackApp.hidden
+            .qSessionWr.mt-4
+                .qSessionItem.mb-2(v-if="q.length==0")
+                    .qSessionItemDate  Вопросы не заданы
+                .qSessionItem.mb-2(v-for="item in q")
+                    .qSessionItemDate {{item.to_char}} <b>{{item.name}}</b>
+                    .qSessionItemText.mt-2 {{item.text}}
+
+    script(src="/lib/vue.js")
+    script.
+
+        let feedbackApp = new Vue({
+            el: "#feedbackApp",
+            data: {
+                q:[]
+            },
+            methods: {
+                updateQ:async function(){
+                    let r=await fetch("/api/questions/!{session.id}")
+                    if(r.ok)
+                    {
+                        this.q=await r.json();
+                    }
+                    setTimeout(this.updateQ, 10000);
+
+                }
+            },
+            watch: {},
+            mounted: async function () {
+
+                this.updateQ()
+                setTimeout(() => {
+                    loader.parentNode.removeChild(loader);
+                    document.getElementById("feedbackApp").classList.remove("hidden")
+                }, 1000)
+
+            }
+        })

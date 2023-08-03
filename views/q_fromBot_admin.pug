@@ -1,0 +1,64 @@
+extends adminLayout
+
+block content
+    .container(style="height: 100%;")
+        h4 Вопросы спикерам
+        if user
+            .btn.btn-sm.btn-success.mb-2(onclick="navigator.clipboard.writeText('https://ifca.usermod.ru/q_frombot')") Скопировать ссылку для Ipad ведещего
+
+
+        #loader
+            .loaderLine
+
+
+        .hidden.fullHeight#feedbackApp
+
+            .scrollBox
+                include elems/q_fromBot
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+    script(src="/lib/vue.js")
+    script.
+        async function feedbackOld(feedbackid) {
+            await postJson("/api/feedbackOld", { feedbackid});
+            let badge=document.querySelector(".feddbackBage[feedbackid='"+feedbackid+"']")
+            if(badge)
+                badge.style.display="none"
+            updateAlerts();
+        q
+        async function messageToUser(userid, ctrl, feedbackid){
+            if (!confirm("Отправить сообщение?"))
+                return;
+            let txtarea=ctrl.parentNode.parentNode.querySelector("textarea")
+            let text=txtarea.value;
+            if(text.length>2) {
+                await postJson("/api/messageToUser", {userid, text, feedbackid});
+                alert("Сообщение отправлено")
+                document.querySelector(".mReply[feedbackid='" + feedbackid + "']").innerText=text;
+                txtarea.value = ""
+                let badge = document.querySelector(".feddbackBage[feedbackid='" + feedbackid + "']")
+                if (badge)
+                    badge.style.display = "none"
+            }else
+                txtarea.focus();
+            updateAlerts();
+        }
+        updateAlerts();
+
+
+    script.
+        let feedbackApp=new Vue({
+            el:"#feedbackApp",
+            data:{
+
+            },
+            methods:{
+
+            },
+            watch:{},
+            mounted:async function(){
+                setTimeout(()=>{loader.parentNode.removeChild(loader);document.getElementById("feedbackApp").classList.remove("hidden") },1000)
+
+            }
+        })
+

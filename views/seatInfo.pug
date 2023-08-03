@@ -1,0 +1,44 @@
+.seatInfoCloseWr
+    .btn-close#seatInfoClose
+
+.seatInfoWr.flex.left
+    .seatInfoWrLeft
+        .seatInfoRow #{seat.side}
+        .seatInfoRow !{seat.section}
+        .seatInfoRow #{seat.lounge}#{seat.row}
+        .seatInfoRow #{seat.seat}
+        .seatInfoRow
+            if !seat.userid
+                .seatPerson.nothing НИКОГО НЕТ
+            else
+                .seatInfoUser.flex.center.left
+                    .seatInfoUserPhoto
+                        img(src="https://ifcongress.ru/static/image/small/" + seat.user.photoid loading="lazy")
+                    div
+                        .seatInfoUserName #{seat.user.f} #{seat.user.i} #{seat.user.o}
+                        .seatInfoUserCompany #{seat.user.companyShort}
+                        #removeBtn.seatInfoUserName.btn.btn-danger.btn-sm Высадить
+        .mt-4
+            input#seatInfoFind(type="text" placeholder="Найти участника")
+        .btn-group.btn-group-sm
+            .btn.btn-sm.btn-secondary.btnSearchFilter(onclick="userSearch('Журналисты')" style="font-size: 12px;") Журналисты
+            .btn.btn-sm.btn-secondary.btnSearchFilter(onclick="userSearch('Участники')" style="font-size: 12px;") Участники
+            .btn.btn-sm.btn-secondary.btnSearchFilter(onclick="userSearch('Спикеры')" style="font-size: 12px;") Спикеры
+            .btn.btn-sm.btn-secondary.btnSearchFilter(onclick="userSearch('Спонсоры')" style="font-size: 12px;") Спонсоры
+            .btn.btn-sm.btn-secondary.btnSearchFilter(onclick="userSearch('Приглашенные')" style="font-size: 12px;") Приглашенные
+
+
+    .seatInfoUsersWr
+        .seatInfoUsersBox
+            each u in users
+                .seatInfoUser.list.flex.center.left(active=u.id==seat.userid userid=u.id already=u.seatid)
+                    .seatInfoUserPhoto
+                        img(src="https://ifcongress.ru/static/image/small/"+u.photoid loading="lazy")
+                    div
+                        .seatInfoUserName #{u.f} #{u.i} #{u.o}
+                        .seatInfoUserCompany.seatInfoUserType #{u.type}
+                        .seatInfoUserCompany #{u.companyShort}
+                        if u.seatid
+                            .seatInfoUserSeat #{u.seat.side} #{u.seat.section} #{u.seat.lounge}<br>#{u.seat.row} #{u.seat.seat}
+
+

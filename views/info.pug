@@ -1,0 +1,68 @@
+extends adminLayout
+
+block content
+
+    h4 Информация
+
+    #loader
+        .loaderLine
+
+    .hidden.fullHeight#infoApp
+        .btn.btn-success(v-on:click="addInfo()") Добавить сообщение всем в ЛК
+        .scrollBox.mt-3
+            .company.news(v-for="n in news")
+                .newsDate(v-if="n.allUsers")
+                    b ДЛЯ ВСЕХ
+
+                .newsHead.flex.left
+
+                    .newsTitleBox
+                        .newsDate
+                            input(placeholder="дата" v-model="n.date" v-on:change="changeInfo(n)")
+                        .newsTitle.mt-2
+                            input(placeholder="Заголовок" v-model="n.titleru" v-on:change="changeInfo(n)")
+                .newsBody
+                    .newsText.mt-2
+                            textarea(placeholder="Текст" v-model="n.textru" v-on:change="changeNews(n)")
+                    .btn-group-sm
+                        .btn.btn-secondary(v-if="!n.isEnabled" v-on:click="n.isEnabled=true;changeInfo(n)")
+                            span Опубликовать
+                        .btn.btn-success(v-if="n.isEnabled" v-on:click="n.isEnabled=false;changeInfo(n)")
+                            span Опубликовано, снять с публикации
+
+
+
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+    script(src="/lib/vue.js")
+    script.
+
+        let frontUrl=!{JSON.stringify(frontUrl)}
+    script.
+        let infoApp=new Vue({
+            el:"#infoApp",
+            data:{
+                news:[]
+
+            },
+            methods:{
+
+                changeInfo: async function (n) {
+                    let news = await postJson("/api/info/", n)
+                },
+                addInfo: async function () {
+                    let news = await postJson("/api/info/")
+                    this.news.unshift(...news)
+                },
+                updateInfo:async function(){
+                     this.news=await getJson("/api/info/")
+                }
+            },
+            watch:{},
+            mounted:async function(){
+                await this.updateInfo();
+                setTimeout(()=>{loader.parentNode.removeChild(loader);document.getElementById("infoApp").classList.remove("hidden") },1000)
+
+            }
+        })
+

@@ -1,0 +1,126 @@
+extends adminLayout
+
+block head
+    link(rel='stylesheet', href='/styleshhets/1020.css' )
+
+    script(src="/lib/bootstrap.bundle.min.js")
+block content
+
+
+
+    #loader
+        .loaderLine
+
+    .hidden.fullHeight#pgmApp
+        h4 Программа на сайт
+            .btn(v-for="d of days" style="margin-left:12px" v-bind:class="{'btn-success':d.id==day.id,'btn-secondary':d.id!=day.id}" v-on:click="day=d") {{d.title_ru}}
+        .pDay(v-if="day.id")
+            .btn.btn-sm.btn-secondary(v-on:click="addTimeslot()") Добавить таймслот
+            .scrollBox.mt-3(style="height: calc(100vh - 126px);")
+                .timeslotWr
+                    .timeslotItem(v-for="ts in timeslots" v-if="!ts.isDeleted")
+                        .timeslotHead
+
+                            .flex.beetwen
+                                .btn-group.btn-group-sm.mt-2
+                                    .btn.btn-sm.btn-success(v-if="ts.isEnabled" v-on:click="ts.isEnabled=!ts.isEnabled;changeTs(ts)" ) Показан на сайте
+                                    .btn.btn-sm.btn-secondary(v-if="!ts.isEnabled" v-on:click="ts.isEnabled=!ts.isEnabled;changeTs(ts)"  ) Не показан на сайте
+                                    .btn.btn-sm.btn-info(v-if="ts.allTracks" v-on:click="ts.allTracks=!ts.allTracks;changeTs(ts)" ) Перерыв
+                                    .btn.btn-sm.btn-warning(v-if="!ts.allTracks" v-on:click="ts.allTracks=!ts.allTracks;changeTs(ts)"  ) Сессии
+                                    .btn.btn-sm.btn-warning(v-if="ts.isImpotant" v-on:click="ts.isImpotant=!ts.isImpotant;changeTs(ts)" ) Важная
+                                    .btn.btn-sm.btn-secondary(v-if="!ts.isImpotant" v-on:click="ts.isImpotant=!ts.isImpotant;changeTs(ts)"  ) Не Важная
+
+                                .btn.btn-sm.btn-danger.mt-3(v-on:click=" deleteTs(ts)") Удалить таймслот
+                            .flex.left.mt-2
+                                .half
+                                    .timeslotDate
+                                        input.timeslotHeadTime(v-model="ts.title_ru" placeholder="? 09:00 - 14-00?" v-on:change="changeTs(ts)")
+                                        input.timeslotHeadDescription(v-if="ts.allTracks" v-model="ts.descr_ru" placeholder="название" v-on:change="changeTs(ts)")
+                                .half
+                                    .timeslotDate
+                                        input.timeslotHeadTime(v-model="ts.title_en" placeholder="Time start - time end" v-on:change="changeTs(ts)")
+                                        input.timeslotHeadDescription(v-if="ts.allTracks" v-model="ts.descr_en" placeholder="title" v-on:change="changeTs(ts)")
+                        .timeslotBody
+
+                            .workSessions.mt-2(v-if="!ts.allTracks")
+                                .btn.btn-sm.btn-secondary(v-on:click="changeSession({timeslotid:ts.id}, ts)" v-if="!ts.sessions || ts.sessions.length<4") Добавить Сессию
+                                .sessionsWr.mt-2
+                                    .sessionItem(v-for="session in ts.sessions" )
+                                        small {{session.id}}
+                                        .timeslotHead
+                                            .mt-2.flex.beetwen
+                                                .btn.btn-sm.btn-secondary(v-on:click=" session.isEnabled=!session.isEnabled;changeSession(session,ts)" v-if="!session.isEnabled")  Не показана
+                                                .btn.btn-sm.btn-success(v-on:click=" session.isEnabled=!session.isEnabled;changeSession(session,ts)" v-if="session.isEnabled")  Показана
+                                                .btn.btn-sm.btn-danger(v-on:click=" session.isDeleted=!session.isDeleted;changeSession(session,ts)") Удалить Сессию
+                                            .flex.center.mt-2
+                                                select.half(v-model="session.halltitle_ru" v-on:change="changeSession(session,ts)")
+                                                    option Зал 1
+                                                    option Зал 2
+                                                    option Зал 3
+                                                    option Зал 4
+                                                select.half(v-model="session.halltitle_en" v-on:change="changeSession(session,ts)")
+                                                    option Hall 1
+                                                    option Hall 2
+                                                    option Hall 3
+                                                    option Hall 4
+                                        .sessionBody
+                                            label.small Заголовок сесии
+                                            input.sessionInput(v-model="session.title_ru" v-on:change="changeSession(session,ts)")
+                                            label.small.mt-1 Session Title
+                                            input.sessionInput(v-model="session.title_en" v-on:change="changeSession(session,ts)")
+
+                                            label.small Описание сесии
+                                            textarea.sessionInput(v-model="session.discription_ru" v-on:change="changeSession(session,ts)")
+                                            label.small.mt-1 Session Description
+                                            textarea.sessionInput(v-model="session.discription_en" v-on:change="changeSession(session,ts)")
+
+                                            label.small.mt-2.flex.left
+                                                div Модератор&nbsp;
+                                                div(style="cursor:pointer" v-on:click="addModerator(session,ts)" v-if="!session.moderatorid")
+                                                    iconify-icon(icon="material-symbols:add-circle-rounded" )
+
+                                            .sesionSpk.mt-2.flex.beetwen(v-if="session.moderatorid" v-on:click="addModerator(session,ts)")
+                                                    .pgmSpeakersItemPhoto
+                                                        img(:src='frontUrl+"/static/image/small/"+session.moderator.photoid' loading="lazy")
+                                                    .sesionSpkName.small {{session.moderator.iru}} {{session.moderator.fru}}
+                                                        div {{session.moderator.companyru}}
+                                                    .red(v-on:click.stop.prevent="session.moderatorid=null;changeSession(session,ts)" style="cursor:pointer" )
+                                                        iconify-icon(icon="ic:baseline-delete-forever"  )
+                                            label.small.mt-2.flex.left
+                                                div Спикеры&nbsp;
+                                                div(style="cursor:pointer" v-on:click="addSpeaker(session,ts)" )
+                                                    iconify-icon(icon="material-symbols:add-circle-rounded" )
+                                            .sesionSpk.mt-2.flex.beetwen(v-for="spk in session.speakers" )
+                                                .pgmSpeakersItemPhoto
+                                                    img(:src='frontUrl+"/static/image/small/"+spk.photoid' loading="lazy")
+                                                .sesionSpkName.small {{spk.iru}} {{spk.fru}}
+                                                    div {{spk.companyru}}
+                                                .red(v-on:click.stop.prevent="session.speakersid=session.speakersid.filter(ss=>ss!=spk.id);changeSession(session,ts)" style="cursor:pointer" )
+                                                    iconify-icon(icon="ic:baseline-delete-forever"  )
+                                            .mt-2
+                                                .pgmVideoFile.mt-2.btn-group.btn-group-sm(v-if="session.videofile")
+                                                    .btn.btn-sm.btn-success(v-on:click="showRecord(session.videofile)") посмотреть запись
+                                                    .btn.btn-sm.btn-secondary( v-on:click="session.videofile=null;changeSession(session,ts)") удалить
+                                                .pgmVideoFileAdd.btn.btn-sm.btn-secondary.mt-2(v-else v-on:click="uploadVideoFile(session,ts)") Изменить запись видео
+                                                .pgmVideoFile.mt-2.btn-group.btn-group-sm(v-if="session.videofileen")
+                                                    .btn.btn-sm.btn-success(v-on:click="showRecord(session.videofileen)") Watch video
+                                                    .btn.btn-sm.btn-secondary( v-on:click="session.videofileen=null;changeSession(session,ts)") remove
+                                            .mt-2
+                                                .btn.btn-sm.btn-secondary(v-on:click=" session.videoenable=!session.videoenable;changeSession(session,ts)" v-if="!session.videoenable")  видео выключено
+                                                .btn.btn-sm.btn-success(v-on:click=" session.videoenable=!session.videoenable;changeSession(session,ts)" v-if="session.videoenable")  видео включено
+
+
+                                    .workSessionsEnd
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+    script(src="/lib/moment.min.js")
+    script(src="/lib/vue.js")
+    script.
+
+        let frontUrl = !{JSON.stringify(frontUrl)}
+    script(src="/javascripts/pgmScript.js")
+    script(src="/lib/video.min.js")
+
+
+
+

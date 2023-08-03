@@ -1,0 +1,47 @@
+.pUserHead
+    .flex.left
+        div(style="width:300px")
+            .pUserPhoto
+                img#usrPhoto(v-if="user.photoid" width="300px" height="300px" :src="frontUrl+'/static/image/small/'+user.photoid" )
+                input#usrPhotoid(type="hidden" v-model="user.photoid" name="photoid")
+            .pUserBtnGroup
+                .small
+                    .flex.center.myBtnGroup
+                        .myBtn.btn.btn-success#addPhotoBtn(v-on:click="addPhoto()" style="color:white")
+                            span(v-if="user.photoid") Изменить фото
+                            span(v-else) Добавить фото
+                    .mt-2
+                        div
+                            b ФОТО НА СВЕТЛОМ ФОНЕ В АНФАС
+                        div
+                            b ЛИЦО 80%
+        .flex.left(style="width:calc(100% - 300px)")
+            .padLeft(style="width:33%")
+                .aUserRow.mb-2
+                    label Фамилия
+                    input(v-model="user.f" name="f")
+                .aUserRow.mb-2
+                    label Имя
+                    input(v-model="user.i" name="i")
+                .aUserRow.mb-2
+                    label Отчество
+                    input(v-model="user.o" name="o")
+
+
+            .padLeft(style="width:33%")
+
+                .aUserRow.mb-2
+                    label Паспорт серия и номер
+                    input(v-model="user.passportNumber" name="passportNumber" placeholder="с пробелом, как в документе" )
+                .aUserRow.mb-2
+                    label Паспорт дата выдачи
+                    input(v-model="user.passportDate" name="passportDate" placeholder="как в документе")
+                .aUserRow.mb-2
+                    label Паспорт код подразделения
+                    input(v-model="user.passportCode" name="passportCode" placeholder="как в документе")
+
+            if types
+                .padLeft(style="width:33%" v-if="!this.must_tupes")
+                    label.mb-3 Группа людей
+                    .puserTypes.small.padLeft#puserTypes(types=JSON.stringify(types))
+                        .puserType(v-for="type in types" v-on:click="userAddType(type)" v-bind:class="{active:user.types.filter(t=>t.id==type.id).length}") {{type.title}}

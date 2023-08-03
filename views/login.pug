@@ -1,0 +1,37 @@
+extends layout
+
+block content
+  .loginWr.flex.center
+    .card.loginCard
+      .card-title
+      .card-body
+
+        if error
+          .alert.alert-warning Логин или пароль неверный
+        form#loginForm(method="POST" )
+          label Логин
+          input#login.form-control(name="email")
+          label.mt-3 Пароль
+          input#pass.form-control(name="pass" type="password")
+          .mt-3.flex.center
+            #sendBtn.btn.btn-sm.btn-primary.btn-sm Войти
+
+  script.
+    login.focus()
+    loginForm.action="/#{action}"+window.location.search
+    login.onkeydown=(e)=>{login.classList.remove("error"); if(e.keyCode==13) pass.focus()}
+    pass.onkeydown=(e)=>{pass.classList.remove("error"); if(e.keyCode==13) sendBtn.click()}
+    sendBtn.onclick=()=>{
+      if(login.value.length<2){
+        login.focus();
+        login.classList.add("error")
+        return
+      }
+      if (pass.value.length < 2) {
+        pass.focus();
+        pass.classList.add("error")
+        return
+      }
+      loginForm.submit();
+    }
+

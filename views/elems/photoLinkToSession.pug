@@ -1,0 +1,5 @@
+h4 выберите сесиию:
+.photoSelectSessWr
+    each ts in timeslots
+        each s in ts.sessions
+            .photoSelectSess(sessionid=s.id) #{ts.title_ru} #{s.halltitle_ru} #{s.title_ru}

@@ -1,0 +1,42 @@
+html
+    body
+        p
+            b(style="font-size:1.2em") Здравствуйте, #{user.i} #{user.o}!
+        p
+            div Ваша заявка на участие в Финансовом конгрессе Банка России подтверждена.
+            div Ждем вас 6 - 7 июля 2023 года в Санкт-Петербурге!
+        p
+            div Направляем Вам ссылку для персонального доступа к личному кабинету участника Конгресса:
+                a(href="https://ifcongress.ru/personal?token=" + user.guid) https://ifcongress.ru/personal?token=#{user.guid}
+            div Это постоянно действующая ссылка на Вашу персональную страницу.
+        p
+            div В личном кабинете Вы можете:
+                ul
+                    li Направить в один из официальных отелей Конгресса запрос на бронирование номера
+                    li Обозначить рейсы и даты прибытия и отъезда для организации трансфера
+                    li Получить полезную для участия информацию.
+        p
+            div Это постоянно действующая ссылка на Вашу персональную страницу. Система запомнит Ваши бронирования и отобразит их при повторных входах. Информацию можно корректировать неоднократно.
+        p
+            div Ссылку можно запросить повторно на сайте Конгресса <a href="https://ifcongress.ru">ifcongress.ru</a> в пункте меню «Личный кабинет».
+        p
+            b(style="font-size:1.2em") Greetings!
+        p
+            div Your application for participation in the Financial Congress of the Bank of Russia has been confirmed.
+            div See you in Saint Petersburg on 6-7 July, 2023!
+
+        p
+            div Please find below the link to your personal account page.
+                a(href="https://ifcongress.ru/personal/en?token=" + user.guid) https://ifcongress.ru/personal/en?token=#{user.guid}
+
+        p
+            div On the personal account page you can:
+                ul
+                    li Send a booking request to one of the Congress official hotels;
+                    li Provide your flight details for the organisers to arrange a transfer
+                    li Receive useful information about the Congress events and venue.
+            div This is a permanent link. The system will store your reservations and display them when you log in again. All information may be adjusted repeatedly.
+        p
+            div To request the link to be mailed to you again, please visit the Personal Account section of the event website  <a href="https://ifcongress.ru/en">ifcongress.ru/en</a> .
+
+        include mailFooter

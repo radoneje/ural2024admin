@@ -1,0 +1,219 @@
+extends adminLayout
+
+block content
+
+    h4 Спикеры на сайт
+
+    #loader
+        .loaderLine
+
+    .hidden.fullHeight#spkApp
+        //.alert.alert-warning(v-if="spk.filter(s=>s.candidate).length")
+            h4 Необходимо связать спикеров с участниками!
+        .btn.btn-success(v-on:click="addSpk()") Добавить спикера
+        .scrollBox.mt-3
+
+            .company.news(v-for="u in spk")
+                .flex.left
+                    div(style="width:calc(124px)")
+                        .userPhoto(style="")
+                            img(:src="frontUrl+'/static/image/small/'+u.photoid" loading="lazy" v-if="u.photoid")
+                        .btn.btn-sm.btn-secondary.mt-2(v-on:click="changePhoto(u)") Изменить фото
+                        .btn.btn-sm.btn-warning.mt-2( v-if="u.candidate" v-on:click="candidate=u") Связать с участником
+                    .spkDetails.flex.left(style="width:calc(100% - 124px)")
+                        .spkLeft.half
+
+                            .mt-2.spkNameBox
+
+                                input(placeholder="Имя" v-model="u.iru" v-on:change="changeSpk(u, 'iru')" style="width:50%")
+                                input(placeholder="Фамилия" v-model="u.fru" v-on:change="changeSpk(u, 'fru')" style="width:50%" @paste="spkOnKeyDown(u, $event)" v-on:keyup="spkOnKeyDown(u, $event)" v-on:blur="spkOnBlur(u, $event)" )
+                            .spkNamePlaceholder
+                            .mt-2
+                                input(placeholder="Компания" v-model="u.companyru" v-on:change="changeSpk(u, 'companyru')" style="width:100%")
+                                //input(placeholder="Должность" v-model="u.positionru" v-on:change="changeSpk(u, 'positionru')" style="width:50%")
+                            .mt-2
+                                textarea(placeholder="Биография" v-model="u.bioru" v-on:change="changeSpk(u, 'bioru')" style="width:100%")
+
+                        .spkRight.half
+
+                            .mt-2
+                                input(placeholder="Last Name" v-model="u.fen" v-on:change="changeSpk(u, 'fen')" style="width:50%")
+                                input(placeholder="Name" v-model="u.ien" v-on:change="changeSpk(u, 'ien')" style="width:50%")
+                            .mt-2
+                                input(placeholder="Company" v-model="u.companyen" v-on:change="changeSpk(u, 'companyen')" style="width:50%")
+                                input(placeholder="Position" v-model="u.positionen" v-on:change="changeSpk(u, 'positionen')" style="width:50%")
+                            .mt-2
+                                textarea(placeholder="Биография" v-model="u.bioen" v-on:change="changeSpk(u, 'bioen')" style="width:100%")
+                .spkDetail.mt-2
+                    .input-group(style="width:272px")
+                        input.form-control(type="number" v-model="u.sort" v-on:change="changeSpk(u, 'sort')" style="width:40px")
+                        .btn.btn-success(v-if="u.isEnabled" v-on:click="u.isEnabled=!u.isEnabled; changeSpk(u, 'isEnabled')") Опубликован
+                        .btn.btn-secondary(v-else v-on:click="u.isEnabled=!u.isEnabled; changeSpk(u, 'isEnabled')") Скрыт
+                .fullScreenWr(v-if="candidate")
+                    .fullScreenBox
+                        .fullScreencontent
+                            .flex.left
+                                div(style="width:calc(124px)")
+                                    .userPhoto(style="")
+                                        img(:src="frontUrl+'/static/image/small/'+candidate.photoid" loading="lazy" v-if="candidate.photoid")
+                                .spkDetails.flex.left(style="width:calc(100% - 124px)")
+                                    .spkLeft.half
+                                        .mt-2.spkNameBox
+                                            h4 {{candidate.iru}} {{candidate.fru}}
+                            .mt-3(style="border-bottom:1px solid gray")
+                            .mt-3
+                                .spkPopUpItem(v-for="user of candidate.candidate" v-on:click=" linkSpk(candidate,user);u.candidate=null; candidate=null")
+                                    .flex.left
+                                        .spkPopUpItemPhoto
+                                            img(:src="frontUrl+'/static/image/small/'+user.photoid" loading="lazy")
+                                        div
+                                            .spkPopUpItemName {{user.i}} {{user.f}}
+                                            .spkPopUpItemCompany {{user.shortName}}
+
+                        .fullScreenCloseNotSave.flex.center(v-on:click="candidate=null") X
+
+
+
+
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+    script(src="/lib/vue.js")
+    script.
+
+        let frontUrl = !{JSON.stringify(frontUrl)}
+    script.
+        let spkApp = new Vue({
+            el: "#spkApp",
+            data: {
+                spk: [],
+                frontUrl,
+                spkPopUp: null,
+                candidate:null,
+            },
+            methods: {
+                spkOnBlur: async function (u, e) {
+                    if (this.spkPopUp) {
+                        setTimeout(()=>{
+                         this.spkPopUp.parentNode.removeChild(this.spkPopUp)
+                         this.spkPopUp=null;
+                        },200)
+                    }
+                },
+                spkOnKeyDown: async function (u, e) {
+                   if(e.clipboardData && e.clipboardData.getData("text")) {
+                       u.fru = e.clipboardData.getData("text").trim()
+                       e.preventDefault()
+                   }
+                    if (!u.fru  || u.fru.length<2)
+                    {
+                        if(this.spkPopUp) {
+                            this.spkPopUp.parentNode.removeChild(this.spkPopUp)
+                            this.spkPopUp = null;
+                        }
+                        return
+                    }
+                    let users = await postJson("/api/getUsersFromSpk", {f: u.fru})
+                    if (users.length > 0) {
+                        if (!this.spkPopUp) {
+                            let div = document.createElement("div")
+                            div.classList.add("spkPopUp")
+                            div.innerHTML = "spkPOPUP"
+                            this.spkPopUp = div
+                            e.target.parentNode.parentNode.querySelector(".spkNamePlaceholder").appendChild(div)
+
+                        }
+                        this.spkPopUp.innerHTML = ""
+                        users.forEach(user => {
+                            let uDiv = document.createElement("div")
+                            uDiv.classList.add("spkPopUpItem");
+                            uDiv.setAttribute("userid", user.id)
+
+                            let uDivFlex = document.createElement("div")
+                            uDivFlex.classList.add("flex");
+                            uDivFlex.classList.add("left");
+                            uDiv.appendChild(uDivFlex)
+
+
+                            let uDivPhoto = document.createElement("div")
+                            uDivPhoto.classList.add("spkPopUpItemPhoto")
+                            uDivFlex.appendChild(uDivPhoto)
+
+                            let uDivPhotoImg = document.createElement("img")
+                            uDivPhotoImg.src = frontUrl + "/static/image/small/" + user.photoid
+                            uDivPhoto.appendChild(uDivPhotoImg)
+
+                            let uDivNameWr = document.createElement("div")
+                            uDivFlex.appendChild(uDivNameWr)
+
+
+                            let uDivName = document.createElement("div")
+                            uDivName.classList.add("spkPopUpItemName")
+                            uDivName.innerHTML = user.f + " " + user.i + " " + user.o;
+                            uDivNameWr.appendChild(uDivName)
+
+                            let uDivCopmany = document.createElement("div")
+                            uDivCopmany.classList.add("spkPopUpItemCompany")
+                            uDivCopmany.innerHTML = user.shortName;
+                            uDivNameWr.appendChild(uDivCopmany)
+
+                            this.spkPopUp.appendChild(uDiv)
+
+                            uDiv.onclick=async ()=>{
+                                await this.linkSpk(u,user)
+
+                            }
+
+                        })
+                    } else {
+                        if (this.spkPopUp) {
+                            this.spkPopUp.parentNode.removeChild(this.spkPopUp)
+                            this.spkPopUp = null;
+                        }
+                    }
+
+                },
+                changePhoto: async function (u) {
+                    let photoid = await getPhoto(1);
+
+                    u.photoid = photoid
+                    await this.changeSpk(u, "photoid")
+                },
+                changeSpk: async function (u, sect) {
+                    let item={id:u.id}
+                    item[sect]=u[sect]
+
+                    await postJson("/api/pgmSpk/", item)
+                },
+                addSpk: async function () {
+                    let news = await postJson("/api/pgmSpk/")
+                    this.spk.unshift(...news)
+                },
+                updateSpk: async function () {
+                    this.spk = await getJson("/api/pgmSpk/")
+                },
+                linkSpk: async function (u, user) {
+                    u.fru = user.f;
+                    u.iru = user.i;
+                    u.photoid = user.photoid;
+                    u.companyru = user.shortName;
+                    u.userid = user.id;
+                    u.candidate=null;
+                    await this.changeSpk(u, "fru")
+                    await this.changeSpk(u, "iru")
+                    await this.changeSpk(u, "photoid")
+                    await this.changeSpk(u, "companyru")
+                    await this.changeSpk(u, "userid")
+                    this.$forceUpdate();
+                }
+            },
+            watch: {},
+            mounted: async function () {
+                await this.updateSpk();
+                setTimeout(() => {
+                    loader.parentNode.removeChild(loader);
+                    document.getElementById("spkApp").classList.remove("hidden")
+                }, 1000)
+
+            }
+        })
+

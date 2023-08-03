@@ -1,0 +1,28 @@
+.aAddCompany
+    h4 Добавить новую компанию-подрядкика
+    .aUserRow.mb-2
+        label ИНН Компании
+            span.btn.btn-sm.btn-success.subLabelLink#fnsLink &nbsp;загрузить данные из ИФНС
+        input( name="inn")
+    .aUserRow.mb-2 Название компании
+        input(readonly name="name")
+    .aUserRow.mb-2
+        label Короткое название
+        input.must( name="shortName" )
+    .aUserRow.mb-2
+        label За что отвечает
+        input.must( name="profile")
+    .aUserRow.mb-2
+        label ФИО ответственного лица
+        input.must( name="ownerFio")
+    .aUserRow.mb-2
+        label Телефон ответственного лица
+        input.must( name="ownerPhone")
+    .aUserRow.mb-2
+        label Email ответственного лица
+        input.must( name="ownerEmail")
+    .aUserRow.mb-2
+        label Пароль ответственного лица
+        input.must( name="ownerPass")
+    .aUserRow.mb-4
+        .btn.btn-sm.btn-success#newServiceCompany Сохранить

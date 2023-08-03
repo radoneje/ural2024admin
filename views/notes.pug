@@ -1,0 +1,44 @@
+extends adminLayout
+
+block content
+  h4 Памятка
+
+  p
+    b Вход для БР
+    ul
+      li
+        a(href=frontUrl+"/filter")  #{frontUrl}/filter
+  p
+    b Для регистрации подрядчика
+    ul
+      li Старший от подрядчка регистрируется на сайте
+      li Меняем его тип и статус в Людях
+      li  в Подрядчиках по кнопке "Ссылка для старшего" добавляем   ФИО телефон, email и пароль повторно.
+      li Копируем ссылку и оправляем ее старшему
+      li Старший заходит через свой email и пароль и добавляет сотрудников
+
+  p
+    b Для подключения оповещений о новых пользователях
+    ul
+      li Подписаться на бот @ifcongress_bot и попросить добавить в группу расылки (ЦБ или организаторы)
+  p
+    b После подтверверждения учатсником БР
+    ul
+      li проверьте и измените статус на "Документы готовы"
+      li статус на "Документы отправлены" будет установлен автоматически после отправки email
+
+
+
+
+
+  <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+  script(src="/lib/vue.js")
+  script.
+    let frontUrl=!{JSON.stringify(frontUrl)}
+    let typeid=!{JSON.stringify(typeid)};
+    let types=!{JSON.stringify(types)};
+    let companyTypes=!{JSON.stringify(companyTypes)}
+
+
+
+

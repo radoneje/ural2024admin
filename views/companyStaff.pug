@@ -1,0 +1,113 @@
+include elems/mainHead
+
+
+body
+    .iam(onclick="document.location.href='/logout?callback=/companyStaff'") #{user}
+    .container.mb-5#app
+        div(v-if="!currCompany.guid")
+            h4.mt-5 ваши компании:
+            .oCompanyBox.mt-3
+                .oCompamy.companyRow.mt-2(v-for="c in companies")
+                    h6 {{c.name}}
+                    div
+                        input(placeholder="за что отвечает" v-model="c.profile" style="max-width:300px")
+                    .btn.btn-outline-secondary.mt-2(v-on:click="currCompany=Clone(c)") Список сотрудников
+        div(v-else)
+            h4.mt-5 {{currCompany.name}}
+            div
+                a(href="#" v-on:click="currCompany.guid=null") К списку компаний
+            .btn.btn-success.mt-5(v-on:click="addUser(currCompany)") Добавить сотрудника
+            .oCompamy.mt-3
+                .oUser.flex.beetwen.mt-2.pb-1(v-for="user of users")
+                    .flex.left
+                        .aUserPhoto
+                            img(:src="frontUrl+'/static/image/small/'+user.photoid" loading="lazy")
+                        .aUserFio {{user.f}} {{user.i}} {{user.o}}
+                    div
+                        a(href="#" v-on:click="deleteUser(user)") Удалить
+
+
+
+
+    script(src="/lib/vue.js")
+    script.
+        let frontUrl=!{JSON.stringify(frontUrl)}
+    script.
+        let app = new Vue({
+            el: "#app",
+            data: {
+                companies: [],
+                currCompany: {},
+                users: [],
+                frontUrl
+            },
+            methods: {
+                deleteUser:async function(u){
+                    if(confirm("Удалить?")){
+
+                        this.users=this.users.filter(uu=>uu.userguid!=u.userguid)
+                        await getJson("/api/deleteStaff/"+u.userguid)
+                    }
+                },
+                addUser:async function(c){
+                    await createPopUp("/addUserForm", ()=>{})
+
+                    addPhotoBtn.innerHTML="Добавить фото"
+                    addPhotoBtn.onclick=async ()=>{
+                        let photoid = await getPhoto();
+                        usrPhotoid.value=photoid;
+                        usrPhoto.src="https://ifcongress.ru/static/image/small/"+photoid
+                    }
+                    saveUser.onclick=async ()=> {
+                        let inps = addUserApp.querySelectorAll("input[name]")
+                        let err=false
+                        let ret={}
+                        inps.forEach(e => {
+                            if(!e.value)
+                                err=true;
+                            ret[e.name]=e.value;
+                        })
+                        console.log(ret)
+                        if(err)
+                            return alert("Все поля должны быть заполнены, включая фото!")
+                        ret.companyGuid=c.guid
+                        let dt=await postJson("/api/staff",ret )
+                        this.users.unshift(dt)
+
+                        closePopUp()
+                    }
+
+
+
+                },
+                Clone: function (e) {
+                    let ret = {};
+                    ret["id"] = e["id"]
+                    ret["guid"] = e["guid"]
+
+                    /*if(e["users"])
+                    this.users= e["users"]
+                      console.log(this.users)*/
+                    return ret
+                }
+            },
+            watch: {
+                currCompany: async function () {
+                    if (this.currCompany.guid == null) {
+                        this.users = []
+                        return;
+                    }
+                    this.users = await getJson("/api/usersByCompanyGuid/" + this.currCompany.guid)
+                    console.log(this.users)
+                }
+            },
+            mounted: async function () {
+                this.companies = await getJson("/api/company?ownerEmail=#{user}")
+            }
+
+        })
+
+
+
+
+

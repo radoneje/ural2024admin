@@ -1,0 +1,80 @@
+extends adminLayout
+
+block content
+
+  h4.flex.left.center.beetwen
+    div(style="margin-right:24px") Персонал
+    .btn-group(style="margin-right:24px")
+      .btn.btn-outline-secondary(onclick="addUser()")
+        <iconify-icon icon="material-symbols:add-box-outline"></iconify-icon>
+      .btn.btn-outline-secondary(onclick="window.open('/api/personalAccessExcel')") Скачать списки для входа
+
+
+  #loader
+    .loaderLine
+  .hidden.fullHeight.mt-6#app
+    .usersMenu.flex
+      .usersMenuItem(v-bind:class="{active:typeid==null}" v-on:click="typeid=null") Все
+      .usersMenuItem(v-for="type in types" v-bind:class="{active:typeid==type.id}" v-on:click="typeid=type.id") {{type.title}}
+
+    .userTableHead.flex.pt-2.pb-2
+      .userTableHeadDate(v-on:click="sortUserBy('id')") Дата рег.
+      .userTableHeadF(v-on:click="sortUserBy('f')") Фамилия
+      .userTableHeadS(v-on:click="sortUserBy('statusid')") Статус
+      .userTableHeadCont(v-on:click="sortUserBy('email')") Контакт
+      .userTableHeadContPerson(v-on:click="sortUserBy('proxyi')") Контактное лицр
+    .scrollBox
+      .user(v-for="user in users")
+        .flex.left.hidden
+          div
+            .userPhoto(v-on:dblclick="showUser(user)")
+              img(:src="frontUrl+'/static/image/small/'+user.photoid" loading="lazy")
+              .userId.small id:{{user.id}}
+              .userKadr.small(v-on:click="cropUserPicture(user)")
+                iconify-icon(icon="material-symbols:crop")
+          .userLeft
+            .userNameBox.flex.left
+              .userNameWr(v-on:dblclick="showUser(user)")
+                .userName  {{user.f}} {{user.i}} {{user.o}}
+                .userCompany
+                  .userCompanyName(v-if="user.companyShort") {{user.companyShort}}
+                  .userCompanyName(v-else) {{user.companyName}}
+                  .small(v-if="user.companyid!=user.payCompanyId && user.payCompanyId!=null") Платит: {{user.payCompanyName}}
+                  .small(v-if="user.isPaySelf") Платит сам
+
+
+              .userStatusWr
+                .userStatus.small(:style="'background-color:'+user.statuscolor" v-on:dblclick="showUser(user)") {{user.status}}
+
+                .btn-group.btn-group-sm.mt-3
+                  .btn.btn-outline-secondary(onclick="copyToClpboard('"+frontUrl+"/personal/"+user.guid+"')" data-bs-toggle="tooltip" data-bs-title="Копировать ссылку на ЛК")
+                    iconify-icon(icon="material-symbols:add-link-rounded")
+                  .btn.btn-outline-secondary(data-bs-toggle="tooltip" data-bs-title="Отправить ссылку на ЛК")
+                    iconify-icon(icon="material-symbols:attach-email-outline-rounded")
+                  .btn.btn-outline-secondary(v-on:click="uploadUserFile(user)" data-bs-toggle="tooltip" data-bs-title="Загрузить файл для пользователя")
+                    iconify-icon(icon="ic:round-file-upload")
+
+
+              .userContactWr
+                .userCompany.small
+                input.userPhone(v-model="user.phone" readonly ondblclick="this.removeAttribute('readonly')" v-on:change="changeUser(user, 'phone')" onblur="this.setAttribute('readonly','readonly')")
+                input.userEmail(v-model="user.email" readonly ondblclick="this.removeAttribute('readonly')" v-on:change="changeUser(user, 'email')" onblur="this.setAttribute('readonly','readonly')")
+
+          .userRight.flex.left
+            .userContactWr
+              .userCompany.small
+              input.userPhone(v-model="user.proxyi" readonly ondblclick="this.removeAttribute('readonly')" v-on:change="changeUser(user, 'proxyi')" onblur="this.setAttribute('readonly','readonly')")
+              input.userPhone(v-model="user.proxyphone" readonly ondblclick="this.removeAttribute('readonly')" v-on:change="changeUser(user, 'proxyphone')" onblur="this.setAttribute('readonly','readonly')")
+              input.userEmail(v-model="user.proxyemail" readonly ondblclick="this.removeAttribute('readonly')" v-on:change="changeUser(user, 'proxyemail')" onblur="this.setAttribute('readonly','readonly')")
+        .userCommentBox.mt-3
+            textarea(placeholder="комментарий" v-model="user.comment" readonly  v-on:change="changeUser(user, 'comment')" ondblclick="this.removeAttribute('readonly')" onblur="this.setAttribute('readonly','readonly')")
+
+
+
+  <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+  script(src="/lib/vue.js")
+  script let frontUrl=!{JSON.stringify(frontUrl)}; let typeid=!{JSON.stringify(typeid)}; let types=!{JSON.stringify(types)};
+  script(src="/javascripts/usersScript.js")
+
+
+

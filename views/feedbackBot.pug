@@ -1,0 +1,69 @@
+extends adminLayout
+
+block content
+
+    h4 Сообщения обратной связи из ТГ бота
+
+    #loader
+        .loaderLine
+
+    .hidden.fullHeight#feedbackApp
+        .scrollBox
+            each m in messages
+                .timeslotWr.mt-3
+                    .timeslotHead(style="color:black")
+
+                        div #{m.formattedDate} от #{m.first_name} #{m.last_name} #{m.username}
+                    .timeslotBody #{m.text}
+
+                        .mFilesWr
+
+                        .mReply.small(feedbackid=m.id)
+                            if(m.answer)
+                                .mReplyWr.mt-2
+                                    b.small Ответ:
+                                    .small #{m.answer}
+                        .mReplyWr.mt-2
+                            textarea.form-control(placeholder="текст ответа в ТГ")
+                            .btn-group.btn-group-sm
+                                .btn.btn-sm.btn-success(onclick="messageToTgUser("+m.tgid+", this, "+m.id+")") Отправить в ТГ
+
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
+    script(src="/lib/vue.js")
+    script.
+
+        async function messageToTgUser(tgid, ctrl, feedbackid){
+            if(!confirm("Отправить сообщение?"))
+                return;
+            let txtarea=ctrl.parentNode.parentNode.querySelector("textarea")
+            let text=txtarea.value;
+            if(text.length>2) {
+                await postJson("/api/messageToBotUser", {tgid, text, feedbackid});
+                alert("Сообщение отправлено")
+                document.querySelector(".mReply[feedbackid='" + feedbackid + "']").innerText=text;
+                txtarea.value = ""
+
+            }else
+                txtarea.focus();
+            updateAlerts();
+        }
+        updateAlerts();
+
+
+    script.
+        let feedbackApp=new Vue({
+            el:"#feedbackApp",
+            data:{
+
+            },
+            methods:{
+
+            },
+            watch:{},
+            mounted:async function(){
+                setTimeout(()=>{loader.parentNode.removeChild(loader);document.getElementById("feedbackApp").classList.remove("hidden") },1000)
+
+            }
+        })
+
