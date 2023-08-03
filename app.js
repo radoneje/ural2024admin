@@ -8,7 +8,7 @@ import { fileURLToPath } from 'url';
 import config from './config.js'
 import session from 'express-session'
 import pgSession from 'connect-pg-simple'
-let sessionStore=pgSession(session)
+//let sessionStore=pgSession(session)
 //let store=new sessionStore({conObject: config.pgConnection})
 
 import knex from 'knex'
