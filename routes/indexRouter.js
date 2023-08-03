@@ -71,6 +71,7 @@ router.post('/login', async function (req, res, next) {
 router.get('/users',  async function (req, res, next) {
     if (!req.session.user)
         return res.redirect("/login/?callback=" + encodeURI("/users"))
+    console.log(config.frontUrl)
     let status = await req.knex("t_status").orderBy("id")
     let types = await req.knex("t_usertype").where({isParticipaint: true}).orderBy("id")
     res.render('users', {user: req.session.user, frontUrl: config.frontUrl, types, typeid: null, status});
