@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "ifcongress-56476",
+  "private_key_id": "fbc6baa9aeab203093721f82ed0d9a2f5c5aac21",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC6KV6LUm4JWzvn\nXneZzAEhX+oHl+oOkDlRcCzZsgD6TJGFmZ0dVAkgAsjolcWdIinOYnEb+ha7QKnN\nk4Ku6k4EOMsPoVHIwhyaIG37VGE8oTNElA4/rvxrUeBcoXMILulYKP27nuCcgrvt\nIm4MYuFC+VcgZ//qd8WO3oGb63V+zeszAHUYUT1lEsT+u6DRMdHQEyefYxhZGA1n\nEvXfMUqzwvpfHQOmnxEqfR+bwxaF+OJor3EA+k4ZWkVe49Nri0OxX7Kcg1jmL9iR\nOZG4APneQDmegjCF86tMwFXE65YGgmWzEkuLIKX0WxleX51XEn1XwTU6s+Q/8+gi\niqV0ZJkxAgMBAAECggEAGTxpb3aQVHQJ4K6q2kOloD9vK3IEYyQETni9Q7zrKq3S\n3lW5eZPTnC4fISnIfP7Nbwe48JjMQxHG0wec+Ww+1jitYk7f64NQ5Z3heubF5bZZ\nNlc3FUVPPOx/qd74XT11bs45E0Q8NktMrB6fj3ifXnkMPr2KcN+lUt2b8VCP1XgG\ncU6lMLjHqfZcSs7oMr4wAyVcwwtur3vRkVuyDNRAvvre2pxbhibxc7ZMOohuuN+M\nJ3uHvW+B8D3rDdIEiGZDDX1aqnwZWcH+mVCVInGwZ8bPgf/OYZRmDGXeEO8PFAQ7\npBvk0+uc89NHvSa8Oezcx3AEfpnBUNK6tsvDJYwytwKBgQDkQzrk43bQnnskTSID\n9jc2uc50nmg6UNi4RgaRByP66SsQBrhV1XUMw+4HqXzzkHyT5ZRBoq8M17wzDa9f\nbYM6qqNhBbXKlEjItarf5Cceoo81pdFLJyykoq8s51ML/lJBR0Y+5AhG3Qw6d5jC\nmTw+aWqeN/+DS6y30J+GgfZgTwKBgQDQyHcSCt7D0KSxYynxkDJncy/aoKeFolKe\nO7Wa19dwdhMjpl2/84IUHWnouk9cFgjH0GmPobR99oYrmvmN1Rmw2VlxsG0xU9P8\nTCwIUOBIH1X15pEVIBJzgqod++Q8lXhbxmkdJ6Me7kS057bJ5PXyRg2X0tcJTi44\nHl0dq5GOfwKBgD3H3Iba8euhGV9H6S79UxBi1fhGb5tpCl9FxL04G4rr1RXvW7EP\npzCfTyuPuhwKPU2iU7A4Ifzt3yhKSe8gKuaUDMhTzVJZNCHu2aLjk5r9EJnKmY0n\nuzOMPLGAor+aRBUa/25CNeNILOkeOaBh7SZPTeYo7eVRdBwEQUkcn9yNAoGBAJCA\nXqD3Mw0WKBa6CnqtkaU1/QX1MVz1ZvcrXlsITo0Au+htqe9Dq2EepoG0CV8zxOn+\n3kDR66lO6bfecCBxQHG9TQG52SlN2qeBVOyAhWqFfapO5VVYuEyIQBO2llY0IXRr\nk67hEy5CPP10bne3513CjH/rJnfDS4v9v/bcG0cjAoGBAIgxzLVgkK5F5ObmRAvV\nsy2TKw6zQaSpQiVpscDFCDZMCmmfsSiu7hgNHzdJfee/7isBGdEH+Fu8qgE1t9ox\n2tALvNfN/xRyaCXNpwSYujmjd6C+I1+pd1JzyTnRv68F/dM2kD00PhkdPz7MLqpi\niqruTFXklYW+vaAFxHPAjLhS\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-wpupn@ifcongress-56476.iam.gserviceaccount.com",
+  "client_id": "113133390037402659590",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-wpupn%40ifcongress-56476.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

@@ -1,0 +1,64 @@
+@media all and (max-width: 1020px) {
+
+
+    .menu {
+        display: none !important;
+    }
+    .work{
+        width: 100%;
+        padding: 24px 4px;
+    }
+    .work h4{
+        display: none;
+    }
+    .usersMenuItem{
+        font-size: 14px;
+    }
+    .user{
+        background-color: #e6e6e6;
+        margin-bottom: 13px;
+        padding: 8px 8px;
+        position: relative;
+    }
+    .usersMenu{
+        display: none;
+    }
+    .userTableHead{
+        display: none;
+    }
+    .scrollBox {
+        width: 100%;
+        padding-right: 0;
+        height: 100vh;
+    }
+    .userContainer{
+        display: block;
+    }
+    .userFilterBox{
+        display: block;
+    }
+    .filterWr, .userFilterBox{
+        display: block;
+        width: 100%;
+    }
+    .filterWr .userStatusWr{
+        width: 100%;
+
+    }
+    .filterWr{
+        margin-top: 12px;
+    }
+    .userStatus{
+        font-weight: bold;
+    }
+    .userName{
+        margin-bottom: 8px;
+        position: absolute;
+        right: 8px;
+        top: 0px;
+        width: calc(100% - 128px);
+    }
+    .userCommentBox textarea {
+        height: 83px;
+    }
+}

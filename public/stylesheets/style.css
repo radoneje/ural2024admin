@@ -1,0 +1,1117 @@
+textarea:active, textarea:focus, input:active, input:focus, input,select:active, select:focus, select:active, select:focus {
+  outline: none !important;
+  box-shadow: none;
+}
+.btn:focus,.btn:active, .form-control:focus {
+  outline: none !important;
+  box-shadow: none;
+}
+.hidden{
+  display: none;
+}
+.flex{
+  display: flex;
+}
+.center{
+  align-items: center;
+  justify-content: center;
+}
+.left {
+  justify-content: left;
+}
+.right {
+  justify-content: right;
+}
+.padLeft{
+  box-sizing: border-box;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+.padTop{
+  box-sizing: border-box;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.half {
+width: 50%;
+}
+.beetwen{
+  justify-content: space-between;
+}
+.loginWr{
+  width: 100vw;
+  height: 100vh;
+}
+.loginCard{
+  width: 600px;
+}
+.loginCard input.error{
+  border-color: var(--bs-danger);
+}
+.iam{
+  font-size: .6em;
+  padding: 4px;
+  background-color: white;
+  position: fixed;
+  top:0;
+  right: 0;
+  cursor: pointer;
+  z-index: 100;
+}
+.iam:hover{
+  background-color: lightgray;
+}
+.tower{
+  width: min(1820px,100%);
+  margin: 0  auto;
+  height: 100vh;
+  position: relative;
+}
+.menu{
+  position: absolute;
+  width: 150px;
+  box-sizing: border-box;
+  padding: 24px 0 ;
+  background-color: #86b7fe;
+  height: 100%;
+  left: 0;
+  top: 0;
+  overflow-y: auto;
+}
+.work{
+  position: absolute;
+  right: 0;
+  height: 100%;
+  width: calc(100% - 150px);
+  padding: 24px;
+  box-sizing: border-box;
+  padding-right: 24px;
+
+}
+.menuItem{
+  cursor: pointer;
+  color: white;
+  padding: 4px 12px;
+  position: relative;
+}
+.menuItem:hover, .menuItem.active{
+  background-color: #5b98f3;
+}
+.menuDivaider{
+  height: 2px;
+  background-color: white;
+  margin: 8px 0;
+  opacity: .5;
+}
+.scrollBox{
+  width: 100%;
+  height: calc(100% - 88px);
+  overflow-y: auto;
+  padding-right: 24px;
+}
+.userPhoto{
+  position: relative;
+  min-height: 100px;
+  border-radius: 8px;
+  margin-right: 8px;
+  background: lightgray;
+  overflow: hidden;
+}
+.userPhoto img{
+  width: 100%;
+}
+
+.user, .company{
+  margin-bottom: 8px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background-color: #f8f8f8;
+  align-items: flex-start;
+}
+.userName{
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.userNameWr{
+  cursor:pointer;
+  width: calc(100% - 400px );
+  box-sizing: border-box;
+  padding-right: 12px;
+
+}
+.userStatusWr{
+  width: 120px;
+  margin-right:12px;
+  line-height:  1.01em;
+  padding: 8px;
+}
+.userStatus{
+  padding: 4px;
+  border-radius: 4px;
+}
+.userCommentBox{
+  /*padding-right: 24px;*/
+}
+.userCommentBox textarea, .news textarea{
+  width: 100%;
+  resize: none;
+  padding: 4px;
+  box-sizing: border-box;
+  border:1px solid lightgray;
+
+  border-radius: 4px;
+  height: 55px;
+}
+.userContactWr{
+  margin-left: 12px;
+
+  width: 250px;
+}
+.userContactWr input, .companyRow input, .aUserRow input, .ownerBox input, .news input{
+  border:1px solid lightgray;
+  width: 100%;
+  padding: 2px 8px;
+  box-sizing: border-box;
+}
+.userFilesBox{
+  margin-left: 24px;
+}
+.userFiles{
+  box-sizing: border-box;
+  border:1px solid lightgray;
+  padding: 4px;
+  border-radius: 4px;
+  width: 250px;
+  margin-right: 12px;
+  background-color: white;
+  height: 148px;
+  overflow-y: scroll;
+}
+.userFile{
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: max-content;
+}
+.userNoFile{
+  color: gray;
+}
+input[readonly], textarea[readonly]{
+  background-color: #f7f8f8
+}
+.fileOver{
+  border-color:var(--bs-success)
+}
+.userLeft{
+  width: calc(100% - 356px);
+
+}
+.fullScreenWr, .fullScreenPhotoEditor{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: #00000023;
+  left: 0;
+  top: 0;
+  backdrop-filter: blur(10px);
+  --webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.fullScreenPhotoEditor{
+  z-index: 2000;
+}
+.fullScreenBox{
+  box-sizing: border-box;
+  background: white;
+  padding: 24px;
+  width: min(100%, 1100px);
+  position: relative;
+}
+.fullScreencontent{
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+}
+.fullScreenCloseNotSave{
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  background: gray;
+  border-radius: 50%;
+  color:white;
+}
+.pUserPhoto{
+  width: 240px;
+  background-color: gray;
+  border-radius: 8px;
+}
+.pUserPhoto img{
+  border-radius: 8px;
+  width: 100%;
+  height: auto;
+}
+.pUserHead{
+  justify-content: left;
+  align-items: flex-start;
+}
+
+.puserNameWr{
+  padding-left:32px;
+  width: calc(50% );
+  box-sizing: border-box;
+}
+.puserName{
+  font-size: 1.5em;
+  font-weight: bold;
+}
+.pUserShortCompany input{
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: 4px 8px;
+  border:1px solid lightgray;
+  width: 100%;
+  box-sizing: border-box;
+}
+.companyCell{
+  padding: 24px;
+  width: 33%;
+  box-sizing: border-box;
+}
+.pUserCartWr{
+  width: calc(100% - 240px);
+}
+.pStatus{
+  color: grey;
+  cursor: pointer;
+  padding: 4px 8px;
+  font-size: .8em;
+}
+.pStatus:hover{
+  background-color: lightgrey;
+}
+.pStatus[active]{
+  color: white;
+  background-color: var(--bs-success);
+}
+.companyComment textarea{
+  padding: 8px;
+  box-sizing: border-box;
+  resize: none;
+  border:1px solid gray;
+  border-radius: 8px;
+  height: 4em;
+  display: block;
+  width: 100%;
+}
+.companyComment{
+  padding-right: 24px;
+}
+.btn-group-sm>.btn, .btn-sm {
+  --bs-btn-padding-y: 0;
+  --bs-btn-padding-x: 0.2rem;
+  --bs-btn-font-size: 1em;
+  --bs-btn-border-radius: 0.25rem;
+}
+.photoEditorImageBox{
+  width: 300px;
+  width: 300px;
+  /*max-height: CALC(100vh - 300px);*/
+  height: calc((300px / 4) * 5);
+}
+.photoEditorImageBox img {
+  width: 300px;
+  height: auto;
+}
+@keyframes loader {
+  0%{width: 0}
+  100%{width: 100%}
+}
+#loader{
+  animation: loader 0.5s linear;
+  height: 4px;
+  background-color: var(--bs-success);
+
+}
+.userTableHead{
+  color: gray;
+  font-size:0.5em;
+  cursor: pointer;
+}
+.fullHeight{
+  height: 100%;
+}
+
+.userTableHeadDate{
+
+  box-sizing: border-box;
+  padding-left: 24px;
+}
+.userPhoto, .userTableHeadDate{
+  width: 100px;
+}
+.userTableHeadF{
+  padding-left: 24px;
+  width: calc(100% - 444px - 250px - 66px);
+  box-sizing: border-box;
+
+}
+.userTableHeadS{
+  width: 140px;
+}
+
+.userTableHeadCont{
+  width: 266px;
+}
+.userTableHeadContPerson{
+
+}
+.userTableHead{
+  border-left:1px solid gray;
+  border-right:1px solid gray;
+  margin-right: 24px;
+}
+
+.myBtnGroup .myBtn{
+  margin-right: 12px;
+}
+.myBtn{
+  padding: 4px;
+  border:1px solid lightgrey;
+  cursor: pointer;
+  border-radius: 4px;
+  color: gray;
+}
+.myBtn:hover{
+  color: inherit;
+  background-color:lightgrey;
+  border:1px solid grey;
+}
+.usersMenu{
+  justify-content: space-around;
+  border-bottom:1px solid gray;
+  margin-right: 24px;
+}
+.usersMenuItem{
+  cursor:pointer;
+  border:1px solid transparent;
+  border-bottom:1px solid gray;
+  padding: 4px 8px;
+  margin-bottom: -1px;
+
+
+}
+.usersMenuItem.active{
+  border:1px solid gray;
+  border-bottom:1px solid white;
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+  background-color: var(--bs-warning);
+  color: white;
+}
+.puserType{
+  margin-right: 4px;
+  padding: 4px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.puserType:hover{
+  background-color: lightgrey;
+
+}
+.puserType.active{
+  background-color: var(--bs-warning);
+  color: white;
+}
+.companyNameBox{
+  width: 50%;
+}
+.companyUsersBox{
+  width: calc(50% );
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+.companyUsers{
+  width: 100%;
+  box-sizing: border-box;
+  background: white;
+  height: 238px;
+  padding: 12px;
+  border-radius: 4px;
+  border: 1px solid lightgray;
+  overflow-y: scroll;
+}
+.companyUserBox{
+  padding: 4px;
+  background: #f8f8f8;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  cursor: pointer;
+}
+.companyUserBox img{
+  width: 30px;
+  height: auto;
+  border-radius: 4px;
+  margin-right: 8px;
+}
+.companyUserName{
+  word-break: break-word;
+}
+.companyTypesBox{
+  width: 180px;
+}
+.companyType{
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px 8px;
+  /*margin-bottom: 4px;*/
+  cursor: pointer;
+  font-size: .8em;
+  color:gray;
+}
+.companyType:hover{
+  background-color: lightgrey;
+}
+.companyType.active{
+  color: white;
+  background-color: var(--bs-success);
+}
+.company .userFiles{
+  height: 238px;
+}
+.subLabelLink{
+  font-size: .75em;
+  cursor: pointer;
+}
+.divaider{
+  height: 1px;
+  background-color: lightgrey;
+}
+.userId{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  color: white;
+  padding: 2px 4px;
+  background: #00000088;
+  width: max-content;
+  border-bottom-left-radius: 8px;
+}
+input[notarrow]::-webkit-outer-spin-button,
+input[notarrow]::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+  -moz-appearance:textfield;
+}
+.userName input{
+  border:none;
+  border-bottom:1px solid gray;
+  font-size: 1.2em;
+  font-weight: bold;
+
+  width: 100%;
+  box-sizing: border-box;
+}
+.companyTypesBox .btn{
+  width: 100%;
+}
+.companyUsersBox select{
+  display: block;
+  border-radius: 4px 0 0 4px;
+  padding: var(--bs-btn-padding-y) var(--bs-btn-padding-x);
+  color:var(--bs-secondary);
+  border:1px solid var(--bs-secondary);
+
+}
+.filterWr{
+  width: calc(100% - 124px);
+}
+.userFilterBox{
+  width: 65%;
+}
+.filterWr .userStatusWr{
+  width: 220px;
+}
+.tUserTypes{flex-wrap: wrap;}
+.tUserType{
+  margin-right: 8px;
+  font-size: .75em;
+  color: gray;
+  cursor:pointer;
+  padding: 4px 8px;
+}
+.tUserType.active{
+  color:var(--bs-body-color);
+  background-color: var(--bs-warning);
+}
+.oCompamy{
+  border: 1px solid gray;
+  padding: 12px;
+  border-radius: 8px;
+  background: #f8f8f8;
+}
+.oUser{
+  border-bottom: 1px solid gray;
+}
+.aUserPhoto img{
+  width: 20px;
+  height: auto;
+  margin-right: 12px;
+  border-radius: 4px;
+}
+.newsPhotoBox{
+  width: 150px;
+  margin-right: 24px;
+}
+.newsTitleBox{
+  width: calc(100% - 150px);
+}
+.news{
+  padding: 24px;
+}
+.news textarea{
+  height: 6em;
+}
+.spkLeft, .spkRight{
+  box-sizing: border-box;
+  padding: 0 24px;
+}
+.spkNameBox{
+  position: relative;
+  width: 100%;
+}
+.spkNamePlaceholder{
+  position: relative;
+}
+.spkPopUp {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 4px;
+  padding: 12px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  border: 1px solid gray;
+  background: white;
+  box-shadow: 0 0 9px gray;
+  z-index: 100;
+  max-height: 300px;
+  overflow-y: auto;
+}
+.spkPopUpItem{
+  cursor: pointer;
+  padding: 8px 4px;
+  border-radius: 4px;
+  font-size: .8em;
+}
+.spkPopUpItem:hover{
+  background-color: lightgrey;
+}
+.spkPopUpItemName{
+
+}
+.spkPopUpItemCompany{
+
+}
+.spkPopUpItemPhoto{
+  width: 30px;
+  margin-right: 12px;
+}
+.spkPopUpItemPhoto img{
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+.timeslotItem{
+  margin-top:24px
+}
+.timeslotHead{
+  background: #d7d7d7;
+  color: white;
+  border-radius:    8px 8px 0 0;
+  padding: 12px;
+
+}
+.timeslotHead input{
+  padding: 4px 8px;
+  box-sizing: border-box;
+  border:1px solid gray;
+}
+.timeslotHeadTime{
+  width: 160px;
+  font-weight: bold;
+
+}
+.timeslotHeadDescription{
+  width: calc(100% - 160px);
+}
+.timeslotBody{
+  padding: 24px;
+  padding-top: 6px;
+  border-radius: 0 0 8px 8px ;
+  background: #f2f1f1;
+}
+.sessionItem{
+  /*border:1px solid gray;*/
+  width: calc(25% - 24px);
+  margin-right: 24px;
+  box-sizing: border-box;
+  float: left;
+  /*padding:12px ;
+  border-radius: 4px;*/
+}
+.workSessionsEnd{
+  clear:both;
+}
+.sessionBody{
+  background: white;
+  padding: 12px;
+}
+.sessionInput{
+  padding: 4px;
+  border:1px solid gray;
+  box-sizing: border-box;
+  width: 100%;
+  display: block;
+}
+.pgmSpeakersItemPhoto{
+  width: 30px;
+  margin-right: 12px;
+
+}
+.pgmSpeakersItemPhoto img{
+  border-radius: 50%;
+  border:1px solid gray;
+  width: 100%;
+  height: auto;
+}
+.pgmSpeakersItem{
+  padding: 8px;
+  margin: 2px 0;
+  cursor: pointer;
+}
+.pgmSpeakersItem:hover{
+  background: lightgrey;
+}
+.sesionSpkName{
+  width: calc(100% - 42px);
+}
+.menuAlert{
+  display: none;
+}
+.menuAlert.active{
+  position: absolute;
+  top: 6px;
+  right: 3px;
+  background: var(--bs-warning);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  text-align: center;
+  font-size: .75em;
+  display: block;
+}
+.roomItem{
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  margin-top: 24px !important;
+  border-bottom: 1px solid #ada7a7;
+}
+.userKadr{
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  color: white;
+  padding: 2px 7px;
+  background: #00000088;
+}
+.cropUserPicture{
+  width: 300px;
+}
+.cropUserPictureImg {
+  width:100%;
+  height: auto;
+}
+#editorjs{
+
+}
+.ck-editor__editable_inline {
+  min-height: 60vh;
+}
+.pUserPassport input{
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5px 8px;
+  border: 1px solid gray;
+  border-radius: 4px;
+}
+span.selected{
+  background: yellow;
+  padding: 4px;
+  font-weight: bold;
+}
+.aUserRow input.error{
+  border: 1px solid var(--bs-danger);
+}
+.place{
+  position: absolute;
+  cursor: pointer;
+  z-index: 9;
+}
+.seat{
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  background: green;
+  cursor: pointer;
+  z-index: 100;
+}
+.seat[used]{
+  background: red;
+}
+.seat[size='9']{
+  width: 13px;
+  height: 13px;
+}
+.seat[size='8']{
+  width: 12px;
+  height: 12px;
+}
+.seat[size='7']{
+  width: 11px;
+  height: 11px;
+}
+.seat[size='6']{
+  width: 10px;
+  height: 10px;
+}.seat[size='5']{
+   width: 9px;
+   height: 9px;
+ }.seat[size='4']{
+    width: 8px;
+    height: 8px;
+  }.seat[size='3']{
+     width: 8px;
+     height: 8px;
+   }
+.seat[size='2']{
+  width: 7px;
+  height: 7px;
+}
+.seat[size='1']{
+  width: 6px;
+  height: 6px;
+}
+
+.seat.open{
+  animation: seatFlicker 2s infinite;
+  background: yellow;
+}
+.seatInfo{
+  background: white;
+  border:1px solid black;
+  padding: 24px;
+ /* position: absolute;*/
+  position: fixed;
+  top: 50px;
+  right: 0;
+  z-index: 220;
+}
+.seatInfoWr{
+  display: block !important;
+}
+.seatInfoCloseWr{
+  position: relative;
+  height: 0;
+  width: 100%;
+}
+.seatInfoCloseWr .btn-close{
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  cursor: pointer;
+}
+.seatPerson.nothing{
+  font-weight: bold;
+}
+.seatInfoUserSeat{
+  line-height: 16px;
+  font-weight: bold;
+}
+.seatInfoUsersWr{}
+.seatInfoWrLeft{
+  width: calc(100vw - 1042px);
+}
+.seatInfoUsersBox{
+  width: calc(100vw - 1042px);
+  height: calc(100vh - 340px);
+  box-sizing: border-box;
+  overflow-y: scroll;
+  padding: 4px;
+  padding-left: 0;
+  padding-right: 12px;
+  max-width: 600px;
+}
+.seatInfoUser{
+  margin:4px 0;
+  cursor: pointer;
+  padding: 4px 0;
+  position: relative;
+}
+.seatInfoUser[already]{
+  opacity: .5;
+  background: #80808059;
+}
+.seatInfoUser:hover{
+  background: #e8e8e8;
+  opacity: 1;
+}
+.seatInfoUserName{}
+.seatInfoUser.find .seatInfoUserName{
+  background: yellow;
+}
+.seatInfoUserCompany{
+  color: gray;
+  margin-top: -3px;
+  width: 100%;
+  /*max-width: 300px;*/
+  font-size: 14px;
+  line-height: 16px;
+}
+.seatInfoUserPhoto img{
+  width: 38px;
+  height: auto;
+  margin-right: 8px;
+  margin-left: 4px;
+}
+#seatInfoFind{
+  box-sizing: border-box;
+  padding: 4px 8px;
+  border:1px solid gray;
+  border-radius: 4px;
+  width: 100%;
+
+}
+
+.photoFolderHead{
+  padding: 12px;
+  background: #e3e3e3;
+  border-radius: 8px 8px 0 0;
+}
+.photoSort{
+  width: 50px;
+  margin-right: 12px;
+  border:1px solid gray;
+}
+.photoPgmEnable{
+  margin-right: 12px;
+  width: 90px;
+}
+.photoFolderTitle{
+  width: calc((100% - (50px + 90px + 24px))/2);
+  box-sizing: border-box;
+  padding:4px 8px;
+  border:1px solid gray;
+}
+.photoFolderBody{
+  padding: 12px;
+  border: 1px solid #646262;
+  border-radius: 0 0 8px 8px;
+  border-top: 0;
+}
+.photoWr{
+  align-items: flex-start;
+  justify-content: left;
+  flex-wrap: wrap;
+}
+.photoBox{
+  width: 200px;
+  box-sizing: border-box;
+  padding: 8px;
+}
+.photoContainer{
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 68%; /*56.7%;*/
+}
+.photoContainerElem{
+  position: absolute;
+  top: 0;
+  width: 100%;
+  bottom: 0;
+  background: #bfbfbf;
+  padding: 4px;
+  border-radius: 4px;
+}
+.photoImage{
+  object-fit: contain;
+  object-position: center;
+  width: 100%;
+  height: 100%;
+
+}
+.photoSelectSess{
+  cursor: pointer;
+  padding: 4px 8px;
+}
+.photoSelectSess:hover{
+  background: #e8e8e8;
+}
+.photoSort::-webkit-outer-spin-button,
+.photoSort::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+.photoContainer .photoSort{
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 10px;
+  width: 36px
+}
+.photoEnable{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.photoCover{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.photoDelBtn{
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.photoBtn{
+  font-size: 9px;
+  width: min-content;
+}
+.photoImageLink{
+  cursor: pointer;
+}
+.showPhotoWr{
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.75%;
+}
+.showPhoto{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.showPhoto img{
+  object-fit: contain;
+  object-position: center;
+  width: 100%;
+  height: 100%;
+}
+.accessColumn{
+  box-sizing: border-box;
+  width: 50%;
+  padding: 12px 24px;
+}
+.accessScroll{
+  max-height: calc(100vh - 170px);
+  padding-right: 12px;
+
+  overflow-y: scroll;
+}
+.seatInfoUserRemove{
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--bs-danger);
+}
+.qBotSessionItem{
+  text-decoration: none;
+  color: #333333;
+  padding: 8px;
+  background: #e0e0e0;
+  display: block;
+  margin-bottom: 4px;
+  cursor: pointer;
+}
+.qBotSessionItem:hover{
+  background: #eeeeee;
+}
+.qSessionWr{}
+.qSessionItem{
+  border: 1px solid #555555;
+  padding: 12px;
+  word-break: break-word;
+}
+.qSessionItemDate{
+  text-transform: uppercase;
+}
+.qSessionItemText{}
+
+.liveImgWr{
+  width: 150px;
+
+}
+.liveImgWr img{
+  width: 100%;
+  height: auto;
+}
+.aLiveHall{
+  border:1px solid lightgrey;
+  padding: 12px;
+  background: #eeeeee;
+}
+.fileUploadBox {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
+.fileUploadBoxItem{
+  padding: 4px 8px;
+  background: white;
+  position: relative;
+}
+.fileUploadBoxScroll{
+  width: 100%;
+  position: absolute;
+  left: 0;
+  height: 100%;
+  background: green;
+  z-index: 1000000;
+}
+.videoWrapper {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+}
+.videoWrapper #player {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+
+
+
+
+
+
+
+
