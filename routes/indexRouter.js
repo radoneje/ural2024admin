@@ -65,6 +65,7 @@ router.get('/addServiceCompany', async function (req, res, next) {
     res.render('addServiceCompany', {user: req.session.user});
 });
 router.get('/', async function (req, res, next) {
+    return res.json(1);
     if (!req.session.user)
         return res.redirect("/login/?callback=" + encodeURI("/"))
     res.render('index', {user: req.session.user});
