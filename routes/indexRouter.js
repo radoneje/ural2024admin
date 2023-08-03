@@ -155,9 +155,11 @@ router.get('/userDetails/:id', async function (req, res, next) {
             user.files = []
             user.dragOver = false;
             for (let fileid of user.filesid) {
-                let r = await req.knex("t_files").where({guid: fileid})
-                if (r.length)
-                    user.files.push(r[0])
+                if(fileid) {
+                    let r = await req.knex("t_files").where({guid: fileid})
+                    if (r.length)
+                        user.files.push(r[0])
+                }
             }
             let r = await req.knex("v_admin_usertype").where({userid: user.id})
             user.types = r;
