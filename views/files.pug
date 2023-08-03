@@ -42,7 +42,7 @@ block content
                         let file=inp.files[0]
                         formData = new FormData()
                         formData.append('file', file, file.name);
-                        let ret = await fetch("https://uralcyberfin.ru" + "/api/uploadFile", {
+                        let ret = await fetch("https://uralcyberfin.ru" + "/frontapi/uploadFile", {
                             method: 'post',
                             body: formData,
                         })

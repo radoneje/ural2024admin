@@ -101,7 +101,7 @@ block content
                             let formData = new FormData()
                             formData.append('file', file, file.name);
 
-                            fetch("https://uralcyberfin.ru" + "/api/uploadFile", {
+                            fetch("https://uralcyberfin.ru" + "/frontapi/uploadFile", {
                                 method: 'post',
                                 body: formData,
                             }).then(async (ret)=>{
@@ -116,7 +116,7 @@ block content
                             let formData = new FormData()
                                 formData.append('file', file, file.name);
 
-                                let ret = await fetch("https://api.ifcongress.ru" + "/api/uploadFile", {
+                                let ret = await fetch("https://api.ifcongress.ru" + "/frontapi/uploadFile", {
                                     method: 'post',
                                     body: formData,
                                 })

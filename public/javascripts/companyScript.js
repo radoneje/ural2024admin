@@ -18,7 +18,7 @@ var app=new Vue({
                 inn.classList.remove("error")
                 if(inn.value && inn.value.length>6) {
                     try {
-                        let res = await getJson("https://uralcyberfin.ru/api/loadCompanyByINN/" + inn.value)
+                        let res = await getJson("/frontapi/loadCompanyByINN/" + inn.value)
                         console.log(res)
                         let btn=popup.querySelector("#newServiceCompany")
                         btn.setAttribute("company", JSON.stringify(res.dt))

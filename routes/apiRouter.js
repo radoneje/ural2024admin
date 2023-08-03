@@ -354,7 +354,7 @@ router.post('/regUser/', async function (req, res, next) {
     try {
         let user = req.body;
 
-        let dt = await axios.post("https://uralcyberfin.ru" + "/api/regUser2/", user);
+        let dt = await axios.post("https://uralcyberfin.ru" + "/frontapi/regUser2/", user);
         res.json(dt.data)
     } catch (e) {
         console.warn(e)

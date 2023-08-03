@@ -27,6 +27,7 @@ const __dirname = path.dirname(__filename);
 import indexRouter from'./routes/indexRouter.js'
 import staticRouter from'./routes/staticRouter.js'
 import apiRouter from'./routes/apiRouter.js'
+import frontApiRouter from'./routes/frontApiRouter.js'
 
 
 var app = express();
@@ -64,6 +65,7 @@ app.use((req, res, next) => {
 app.use('/', indexRouter);
 app.use('/api', apiRouter);
 app.use('/static', staticRouter);
+app.use('/frontapi', frontApiRouter);
 
 
 // catch 404 and forward to error handler
