@@ -18,7 +18,7 @@ block content
                 .mt-2.accessScroll.sectAccess
                     .seatInfoUser.list.flex.center.left(v-for="u in getZoneUsers()"  )
                         .seatInfoUserPhoto
-                            img(:src='"https://ifcongress.ru/static/image/small/" + u.photoid' loading="lazy")
+                            img(:src='"/static/image/small/" + u.photoid' loading="lazy")
                         div
                             .seatInfoUserName {{u.f}} {{u.i}} {{u.o}}
                             .seatInfoUserCompany {{u.type}}
@@ -33,7 +33,7 @@ block content
 
                         .seatInfoUser.list.flex.center.left(v-for="u in users" :already="checkUserIsZone(u)" v-on:click="userAddZone(u)")
                             .seatInfoUserPhoto
-                                img(:src='"https://ifcongress.ru/static/image/small/" + u.photoid' loading="lazy")
+                                img(:src='"/static/image/small/" + u.photoid' loading="lazy")
                             div
                                 .seatInfoUserName {{u.f}} {{u.i}} {{u.o}}
                                 .seatInfoUserCompany {{u.type}}

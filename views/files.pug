@@ -14,7 +14,7 @@ block content
                 .btn-group.btn-group-sm
                     .btn.btn-sn.btn-success(v-on:click="uploadFile("+file.id+")") Загрузить
                     .btn.btn-sn.btn-info(v-on:click="downloadFile('"+file.key+"')")  Скачать
-                    .btn.btn-sn.btn-secondary(v-on:click="copyFile('https://ifcongress.ru/static/key/"+file.key+"')")  Скопировать
+                    .btn.btn-sn.btn-secondary(v-on:click="copyFile('/static/key/"+file.key+"')")  Скопировать
 
     <script src="https://code.iconify.design/iconify-icon/1.0.2/iconify-icon.min.js"></script>
     script(src="/lib/vue.js")
@@ -42,7 +42,7 @@ block content
                         let file=inp.files[0]
                         formData = new FormData()
                         formData.append('file', file, file.name);
-                        let ret = await fetch("https://api.ifcongress.ru" + "/api/uploadFile", {
+                        let ret = await fetch("https://uralcyberfin.ru" + "/api/uploadFile", {
                             method: 'post',
                             body: formData,
                         })

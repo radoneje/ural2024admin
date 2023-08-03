@@ -354,7 +354,7 @@ router.post('/regUser/', async function (req, res, next) {
     try {
         let user = req.body;
 
-        let dt = await axios.post("https://api.ifcongress.ru" + "/api/regUser2/", user);
+        let dt = await axios.post("https://uralcyberfin.ru" + "/api/regUser2/", user);
         res.json(dt.data)
     } catch (e) {
         console.warn(e)
@@ -848,7 +848,7 @@ router.get('/allInvoices', async function (req, res, next) {
         let r = await req.knex("t_invoces")
         for (let rr of r) {
             //console.log("https://ifcongress.ru/static/invoiceshort/"+rr.guid)
-            await axios.get("https://ifcongress.ru/static/geninvoiceshort/" + rr.guid);
+            await axios.get("/static/geninvoiceshort/" + rr.guid);
         }
         let files = (await readdir("/var/ifc_data/invoices/short/")).filter(f => {
             return !f.match(/$\./)
@@ -1065,7 +1065,7 @@ router.get('/sendSpamToUsers', async function (req, res, next) {
      )*/
     res.json({date: new Date(), counr: users.length})
     for (let user of users) {
-        await axios.get('https://ifcongress.ru/static/sertificate/' + user.guid);
+        await axios.get('/static/sertificate/' + user.guid);
         //https://ifcongress.ru/static/sertificate/7b28a022-5bbc-4c88-b7f2-359caf247f32
 
         let filename = "/var/ifc_data/sertificate/" + user.guid + ".pdf"

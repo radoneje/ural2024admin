@@ -56,7 +56,7 @@ body
                     addPhotoBtn.onclick=async ()=>{
                         let photoid = await getPhoto();
                         usrPhotoid.value=photoid;
-                        usrPhoto.src="https://ifcongress.ru/static/image/small/"+photoid
+                        usrPhoto.src="/image/small/"+photoid
                     }
                     saveUser.onclick=async ()=> {
                         let inps = addUserApp.querySelectorAll("input[name]")

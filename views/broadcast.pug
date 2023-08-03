@@ -20,11 +20,11 @@ block content
                 .spkDetails.flex.left
                     .spkLeft.half.mt-2
                             .liveImgWr
-                                    img(:src="'https://ifcongress.ru/static/image/small/'+ status.poster_ru")
+                                    img(:src="'/static/image/small/'+ status.poster_ru")
                             .btn.btn-sm.btn-secondary(v-on:click="changeStatusImg('ru')") Изменить заглушку
                     .spkRight.half
                         .liveImgWr
-                            img(:src="'https://ifcongress.ru/static/image/small/'+ status.poster_en")
+                            img(:src="'/static/image/small/'+ status.poster_en")
                         .btn.btn-sm.btn-secondary(v-on:click="changeStatusImg('en')") Change picture
             //.mt-2.news
                 .spkDetails.flex.left
@@ -45,13 +45,13 @@ block content
                         .spkLeft.half
                             input.mt2(placeholder="название зала" v-model="hall.halltitle_ru" v-on:change="updateHall(hall)")
                             .liveImgWr
-                                img(:src="'https://ifcongress.ru/static/image/small/'+ hall.poster_ru")
+                                img(:src="'/static/image/small/'+ hall.poster_ru")
                             .btn.btn-sm.btn-secondary(v-on:click="changePosterImg('ru', hall)") Изменить постер
                             input.mt2(placeholder="URL трансляции" v-model="hall.url_ru" v-on:change="updateHall(hall)")
                         .spkRight.half
                             input.mt2(placeholder="hall title" v-model="hall.halltitle_en" v-on:change="updateHall(hall)")
                             .liveImgWr
-                                img(:src="'https://ifcongress.ru/static/image/small/'+ hall.poster_en")
+                                img(:src="'/static/image/small/'+ hall.poster_en")
                             .btn.btn-sm.btn-secondary(v-on:click="changePosterImg('en', hall)") ChangePoster
                             input.mt2(placeholder="broadcast URL " v-model="hall.url_en" v-on:change="updateHall(hall)")
 

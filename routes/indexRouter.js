@@ -466,7 +466,7 @@ async function getJsonForVmix(req){
             return -1
     })
     speakers.forEach(e=>{
-        e.photo="https://ifcongress.ru/static/image/middle/"+e.photoid;
+        e.photo="/static/image/middle/"+e.photoid;
         delete e.photoid;
         if(e.companyru)
             e.companyru=e.companyru.toUpperCase();

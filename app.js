@@ -25,6 +25,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 import indexRouter from'./routes/indexRouter.js'
+import staticRouter from'./routes/staticRouter.js'
 import apiRouter from'./routes/apiRouter.js'
 
 
@@ -62,6 +63,7 @@ app.use((req, res, next) => {
 
 app.use('/', indexRouter);
 app.use('/api', apiRouter);
+app.use('/static', staticRouter);
 
 
 // catch 404 and forward to error handler

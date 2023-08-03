@@ -61,9 +61,9 @@ block content
                                 .mt-1 от {{user.invoiceDate}}
                                 .btn.btn-sm.btn-outline-secondary.mt-2(v-on:click="downloadInvoce(user)") Скачать счет
                             .mt-2
-                                .btn.btn-sm.btn-outline-secondary.mt-2(:onclick="'window.open(\"https://ifcongress.ru/static/invoiceshort/'+user.invoiceguid+'\")'") Скачать кор. счет
+                                .btn.btn-sm.btn-outline-secondary.mt-2(:onclick="'window.open(\"/static/invoiceshort/'+user.invoiceguid+'\")'") Скачать кор. счет
                             .mt-2(v-if="user.isEdo && !user.isPaySelf")
-                                .btn.btn-sm.btn-outline-secondary.mt-2(:onclick="'window.open(\"https://ifcongress.ru/static/edoAgreement/'+user.invoiceguid+'\")'") Скачать согл. ЭДО
+                                .btn.btn-sm.btn-outline-secondary.mt-2(:onclick="'window.open(\"/static/edoAgreement/'+user.invoiceguid+'\")'") Скачать согл. ЭДО
 
                             .mt-2
                                 div

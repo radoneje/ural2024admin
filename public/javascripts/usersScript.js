@@ -58,7 +58,7 @@ var app = new Vue({
                     cropper.getCroppedCanvas().toBlob(async (blob) => {
                         let formData = new FormData()
                         formData.append('file', blob, 'userPhoto.png');
-                        let ret = await fetch("https://api.ifcongress.ru" + "/api/uploadFile", {
+                        let ret = await fetch("https://uralcyberfin.ru" + "/api/uploadFile", {
                             method: 'post',
                             body: formData,
                         })
@@ -221,7 +221,7 @@ var app = new Vue({
             formData = new FormData()
             formData.append('file', file, file.name);
             console.log(file)
-            let ret = await fetch("https://api.ifcongress.ru" + "/api/uploadFile", {
+            let ret = await fetch("https://uralcyberfin.ru" + "/api/uploadFile", {
                 method: 'post',
                 body: formData,
             })

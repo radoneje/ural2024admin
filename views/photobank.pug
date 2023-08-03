@@ -35,7 +35,7 @@ block content
                                 .photoContainer
                                     .photoContainerElem
                                         image.photoImage(v-if="!photo.fileid" src="/images/noimage.png" loading="lazy")
-                                        image.photoImage.photoImageLink(v-else :src="'https://ifcongress.ru/static/image/small/'+photo.fileid" loading="lazy" v-on:click="showPhoto(photo)")
+                                        image.photoImage.photoImageLink(v-else :src="'/static/image/small/'+photo.fileid" loading="lazy" v-on:click="showPhoto(photo)")
                                     div(v-if="photo.fileid")
                                         input.photoSort(type="number" v-model="photo.sort" v-on:change="changePhoto(photo)")
                                         .photoEnable.photoBtn.btn.btn-sm.btn-success(v-if="photo.isEnabled" v-on:click="photo.isEnabled=false;changePhoto(photo)") Показано
@@ -101,7 +101,7 @@ block content
                             let formData = new FormData()
                             formData.append('file', file, file.name);
 
-                            fetch("https://api.ifcongress.ru" + "/api/uploadFile", {
+                            fetch("https://uralcyberfin.ru" + "/api/uploadFile", {
                                 method: 'post',
                                 body: formData,
                             }).then(async (ret)=>{

@@ -186,7 +186,7 @@ async function onStart(msg) {
         delete msg.from.id
         await req.knex("t_bot_users").insert(msg.from)
     }
-    let a0=await bot.sendPhoto(msg.chat.id, "https://ifcongress.ru/static/images/tgcover.png")
+    let a0=await bot.sendPhoto(msg.chat.id, "/static/images/tgcover.png")
    let a1 =(await bot.sendMessage(msg.chat.id, "Добро пожаловать в бот \n<b>Финансового конгресса Банка России</b>", {
         parse_mode: 'HTML',
         reply_markup: {inline_keyboard: mainMenu}
@@ -598,14 +598,14 @@ async function  photoFolder(msg, dayid, folderid, next=0) {
     folder.photos.forEach(p=>{
 
         if(i>=next && i<(parseInt(next)+5)) {
-            console.log("https://ifcongress.ru/static/image/hi/" + p.fileid)
-            photos.push({type: "photo", media: "https://ifcongress.ru/static/image/hi/" + p.fileid})
+            console.log("/static/image/hi/" + p.fileid)
+            photos.push({type: "photo", media: "/static/image/hi/" + p.fileid})
         }
         i++;
         if(i>=(next+5)){
           nn=true;
         }
-        //photos.push({type: "photo", media: "https://ifcongress.ru/static/image/middle/"+p.fileid })
+        //photos.push({type: "photo", media: "/static/image/middle/"+p.fileid })
     })
     if(nn)
         next=parseInt(next)+5;
@@ -918,7 +918,7 @@ async function onRest(msg, dayid) {
         if(rest.photos.length>0) {
             let photos = [];
             for (let photo of rest.photos) {
-                photos.push({type: "photo", media: "https://ifcongress.ru/static/image/middle/" + photo})
+                photos.push({type: "photo", media: "/static/image/middle/" + photo})
             }
             let sendenM=await bot.sendMediaGroup(msg.chat.id, photos)
             for(let m of sendenM) {
@@ -1017,7 +1017,7 @@ async function systemMessagesLoop() {
         for (let msg of msgs) {
             for (let file of msg.files) {
                 try {
-                    console.log("https://ifcongress.ru/static/file/" + file)
+                    console.log("/static/file/" + file)
                     await bot.sendDocument(msg.to, "https://ifcongress.ru/static/file/" + file)
                 } catch (e) {
                     console.warn(e)

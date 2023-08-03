@@ -44,7 +44,7 @@ block content
                                 .photoContainer
                                     .photoContainerElem
 
-                                        image.photoImage.photoImageLink(:src="'https://ifcongress.ru/static/image/small/'+photo" loading="lazy" v-on:click="showPhoto(photo)")
+                                        image.photoImage.photoImageLink(:src="'/static/image/small/'+photo" loading="lazy" v-on:click="showPhoto(photo)")
 
 
                                         .photoEnable.photoBtn.btn.btn-sm.btn-danger( v-on:click="deletePhoto(photo, item)") Удалить

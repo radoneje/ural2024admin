@@ -44,7 +44,7 @@ block content
             input.onchange=async ()=>{
                 let formData = new FormData()
                 formData.append('file', input.files[0], input.files[0].name);
-                let ret = await fetch("https://api.ifcongress.ru" + "/api/uploadFile", {
+                let ret = await fetch("https://uralcyberfin.ru" + "/api/uploadFile", {
                     method: 'post',
                     body: formData,
                 })
@@ -53,7 +53,7 @@ block content
                     let item=document.createElement("div")
                     item.classList.add("feedBackFile");
                     item.classList.add("mt-1");
-                    item.onclick=()=>{document.location.href="https://ifcongress.ru/static/file/"+(fileguid)}
+                    item.onclick=()=>{document.location.href="/static/file/"+(fileguid)}
                     item.setAttribute("fileid", fileguid)
                     item.innerText=input.files[0].name
                     botFilesWr.appendChild(item)

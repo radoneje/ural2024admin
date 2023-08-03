@@ -15,7 +15,7 @@ let pgmApp = new Vue({
             console.log(file)
             let box=await createPopUp("/videoPlayerPopup")
             let playerCtrl= document.querySelector("#player")
-            playerCtrl.src="https://ifcongress.ru/static/videofile/"+file;
+            playerCtrl.src="/static/videofile/"+file;
             if(player)
                 player.dispose();
             player=videojs(playerCtrl);
@@ -36,7 +36,7 @@ let pgmApp = new Vue({
                 let formData = new FormData()
                 formData.append('file', file, file.name);
                 let xhr = new XMLHttpRequest();
-                xhr.open("POST", "https://api.ifcongress.ru"+"/api/uploadFile", true);
+                xhr.open("POST", "https://uralcyberfin.ru"+"/api/uploadFile", true);
                 //xhr.open("POST", "/api/videoFile", true);
                 xhr.upload.addEventListener('progress', (event)=>{
                     // запускается периодически
@@ -83,7 +83,7 @@ let pgmApp = new Vue({
                 };
                 xhr.send(formData)
 
-                /*let ret = await fetch("https://api.ifcongress.ru"+"/api/uploadFile", {
+                /*let ret = await fetch("https://uralcyberfin.ru"+"/api/uploadFile", {
                     method: 'post',
                     body: formData,
                 })*/

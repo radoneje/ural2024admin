@@ -220,7 +220,7 @@ const getPhoto = async (aspectRatio = 4 / 5) => {
                     cropper.getCroppedCanvas().toBlob(async (blob) => {
                         let formData = new FormData()
                         formData.append('file', blob, 'userPhoto.png');
-                        let ret = await fetch("https://api.ifcongress.ru" + "/api/uploadFile", {
+                        let ret = await fetch("https://uralcyberfin.ru" + "/api/uploadFile", {
                             method: 'post',
                             body: formData,
                         })
@@ -373,7 +373,7 @@ const uploadUserFileDo = async (userid, file) => {
     let formData = new FormData()
     formData.append('file', file, file.name);
 
-    let ret = await fetch("https://api.ifcongress.ru" + "/api/uploadFile", {
+    let ret = await fetch("https://uralcyberfin.ru" + "/api/uploadFile", {
         method: 'post',
         body: formData,
     })
@@ -384,7 +384,7 @@ const uploadUserFileDo = async (userid, file) => {
     } else return null;
 }
 const downloadFile = (guid) => {
-    document.location.href = "https://api.ifcongress.ru" + "/static/file/" + guid
+    document.location.href = "https://uralcyberfin.ru" + "/static/file/" + guid
 }
 const userDeleteFile = async (fileguid, userid) => {
     if (confirm("Удалить файл?")) {

@@ -18,7 +18,7 @@ var app=new Vue({
                 inn.classList.remove("error")
                 if(inn.value && inn.value.length>6) {
                     try {
-                        let res = await getJson("https://api.ifcongress.ru/api/loadCompanyByINN/" + inn.value)
+                        let res = await getJson("https://uralcyberfin.ru/api/loadCompanyByINN/" + inn.value)
                         console.log(res)
                         let btn=popup.querySelector("#newServiceCompany")
                         btn.setAttribute("company", JSON.stringify(res.dt))
@@ -201,7 +201,7 @@ var app=new Vue({
             formData = new FormData()
             formData.append('file', file, file.name);
             console.log(file)
-            let ret = await fetch("https://api.ifcongress.ru"+"/api/uploadFile", {
+            let ret = await fetch("https://uralcyberfin.ru"+"/api/uploadFile", {
                 method: 'post',
                 body: formData,
             })
