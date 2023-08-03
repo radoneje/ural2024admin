@@ -16,35 +16,8 @@ router.get('/test', async function(req, res, next) {
     try {
 
         let users=await req.knex("v_admin_participaint")
-        let txt=""
-        let i=1;
-        for(let user of users){
 
-            let fio=user.f+" "+user.i+" "+user.o;
-            if(!fio.match(/билет в театр/) && !fio.match(/Резерв/)) {
-                //let data = await nameDetector(fio);
-                //let dt = await data(fio)
-                //let sex=dt.sex!="f"
-                let pol=user.sex?"мальчик":"девочка"
-                //await req.knex("t_users").update({sex}).where({id:user.id})
-                txt +=i+" "+ fio + " " + pol +"  <a download='sertificate.pdf' href='https://ifcongress.ru/static/sertificate/"+user.guid+"'>Сертификат</a>" +"<br>\n";
-                i++;
-            }
-        }
-        txt+="<br>==ВОЛОНТЕРЫ==<br><br>"
-        users=await req.knex("t_volonteer")
-        for(let user of users) {
-
-            let fio = user.f + " " + user.i + " " + user.o;
-            //let data = await nameDetector(fio);
-           // let dt = await data(fio)
-            //let sex=dt.sex!="f"
-            let pol=user.sex?"мальчик":"девочка"
-            //await req.knex("t_volonteer").update({sex}).where({id:user.id})
-            txt += i+" "+ fio + " " + pol +"  <a download='Gratitude.pdf' href='https://ifcongress.ru/static/gratitude/"+user.guid+"'>Благодарность</a>" +"<br>\n";
-            i++;
-        }
-        res.send(txt)
+        res.json(txt)
 
     }
     catch (e) {
