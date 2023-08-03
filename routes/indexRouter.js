@@ -15,9 +15,7 @@ import nameDetector from "russian-name-detector";
 router.get('/test', async function(req, res, next) {
     try {
 
-        let users=await req.knex("v_admin_participaint")
-
-        res.json(users)
+       res.json(1)
 
     }
     catch (e) {
@@ -38,7 +36,7 @@ router.get('/addServiceCompany', async function (req, res, next) {
     res.render('addServiceCompany', {user: req.session.user});
 });
 router.get('/', async function (req, res, next) {
-    return res.json(1);
+
     if (!req.session.user)
         return res.redirect("/login/?callback=" + encodeURI("/"))
     res.render('index', {user: req.session.user});
