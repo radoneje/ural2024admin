@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node ./bin/www.js"
   },
+
   "dependencies": {
     "@faker-js/faker": "^7.6.0",
     "axios": "^1.3.4",
