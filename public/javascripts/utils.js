@@ -220,7 +220,7 @@ const getPhoto = async (aspectRatio = 4 / 5) => {
                     cropper.getCroppedCanvas().toBlob(async (blob) => {
                         let formData = new FormData()
                         formData.append('file', blob, 'userPhoto.png');
-                        let ret = await fetch("https://uralcyberfin.ru" + "/frontapi/uploadFile", {
+                        let ret = await fetch( "/frontapi/uploadFile", {
                             method: 'post',
                             body: formData,
                         })
@@ -373,7 +373,7 @@ const uploadUserFileDo = async (userid, file) => {
     let formData = new FormData()
     formData.append('file', file, file.name);
 
-    let ret = await fetch("https://uralcyberfin.ru" + "/frontapi/uploadFile", {
+    let ret = await fetch( "/frontapi/uploadFile", {
         method: 'post',
         body: formData,
     })

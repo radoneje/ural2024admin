@@ -101,7 +101,7 @@ block content
                             let formData = new FormData()
                             formData.append('file', file, file.name);
 
-                            fetch("https://uralcyberfin.ru" + "/frontapi/uploadFile", {
+                            fetch("/frontapi/uploadFile", {
                                 method: 'post',
                                 body: formData,
                             }).then(async (ret)=>{
