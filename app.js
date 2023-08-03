@@ -51,7 +51,7 @@ app.use(
         //httpOnly: true,
         sameSite: 'lax',
       }, // 10 days
-      store: store
+      //store: store
     })
 )
 app.use((req, res, next) => {
