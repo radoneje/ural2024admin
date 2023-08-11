@@ -83,8 +83,7 @@ block content
                       iconify-icon(icon="material-symbols:badge-outline")
                     .btn(v-on:click="user.isspamlist=!user.isspamlist;changeUser(user, 'isspamlist')" data-bs-toggle="tooltip" data-bs-title="Добавить в Спам-Лист" v-bind:class="{'btn-success':user.isspamlist, 'btn-outline-secondary':!user.isspamlist}")
                       iconify-icon(icon="ic:outline-email")
-                  .mt-2(v-if="user.ticket" v-on:click="windowOpen('/static/ticket/'+user.id+'/ru')")
-                    small {{user.ticket}}
+
 
               .userContactWr
                 .userCompany.small
