@@ -40,7 +40,7 @@ const mailBrocker= async()=>{
                 if (validateEmail(email)) {
 
                     let message = {
-                        from: 'info@ifcongress.ru',
+                        from: 'info@uralcyberfin.ru',
                         to: email,//item.isProxy ? item.proxyemail : item.email,
                         subject: item.subj,
                         html: item.text
@@ -94,17 +94,17 @@ const mailBrocker= async()=>{
                         cid: 'footerLogo'
                 })
                 let messages=[ {
-                    from: 'info@ifcongress.ru',
+                    from: 'info@uralcyberfin.ru',
                     to: email ,//item.isProxy ? item.proxyemail : item.email,
                     subject: item.subj,
                     html: text,
                     attachments
                 }
                 ]
-                if(item.isProxy && validateEmail(item.proxyemail))
+                if(item.isProxy && validateEmail(item.proxyemail) && item.proxyemail!=email)
                 {
                     messages.push({
-                        from: 'info@ifcongress.ru',
+                        from: 'info@uralcyberfin.ru',
                         to: item.proxyemail ,//item.isProxy ? item.proxyemail : item.email,
                         subject: item.subj,
                         html: text,
@@ -159,7 +159,7 @@ const TGbrocker= async()=>{
                 // Сообщение пользователю
 
                     let text = (__dirname + "/views/emails/20_welcome.pug")
-                    let subj = "Ваша заявка на участие в Финансовом конгрессе Банка России 2023 получена"
+                    let subj = "Ваша заявка на участие в Уральском форуме \"Кибербезопасность в финансах\" получена"
                 if(item.isSmi){
                     text = (__dirname + "/views/emails/20_welcomeSmi.pug")
                 }
@@ -175,7 +175,7 @@ const TGbrocker= async()=>{
                 await addToSysbot(item, message, {isOperatorUsers:true})
 
                 let text=(__dirname+"/views/emails/30_dop_inf.pug")
-                let subj= "Финансовый конгресс 2023: уточнение информации"
+                let subj= "Уральский форум \"Кибербезопасность в финансах\": уточнение информации"
                 if(item.isSpk){
                     text = (__dirname + "/views/emails/30_dop_infSpk.pug")
                 }
@@ -204,7 +204,7 @@ const TGbrocker= async()=>{
 
                 if(item.isPay){
                     let text=(__dirname+"/views/emails/60_doc_ready.pug")
-                    let subj= "Финансовый конгресс 2023: заявка одобрена"
+                    let subj= "Уральский форум \"Кибербезопасность в финансах\": заявка одобрена"
                     let files={}
                     await addToEmail(text,subj,files,item.userid)
                 }
@@ -221,7 +221,7 @@ const TGbrocker= async()=>{
 
                 if(item.isPay){
                     let text=(__dirname+"/views/emails/100_invoicePay.pug")
-                    let subj= "Финансовый конгресс 2023: счет оплачен"
+                    let subj= "Уральский форум \"Кибербезопасность в финансах\": счет оплачен"
                     let files={}
                     await addToEmail(text,subj,files,item.userid)
                 }
@@ -232,7 +232,7 @@ const TGbrocker= async()=>{
                 // Приглашение пользователя к участию
 
                 let text=(__dirname+"/views/emails/110_ready.pug")
-                let subj= "Финансовый конгресс 2023: заявка одобрена"
+                let subj= "Уральский форум \"Кибербезопасность в финансах\": заявка одобрена"
                 let files={}
                 await addToEmail(text,subj,files,item.userid)
 
