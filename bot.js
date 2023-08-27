@@ -31,7 +31,7 @@ const mainMenu =
     [
         // [{text: 'Программа 2023', callback_data: "pgm"}],
         //[{text: 'Фотографии', callback_data: "photo"}],
-        //[{text: 'Задать вопрос организаторам', callback_data: "feedback"}],
+        [{text: 'Задать вопрос организаторам', callback_data: "feedback"}],
         //[{text: 'Закрывающие документы', callback_data: "doc"}],
         //[{text: 'О форумe', callback_data: "about"}],
         //[{text: 'Место проведения', callback_data: "place"}],
