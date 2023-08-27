@@ -54,6 +54,14 @@ bot.setMyCommands(COMMANDS);
 bot.on('message', async (msg) => {
     console.log(msg)
     try {
+        let users = await req.knex("t_bot_users").where({tgid: msg.from.id})
+        if (users.length == 0) {
+            msg.from.tgid = msg.from.id;
+            delete msg.from.id
+            await req.knex("t_bot_users").insert(msg.from)
+            msg.from.id=msg.from.tgid
+        }
+
         await req.knex("t_bot_in_message").insert({message_id: msg.message_id, from: msg.chat.id, text: msg.text})
         if (msg.text == "/start")
             return onStart(msg);
