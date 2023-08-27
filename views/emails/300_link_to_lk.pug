@@ -3,8 +3,8 @@ html
         p
             b(style="font-size:1.2em") Здравствуйте, #{user.i} #{user.o}!
         p
-            span Направляем Вам ссылку для персонального доступа к личному кабинету участника Конгресса:&nbsp;
-                a(href="https://ifcongress.ru/personal?token=" + user.guid) <b>https://ifcongress.ru/personal?token=#{user.guid}</b>
+            span Направляем Вам ссылку для персонального доступа к личному кабинету участника Форума:&nbsp;
+                a(href="https://uralcyberfin.ru/personal?token=" + user.guid) <b>https://uralcyberfin.ru/personal?token=#{user.guid}</b>
                 span ,&nbsp;
         p
             div Это постоянно действующая ссылка на Вашу персональную страницу.
@@ -18,18 +18,8 @@ html
         //p
             div Это постоянно действующая ссылка на Вашу персональную страницу. Система запомнит Ваши бронирования и отобразит их при повторных входах. Информацию можно корректировать неоднократно.
         p
-            div Ссылку можно запросить повторно на сайте Конгресса <a href="https://ifcongress.ru">ifcongress.ru</a> в пункте меню «Личный кабинет».
+            div Ссылку можно запросить повторно на сайте Форума <a href="https://uralcyberfin.ru">uralcyberfin.ru</a> в пункте меню «Личный кабинет».
 
-        p
-            b(style="font-size:1.2em") Greetings!
-
-        p
-            div Please find below the link to your personal account page.
-                a(href="https://ifcongress.ru/personal/en?token=" + user.guid) https://ifcongress.ru/personal/en?token=#{user.guid}
-
-            div This is a permanent link. The system will store your reservations and display them when you log in again. All information may be adjusted repeatedly.
-        p
-            div To request the link to be mailed to you again, please visit the Personal Account section of the event website  <a href="https://ifcongress.ru/en">ifcongress.ru/en</a> .
 
 
         include mailFooter
