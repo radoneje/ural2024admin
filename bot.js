@@ -176,7 +176,7 @@ async function onStart(msg) {
         delete msg.from.id
         await req.knex("t_bot_users").insert(msg.from)
     }
-    let a0=await bot.sendPhoto(msg.chat.id, "/views/email/images/footerLogo.png")
+    let a0=await bot.sendPhoto(msg.chat.id, "views/emails/images/footerLogo.png")
    let a1 =(await bot.sendMessage(msg.chat.id, "Добро пожаловать в бот \n<b>Уральского форума \"Кибербезопасность в финансах\"</b>", {
         parse_mode: 'HTML',
         reply_markup: {inline_keyboard: mainMenu}
