@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 
 import  nodemailer from "nodemailer-promise";
 var mailer = nodemailer.config(config.smtp);
-
+console.log(config.smtp)
 
 const  knexObj = knex({
     client: 'pg',
