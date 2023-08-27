@@ -29,10 +29,10 @@ const COMMANDS = [
 
 const mainMenu =
     [
-        [{text: 'Программа 2023', callback_data: "pgm"}],
-        [{text: 'Фотографии', callback_data: "photo"}],
-        [{text: 'Задать вопрос организаторам', callback_data: "feedback"}],
-        [{text: 'Закрывающие документы', callback_data: "doc"}],
+        // [{text: 'Программа 2023', callback_data: "pgm"}],
+        //[{text: 'Фотографии', callback_data: "photo"}],
+        //[{text: 'Задать вопрос организаторам', callback_data: "feedback"}],
+        //[{text: 'Закрывающие документы', callback_data: "doc"}],
         //[{text: 'О форумe', callback_data: "about"}],
         //[{text: 'Место проведения', callback_data: "place"}],
         //[{text: 'Расписание шаттлов', callback_data: "timetable"}],
@@ -161,16 +161,6 @@ bot.on('callback_query', async (query) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
     } catch (e) {
         console.warn(e)
     }
@@ -186,8 +176,8 @@ async function onStart(msg) {
         delete msg.from.id
         await req.knex("t_bot_users").insert(msg.from)
     }
-    let a0=await bot.sendPhoto(msg.chat.id, "/static/images/tgcover.png")
-   let a1 =(await bot.sendMessage(msg.chat.id, "Добро пожаловать в бот \n<b>Финансового конгресса Банка России</b>", {
+    let a0=await bot.sendPhoto(msg.chat.id, "/views/email/images/footerLogo.png")
+   let a1 =(await bot.sendMessage(msg.chat.id, "Добро пожаловать в бот \n<b>Уральского форума \"Кибербезопасность в финансах\"</b>", {
         parse_mode: 'HTML',
         reply_markup: {inline_keyboard: mainMenu}
     }))
