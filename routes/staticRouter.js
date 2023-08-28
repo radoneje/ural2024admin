@@ -38,7 +38,7 @@ router.get('/file/:id', async function (req, res, next) {
             return res.sendStatus(404)
         console.log(req.query)
         if( req.query.open)
-            return  res.sendFile(r[0].path)
+            return  res.sendFile(config.uloadPath+ r[0].path)
 
         res.download(r[0].path, r[0].originalname)
     } catch (e) {
