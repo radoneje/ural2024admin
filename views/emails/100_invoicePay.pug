@@ -5,5 +5,5 @@ html
         p
             div Благодарим за оплату счета.
             div Информация о местах, сроках и порядке получения бейджа участника будет доступна в личном кабинете.&nbsp;
-                a(href="https://uralcyberfin.ru/personal?token=" + user.guid) https://uralcyberfin.ru/personal?token=#{user.guid}
+                a(href="https://uralcyberfin.ru/personal/" + user.guid+"/ru") <b>https://uralcyberfin.ru/personal/{user.guid}/ru</b>
         include mailFooter
