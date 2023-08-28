@@ -36,7 +36,7 @@ router.get('/file/:id', async function (req, res, next) {
         let r = await req.knex("t_files").where({guid: req.params.id})
         if (r.length==0)
             return res.sendStatus(404)
-        console.log(req.query)
+        console.log(config.uloadPath+ r[0].path)
         if( req.query.open)
             return  res.sendFile(config.uloadPath+ r[0].path)
 
