@@ -73,7 +73,7 @@ block content
                   label.small Сумма {{150-(150*(user.discount/100))}}тр.
                 .mt-3
                   .btn-group.btn-group-sm
-                    .btn.btn-outline-secondary(v-on:click="copyToClpboard(frontUrl+'/personal?token='+user.guid)" data-bs-toggle="tooltip" data-bs-title="Копировать ссылку на ЛК")
+                    .btn.btn-outline-secondary(v-on:click="copyToClpboard('https://uralcyberfin.ru/personal/'+user.guid+'/ru')" data-bs-toggle="tooltip" data-bs-title="Копировать ссылку на ЛК")
                       iconify-icon(icon="material-symbols:add-link-rounded")
                     .btn(v-on:click="sendLkInvoice(user)" data-bs-toggle="tooltip" data-bs-title="Отправить ссылку на ЛК" v-bind:class="{'btn-success':user.lkmail, 'btn-outline-secondary':!user.lkmail}")
                       iconify-icon(icon="material-symbols:attach-email-outline-rounded")
