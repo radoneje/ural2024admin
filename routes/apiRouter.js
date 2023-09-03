@@ -1038,7 +1038,7 @@ router.get('/sendSpamToUsers', async function (req, res, next) {
          {email: "partners@ifcongress.ru", isProxy: false},
      )*/
     res.json({date: new Date(), counr: users.length})
-    let subj="Урвльский форум \"Кибербезопасность в финансах\" 2024"
+    let subj="Уральский форум \"Кибербезопасность в финансах\" 2024"
     
     for (let user of users) {
         //await axios.get('/static/sertificate/' + user.guid);
