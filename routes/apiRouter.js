@@ -1067,8 +1067,7 @@ router.get('/sendSpamToUsers', async function (req, res, next) {
                             })
                         }
                          
-                        console.log(messages)     
-
+                       
                         try {
                             for(let message of messages) {
                                 let info = await mailer(message);
