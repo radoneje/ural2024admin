@@ -1001,7 +1001,7 @@ router.get('/sendSpamToUsers', async function (req, res, next) {
                         }
                         ]
 
-                        if(user.isProxy && validateEmail(user.proxyemail) && user.email!=item.proxyemail)
+                        if(user.isProxy && validateEmail(user.proxyemail) && user.email!=user.proxyemail)
                         {
                             messages.push({
                                 from: 'info@uralcyberfin.ru',
