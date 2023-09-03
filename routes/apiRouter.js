@@ -989,7 +989,7 @@ router.get('/sendSpamToUsers', async function (req, res, next) {
         //await axios.get('/static/sertificate/' + user.guid);
         //https://ifcongress.ru/static/sertificate/7b28a022-5bbc-4c88-b7f2-359caf247f32
 
-        console.log(user)       
+          
         try {
            
                 let messages=[ {
@@ -1000,6 +1000,7 @@ router.get('/sendSpamToUsers', async function (req, res, next) {
                             attachments
                         }
                         ]
+
                         if(item.isProxy && validateEmail(item.proxyemail) && email!=item.proxyemail)
                         {
                             messages.push({
@@ -1011,6 +1012,8 @@ router.get('/sendSpamToUsers', async function (req, res, next) {
                             })
                         }
                          
+                        console.log(messages)     
+
                         try {
                             for(let message of messages) {
                                 let info = await mailer(message);
@@ -1028,6 +1031,7 @@ router.get('/sendSpamToUsers', async function (req, res, next) {
                         }
             
         } catch (e) {
+            console.warn(e)
             await req.knex("t_spam_log").insert({email: user.email, value: "error"})
         }
 
