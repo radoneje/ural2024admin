@@ -994,18 +994,18 @@ router.get('/sendSpamToUsers', async function (req, res, next) {
            
                 let messages=[ {
                             from: 'info@uralcyberfin.ru',
-                            to: item.email ,//item.isProxy ? item.proxyemail : item.email,
+                            to: user.email ,//item.isProxy ? item.proxyemail : item.email,
                             subject: subj,
                             html: text,
                             attachments
                         }
                         ]
 
-                        if(item.isProxy && validateEmail(item.proxyemail) && email!=item.proxyemail)
+                        if(user.isProxy && validateEmail(user.proxyemail) && user.email!=item.proxyemail)
                         {
                             messages.push({
                                 from: 'info@uralcyberfin.ru',
-                                to: item.proxyemail ,//item.isProxy ? item.proxyemail : item.email,
+                                to: user.proxyemail ,//item.isProxy ? item.proxyemail : item.email,
                                 subject: subj,
                                 html: text,
                                 attachments
