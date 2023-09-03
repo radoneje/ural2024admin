@@ -1023,7 +1023,7 @@ router.get('/sendSpamToUsers', async function (req, res, next) {
                                     doneDate: new Date(),
                                     error: info
                                 }).where({id: user.id})*/
-                                console.log("send email", item.subj, item.i)
+                                console.log("send email", message.subj, message.to)
                                 await req.knex("t_spam_log").insert({email: message.to, value: "ok"})
                             }
                         }
