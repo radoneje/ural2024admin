@@ -994,7 +994,7 @@ router.get('/sendSpamToUsers', async function (req, res, next) {
            
                 let messages=[ {
                             from: 'info@uralcyberfin.ru',
-                            to: email ,//item.isProxy ? item.proxyemail : item.email,
+                            to: item.email ,//item.isProxy ? item.proxyemail : item.email,
                             subject: subj,
                             html: text,
                             attachments
