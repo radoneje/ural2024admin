@@ -1017,13 +1017,14 @@ router.get('/sendSpamToUsers', async function (req, res, next) {
                         try {
                             for(let message of messages) {
                                 let info = await mailer(message);
-                                await req.knex("t_email_messages").update({
+                                /*await req.knex("t_email_messages").update({
                                     isError: false,
                                     done: true,
                                     doneDate: new Date(),
                                     error: info
-                                }).where({id: item.id})
+                                }).where({id: user.id})*/
                                 console.log("send email", item.subj, item.i)
+                                await req.knex("t_spam_log").insert({email: message.to, value: "ok"})
                             }
                         }
                         catch (e){
