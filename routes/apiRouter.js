@@ -978,7 +978,7 @@ router.get('/sendSpamToUsers', async function (req, res, next) {
         {
             //filename: 'logo.png',views\emails\welcome2024\images\infoIco.png
             path: __dirname + "/../views/emails/welcome2024/images/infoIco.png",
-            cid: 'heainfoIcoder' //my mistake was putting "cid:logo@cid" here!
+            cid: 'infoIco' //my mistake was putting "cid:logo@cid" here!
         },
         {
             //filename: 'logo.png',views\emails\welcome2024\images\keyLogo.png
