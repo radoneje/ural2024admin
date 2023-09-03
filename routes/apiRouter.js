@@ -938,104 +938,23 @@ router.post('/room', async function (req, res, next) {
 });
 router.get('/sendSpamToUsers', async function (req, res, next) {
     //let text = await fs.promises.readFile(__dirname + "/../views/emails/330_spamlist02.html",'utf8')
-    let text = await fs.promises.readFile(__dirname + "/../views/emails/350_spamlist01.html", 'utf8')
+   // let text = await fs.promises.readFile(__dirname + "/../views/emails/350_spamlist01.html", 'utf8')
+
+    let text = pug.renderFile(__dirname + "/../views/emails/welcome2024/mail2023.pug", {})
 
 
     let attachments = [
 
-        /*{
-            filename: 'decorTransfer.png',
-            path: __dirname + "/../views/emails/images/decorTransfer.png",
-            cid: 'decorTransfer' //my mistake was putting "cid:logo@cid" here!
-        },*/
         {
             //filename: 'logo.png',
-            path: __dirname + "/../views/emails/images/logo.png",
-            cid: 'logo' //my mistake was putting "cid:logo@cid" here!
+            path: __dirname + "/../views/emails/welcome2024/images/header.png",
+            cid: 'header' //my mistake was putting "cid:logo@cid" here!
         },
-        {
-            filename: 'plan.pdf',
-            path: __dirname + "/../views/emails/images/plan.pdf",
-            //cid: 'logo' //my mistake was putting "cid:logo@cid" here!
-        },
-        {
-            // filename: 'plan.png',
-            path: __dirname + "/../views/emails/images/plan.png",
-            cid: 'plan' //my mistake was putting "cid:logo@cid" here!
-        },
-
-        /* {
-             filename: 'lAlfa.png',
-             path: __dirname + "/../views/emails/images/lAlfa.png",
-             cid: 'lAlfa' //my mistake was putting "cid:logo@cid" here!
-         },
-         {
-             filename: 'lGaz.png',
-             path: __dirname + "/../views/emails/images/lGaz.png",
-             cid: 'lGaz' //my mistake was putting "cid:logo@cid" here!
-         },
-         {
-             filename: 'lSber.png',
-             path: __dirname + "/../views/emails/images/lSber.png",
-             cid: 'lSber' //my mistake was putting "cid:logo@cid" here!
-         },
-         {
-             filename: 'lVtb.png',
-             path: __dirname + "/../views/emails/images/lVtb.png",
-             cid: 'lVtb' //my mistake was putting "cid:logo@cid" here!
-         },////
-         {
-             filename: 'lMkb.png',
-             path: __dirname + "/../views/emails/images/lMkb.png",
-             cid: 'lMkb' //my mistake was putting "cid:logo@cid" here!
-         },
-         {
-             filename: 'lMir.png',
-             path: __dirname + "/../views/emails/images/lMir.png",
-             cid: 'lMir' //my mistake was putting "cid:logo@cid" here!
-         },
-         {
-             filename: 'lSbp.png',
-             path: __dirname + "/../views/emails/images/lSbp.png",
-             cid: 'lSbp' //my mistake was putting "cid:logo@cid" here!
-         },
-         {
-             filename: 'lDom.png',
-             path: __dirname + "/../views/emails/images/lDom.png",
-             cid: 'lDom' //my mistake was putting "cid:logo@cid" here!
-         }
-         ,
-         {
-             filename: 'lMoex.png',
-             path: __dirname + "/../views/emails/images/lMoex.png",
-             cid: 'lMoex' //my mistake was putting "cid:logo@cid" here!
-         },
-         {
-             filename: 'lSovcom.png',
-             path: __dirname + "/../views/emails/images/lSovcom.png",
-             cid: 'lSovcom' //my mistake was putting "cid:logo@cid" here!
-         }//lRosselhoz.png
-         ,
-         {
-             filename: 'lRosselhoz.png',
-             path: __dirname + "/../views/emails/images/lRosselhoz.png",
-             cid: 'lRosselhoz' //my mistake was putting "cid:logo@cid" here!
-         },
-         {
-             filename: 'lRia.png',
-             path: __dirname + "/../views/emails/images/lRia.png",
-             cid: 'lRia' //my mistake was putting "cid:logo@cid" here!
-         }*/
-        /*,
-        {
-            filename: 'lFooter.png',
-            path: __dirname + "/../views/emails/images/lFooter.png",
-            cid: 'lFooter' //my mistake was putting "cid:logo@cid" here!
-        }*/
+        
 
     ];
-    //let users = (await req.knex("t_users").where({isspamlist: true}))
-    let users = (await req.knex("t_users").where({id: 1}))
+    let users = (await req.knex("t_users").where({isspamlist: true}))
+    //let users = (await req.knex("t_users").where({id: 1}))
    // users = [];
     /*users.push(
         {email: "den.shevchenko@gmail.com", isProxy: false, i:"Денис", o:"Анатольевич"},
@@ -1064,77 +983,29 @@ router.get('/sendSpamToUsers', async function (req, res, next) {
          {email: "partners@ifcongress.ru", isProxy: false},
      )*/
     res.json({date: new Date(), counr: users.length})
+    let subj="Урвльский форум \"Кибербезопасность в финансах\" 2024"
+    
     for (let user of users) {
-        await axios.get('/static/sertificate/' + user.guid);
+        //await axios.get('/static/sertificate/' + user.guid);
         //https://ifcongress.ru/static/sertificate/7b28a022-5bbc-4c88-b7f2-359caf247f32
 
-        let filename = "/var/ifc_data/sertificate/" + user.guid + ".pdf"
+        
         try {
-            if (fs.existsSync(filename)) {
-
-
-                let attachments = [
-                    /*{
-                        path: __dirname + "/../views/emails/images/logo.png",
-                        cid: 'logo'
-                    },*/
-                    {path: filename, filename: 'sertificate.pdf',},
-
-                ];
-                //console.log(text)
-                //let text2 = text.replace("{username}", user.i + " " + user.o)
-                let text2 = pug.renderFile(__dirname + "/../views/emails/350_sert.pug", {
-                    user
-                })
-                // let subject = "Два дня до начала Финансового конгресса"
-                let subject = "Сертификат участника Финансового конгресса Банка России"
-                let messages = [];
-                if (user.email && validateEmail(user.email))
-                    messages.push({
-                        from: 'info@ifcongress.ru',
-                        to: user.email,//'den.shevchenko@gmail.com',//'uspenskaya.elena@gmail.com',// user.email ,//item.isProxy ? item.proxyemail : item.email,
-                        subject,
-                        html: text2,
-                        attachments
-                    });
-
-
-                if (user.isProxy && validateEmail(user.proxyemail)) {
-                    messages.push({
-                        from: 'info@ifcongress.ru',
-                        to: user.proxyemail,//item.isProxy ? item.proxyemail : item.email,
-                        subject,
-                        html: text2,
-                        attachments
-                    })
-                }
-                for (let message of messages) {
-                    try {
-                        let info = await mailer(message);
-                        await timeout(10 * 1000);
-                        console.log(info)
-                        await req.knex("t_spam_log").insert({email: message.to, value: JSON.stringify(info)})
-                    } catch (e) {
-                        console.warn(e)
-                    }
-
-                }
-
-                /*
+           
                 let messages=[ {
-                            from: 'info@ifcongress.ru',
+                            from: 'info@uralcyberfin.ru',
                             to: email ,//item.isProxy ? item.proxyemail : item.email,
-                            subject: item.subj,
+                            subject: subj,
                             html: text,
                             attachments
                         }
                         ]
-                        if(item.isProxy && validateEmail(item.proxyemail))
+                        if(item.isProxy && validateEmail(item.proxyemail) && email!=item.proxyemail)
                         {
                             messages.push({
-                                from: 'info@ifcongress.ru',
+                                from: 'info@uralcyberfin.ru',
                                 to: item.proxyemail ,//item.isProxy ? item.proxyemail : item.email,
-                                subject: item.subj,
+                                subject: subj,
                                 html: text,
                                 attachments
                             })
@@ -1153,8 +1024,9 @@ router.get('/sendSpamToUsers', async function (req, res, next) {
                             }
                         }
                         catch (e){
-                * */
-            }
+                            console.warn(e)
+                        }
+            
         } catch (e) {
             await req.knex("t_spam_log").insert({email: user.email, value: "error"})
         }
