@@ -950,6 +950,61 @@ router.get('/sendSpamToUsers', async function (req, res, next) {
             path: __dirname + "/../views/emails/welcome2024/images/header.png",
             cid: 'header' //my mistake was putting "cid:logo@cid" here!
         },
+        {
+            //filename: 'logo.png', views\emails\welcome2024\images\aboutLogo.png
+            path: __dirname + "/../views/emails/welcome2024/images/aboutLogo.png",
+            cid: 'aboutLogo' //my mistake was putting "cid:logo@cid" here!
+        },
+        {
+            //filename: 'logo.png',F:\uralcyberfin\ural2024admin\views\emails\welcome2024\images\diagram.png
+            path: __dirname + "/../views/emails/welcome2024/images/diagram.png",
+            cid: 'diagram' //my mistake was putting "cid:logo@cid" here!
+        },
+        {
+            //filename: 'logo.png',views\emails\welcome2024\images\footer.png
+            path: __dirname + "/../views/emails/welcome2024/images/footer.png",
+            cid: 'footer' //my mistake was putting "cid:logo@cid" here!
+        },
+        {
+            //filename: 'logo.png',views\emails\welcome2024\images\inDogitLogo.png
+            path: __dirname + "/../views/emails/welcome2024/images/inDogitLogo.png",
+            cid: 'inDogitLogo' //my mistake was putting "cid:logo@cid" here!
+        },
+        {
+            //filename: 'logo.png',views\emails\welcome2024\images\infBezLogo.png
+            path: __dirname + "/../views/emails/welcome2024/images/infBezLogo.png",
+            cid: 'infBezLogo' //my mistake was putting "cid:logo@cid" here!
+        },
+        {
+            //filename: 'logo.png',views\emails\welcome2024\images\infoIco.png
+            path: __dirname + "/../views/emails/welcome2024/images/infoIco.png",
+            cid: 'heainfoIcoder' //my mistake was putting "cid:logo@cid" here!
+        },
+        {
+            //filename: 'logo.png',views\emails\welcome2024\images\keyLogo.png
+            path: __dirname + "/../views/emails/welcome2024/images/keyLogo.png",
+            cid: 'keyLogo' //my mistake was putting "cid:logo@cid" here!
+        },
+        {
+            //filename: 'logo.png',views\emails\welcome2024\images\photos.png
+            path: __dirname + "/../views/emails/welcome2024/images/photos.png",
+            cid: 'photos' //my mistake was putting "cid:logo@cid" here!
+        },
+        {
+            //filename: 'logo.png',views\emails\welcome2024\images\plusLogo.png
+            path: __dirname + "/../views/emails/welcome2024/images/plusLogo.png",
+            cid: 'plusLogo' //my mistake was putting "cid:logo@cid" here!
+        },
+        {
+            //filename: 'logo.png',views\emails\welcome2024\images\securityLogo.png
+            path: __dirname + "/../views/emails/welcome2024/images/securityLogo.png",
+            cid: 'securityLogo' //my mistake was putting "cid:logo@cid" here!
+        },
+        {
+            //filename: 'logo.png',views\emails\welcome2024\images\zazitaLogo.png
+            path: __dirname + "/../views/emails/welcome2024/images/zazitaLogo.png",
+            cid: 'zazitaLogo' //my mistake was putting "cid:logo@cid" here!
+        },
         
 
     ];
