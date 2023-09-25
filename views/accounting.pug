@@ -9,7 +9,7 @@ block content
     .hidden.fullHeight.mt-6#app
         h4.flex.left.center.beetwen
             div(style="margin-right:24px") Счета
-            .btn-group(style="margin-right:24px")
+            //.btn-group(style="margin-right:24px")
                 .btn.btn-outline-secondary(v-on:click="getAllInvoces()") Скачать все счета в Excel
 
 
@@ -57,15 +57,17 @@ block content
 
                         .userStatusWr
                             div
-                                b СЧЕТ № ФК-{{user.invoiceid}}
+                                b СЧЕТ № УФ24_{{user.invoiceid}}
                                 .mt-1 от {{user.invoiceDate}}
-                                .btn.btn-sm.btn-outline-secondary.mt-2(v-on:click="downloadInvoce(user)") Скачать счет
+                                .btn.btn-sm.btn-outline-secondary.mt-2(v-on:click="'window.open(\"https://uralcyberfin.ru/static/invoice/'+user.guid+'\")'")) Скачать счет
                             .mt-2
-                                .btn.btn-sm.btn-outline-secondary.mt-2(:onclick="'window.open(\"/static/invoiceshort/'+user.invoiceguid+'\")'") Скачать кор. счет
+                                .btn.btn-sm.btn-outline-secondary.mt-2(:onclick="'window.open(\"https://uralcyberfin.ru/static/invoiceshort/'+user.guid+'\")'") Скачать кор. счет
                             .mt-2(v-if="user.isEdo && !user.isPaySelf")
-                                .btn.btn-sm.btn-outline-secondary.mt-2(:onclick="'window.open(\"/static/edoAgreement/'+user.invoiceguid+'\")'") Скачать согл. ЭДО
-
+                                .btn.btn-sm.btn-outline-secondary.mt-2(:onclick="'window.open(\"/static/edoAgreement/'+user.guid+'\")'") Скачать согл. ЭДО
                             .mt-2
+                                div
+                                    b {{user.price}} руб.
+                            //.mt-2
                                 div
                                     b АКТ № ФК-{{user.invoiceid}}
                                 .btn.btn-sm.btn-outline-secondary.mt-2(v-on:click="downloadAkt(user)") Скачать акт
