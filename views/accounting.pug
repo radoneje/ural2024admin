@@ -59,7 +59,7 @@ block content
                             div
                                 b СЧЕТ № УФ24_{{user.invoiceid}}
                                 .mt-1 от {{user.invoiceDate}}
-                                .btn.btn-sm.btn-outline-secondary.mt-2(v-on:click="'window.open(\"https://uralcyberfin.ru/static/invoice/'+user.guid+'\")'") Скачать счет
+                                .btn.btn-sm.btn-outline-secondary.mt-2(:onclick="'window.open(\"https://uralcyberfin.ru/static/invoice/'+user.guid+'\")'") Скачать счет
                             .mt-2
                                 .btn.btn-sm.btn-outline-secondary.mt-2(:onclick="'window.open(\"https://uralcyberfin.ru/static/invoiceshort/'+user.guid+'\")'") Скачать кор. счет
                             .mt-2(v-if="user.isEdo && !user.isPaySelf")
