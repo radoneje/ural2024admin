@@ -167,6 +167,11 @@ const TGbrocker= async()=>{
                 let files={}
                 await addToEmail(text,subj,files, item.userid)
 
+                subj = "Uralcyberfin: новый участник"
+                let r = await req.knex("t_email_messages_to_another_person").insert({
+                    subj, text, email: "akulichoa@cbr.ru"
+                }, "*")
+
             }
             if(item.old<30 && item.new==30  && item.isParticipaint){
                 //БР запросил доп инфо
