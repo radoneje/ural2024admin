@@ -167,10 +167,13 @@ const TGbrocker= async()=>{
                 let files={}
                 await addToEmail(text,subj,files, item.userid)
 
-                subj = "Uralcyberfin: новый участник"
-                let r = await req.knex("t_email_messages_to_another_person").insert({
-                    subj, text, email: "akulichoa@cbr.ru"
-                }, "*")
+                subj = "Uralcyberfin: новый участник";
+                let cbUsers=['ShchemelevaYUB@cbr.ru','akulichoa@cbr.ru']
+
+                for(let cbUser of cbUsers) {
+                    await req.knex("t_email_messages_to_another_person").insert({
+                        subj, text, email: cbUser})
+                }
 
             }
             if(item.old<30 && item.new==30  && item.isParticipaint){
@@ -278,3 +281,5 @@ function validateEmail(email) {
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         );
 };
+
+
