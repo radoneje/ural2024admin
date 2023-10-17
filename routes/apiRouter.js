@@ -1008,8 +1008,8 @@ router.get('/sendSpamToUsers', async function (req, res, next) {
 
 
     ];
-    //let users = (await req.knex("t_users").where({isspamlist: true}))
-    let users = (await req.knex("t_tmp").where({id: 1}))
+    let users = (await req.knex("t_users").where({isspamlist: true}))
+    //let users = (await req.knex("t_tmp").where({id: 1}))
    // users = [];
     /*users.push(
         {email: "den.shevchenko@gmail.com", isProxy: false, i:"Денис", o:"Анатольевич"},
