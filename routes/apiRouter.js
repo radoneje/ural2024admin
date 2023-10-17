@@ -1005,11 +1005,11 @@ router.get('/sendSpamToUsers', async function (req, res, next) {
             path: __dirname + "/../views/emails/welcome2024/images/zazitaLogo.png",
             cid: 'zazitaLogo' //my mistake was putting "cid:logo@cid" here!
         },
-        
+
 
     ];
-    let users = (await req.knex("t_users").where({isspamlist: true}))
-    //let users = (await req.knex("t_users").where({id: 1}))
+    //let users = (await req.knex("t_users").where({isspamlist: true}))
+    let users = (await req.knex("t_tmp").where({id: 1}))
    // users = [];
     /*users.push(
         {email: "den.shevchenko@gmail.com", isProxy: false, i:"Денис", o:"Анатольевич"},
@@ -1039,14 +1039,14 @@ router.get('/sendSpamToUsers', async function (req, res, next) {
      )*/
     res.json({date: new Date(), counr: users.length})
     let subj="Уральский форум \"Кибербезопасность в финансах\" 2024"
-    
+
     for (let user of users) {
         //await axios.get('/static/sertificate/' + user.guid);
         //https://ifcongress.ru/static/sertificate/7b28a022-5bbc-4c88-b7f2-359caf247f32
 
-          
+
         try {
-           
+
                 let messages=[ {
                             from: 'info@uralcyberfin.ru',
                             to: user.email ,//item.isProxy ? item.proxyemail : item.email,
@@ -1056,7 +1056,7 @@ router.get('/sendSpamToUsers', async function (req, res, next) {
                         }
                         ]
 
-                        if(user.isProxy && validateEmail(user.proxyemail) && user.email!=user.proxyemail)
+                       /* if(user.isProxy && validateEmail(user.proxyemail) && user.email!=user.proxyemail)
                         {
                             messages.push({
                                 from: 'info@uralcyberfin.ru',
@@ -1065,9 +1065,9 @@ router.get('/sendSpamToUsers', async function (req, res, next) {
                                 html: text,
                                 attachments
                             })
-                        }
-                         
-                       
+                        }*/
+
+
                         try {
                             for(let message of messages) {
                                 let info = await mailer(message);
@@ -1084,7 +1084,7 @@ router.get('/sendSpamToUsers', async function (req, res, next) {
                         catch (e){
                             console.warn(e)
                         }
-            
+
         } catch (e) {
             console.warn(e)
             await req.knex("t_spam_log").insert({email: user.email, value: "error"})
