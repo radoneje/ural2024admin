@@ -1048,7 +1048,7 @@ router.get('/sendSpamToUsers', async function (req, res, next) {
         try {
 
                 let messages=[ {
-                            from: 'info@uralcyberfin.ru',
+                            from: 'Оргкомитет Уралкиберфин <info@uralcyberfin.ru>',
                             to: user.email ,//item.isProxy ? item.proxyemail : item.email,
                             subject: subj,
                             html: text,
