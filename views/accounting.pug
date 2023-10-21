@@ -63,7 +63,7 @@ block content
                             .mt-2
                                 .btn.btn-sm.btn-outline-secondary.mt-2(:onclick="'window.open(\"https://uralcyberfin.ru/static/invoiceshortByNo/'+user.guid+'\")'") Скачать кор. счет
                             .mt-2(v-if="user.isEdo && !user.isPaySelf")
-                                .btn.btn-sm.btn-outline-secondary.mt-2(:onclick="'window.open(\"https://uralcyberfin.ru/static/edo/'+user.guid+'\")'") Скачать согл. ЭДО
+                                .btn.btn-sm.btn-outline-secondary.mt-2(:onclick="'window.open(\"https://uralcyberfin.ru/static/edo/'+user.userguid+'\")'") Скачать согл. ЭДО
                             .mt-2
                                 div
                                     b {{user.price}} руб.
