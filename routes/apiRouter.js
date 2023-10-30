@@ -939,7 +939,7 @@ router.post('/room', async function (req, res, next) {
 router.get('/sendSpamToUsers', async function (req, res, next) {
     //
     //
-    let text = await fs.promises.readFile(__dirname + "/../views/emails/330_spamlist01.html",'utf8')
+    let text = await fs.promises.readFile(__dirname + "/../views/emails/330_spamlist01-1.html",'utf8')
    // let text = await fs.promises.readFile(__dirname + "/../views/emails/350_spamlist01.html", 'utf8')
 
     //let text = pug.renderFile(__dirname + "/../views/emails/welcome2024/mail2023.pug", {})
