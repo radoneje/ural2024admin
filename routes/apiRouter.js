@@ -946,11 +946,11 @@ router.get('/sendSpamToUsers', async function (req, res, next) {
 
 
     let attachments = [
-        {
+      /*  {
             filename: 'logo.png',
          path: __dirname + "/../views/emails/welcome2024/images/header.png",
            cid: 'header' //my mistake was putting "cid:logo@cid" here!
-        }
+        }*/
     ];
     let users = (await req.knex("t_users").where({isspamlist: true}))
     //let users = (await req.knex("t_tmp"));//.where({id: 1}))
