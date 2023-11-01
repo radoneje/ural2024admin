@@ -70,7 +70,7 @@ block content
                       option(value="30") 30%
                       option(value="40") 40%
                       option(value="50") 50%
-                  label.small Сумма {{150-(150*(user.discount/100))}}тр.
+                  label.small Сумма {{user.price-(user.price*(user.discount/100))}}
                 .mt-3
                   .btn-group.btn-group-sm
                     .btn.btn-outline-secondary(v-on:click="copyToClpboard('https://uralcyberfin.ru/personal/'+user.guid+'/ru')" data-bs-toggle="tooltip" data-bs-title="Копировать ссылку на ЛК")
