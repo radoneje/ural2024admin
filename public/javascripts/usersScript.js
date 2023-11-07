@@ -311,7 +311,7 @@ document.body.ondragenter = (ev) => {
 async function addForegnUser(){
     let ctrl=await createPopUp("/foregnUser", ()=>{})
     let foregnBtn=document.getElementById("foregnBtn")
-    foregnBtn.onclick(e=>{
+    foregnBtn.addEventListener("click", e=>{
         closePopUp();
     })
 }
