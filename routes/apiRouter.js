@@ -2119,6 +2119,7 @@ router.post('/addForegnUser/', async function (req, res, next) {
        req.body.payCompanyId=80;
        req.body.statusid=10;
        req.body.price=0
+        req.body.photoid="664b6929-b96e-4fe8-959a-2afc1b98470c"
         if(req.body.proxyi && req.body.proxyi >0)
             req.body.isProxy=true
 
