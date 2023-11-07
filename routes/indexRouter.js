@@ -627,6 +627,20 @@ router.get('/showPhoto/:fileid', async function (req, res, next) {
 });
 
 
+router.get('/foregnUser', async function (req, res, next) {
+    if (!(req.session.user))
+        return res.redirect("/login/?callback=" + encodeURI("/users/"));
+    try {
+//pgmsessionod
+        res.render('foregnUser', {id:req.params.fileid});
+    } catch (e) {
+        console.warn(e)
+        res.sendStatus(500)
+    }
+});
+
+
+
 
 
 
