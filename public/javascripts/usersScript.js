@@ -308,6 +308,10 @@ document.body.ondrop = (ev) => {
 document.body.ondragenter = (ev) => {
     ev.preventDefault();
 }
-function addForegnUser(){
-    let ctrl=createPopUp("/foregnUser", ()=>{})
+async function addForegnUser(){
+    let ctrl=await createPopUp("/foregnUser", ()=>{})
+    let foregnBtn=document.getElementById("foregnBtn")
+    foregnBtn.onclick(e=>{
+        closePopUp();
+    })
 }
