@@ -76,7 +76,7 @@ block content
                             .mt-2(v-if="user.isPay")
                                 div.small скидка {{user.discount}}%
                                 div.small
-                                    b Сумма {{150-(150*(user.discount/100))}}тр.
+                                    b Сумма {{user.price-(user.price*(user.discount/100))}}тр.
 
 
                         .filterMakeBox(style="width:220px")
