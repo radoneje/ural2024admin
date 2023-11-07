@@ -316,7 +316,7 @@ async function addForegnUser(){
        document.querySelectorAll(".foregnForm input").forEach((elem)=>{
            dt[elem.getAttribute("name")]=elem.value;
         })
-        console.log(ret);
+        console.log(dt);
         closePopUp();
     })
 }
