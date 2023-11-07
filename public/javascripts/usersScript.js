@@ -312,11 +312,10 @@ async function addForegnUser(){
     let ctrl=await createPopUp("/foregnUser", ()=>{})
     let foregnBtn=document.getElementById("foregnBtn")
     foregnBtn.addEventListener("click", e=>{
-
-        let dt=document.querySelectorAll(".foregnForm input").reduce((elem, ret)=>{
-            ret[elem.getAttribute("name")]=elem.value;
-            return ret;
-        },{})
+        let dt={}
+       document.querySelectorAll(".foregnForm input").forEach((elem)=>{
+           dt[elem.getAttribute("name")]=elem.value;
+        })
         console.log(ret);
         closePopUp();
     })
