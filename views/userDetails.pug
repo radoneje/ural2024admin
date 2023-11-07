@@ -11,7 +11,8 @@
             .pUserCart.flex.left
                 .puserNameWr
 
-                    .puserName #{user.f}
+                    .puserName
+                        input(onchange="onChangeUser(this)" userid=user.f, userguid=user.guid field="f"  value=user.f ondblclick="this.removeAttribute('readonly')" readonly onblur="this.setAttribute('readonly','readonly')")
                     .puserName #{user.i}
                     .puserName #{user.o}
                     .pUserType
