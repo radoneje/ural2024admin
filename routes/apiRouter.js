@@ -2111,4 +2111,25 @@ function validateEmail(email) {
         );
 };
 
+
+router.post('/addForegnUser/', async function (req, res, next) {
+
+    try {
+       req.body.companyid=80;
+       req.body.payCompanyId=80;
+       req.body.statusid=10;
+       req.body.price=0
+        if(req.body.proxyi && req.body.proxyi >0)
+            req.body.isProxy=true
+
+        let user=(await req.knex("t_users").insert(req.body, "*"))[0]
+        await req.knex("t_rel_userToType").insert({userid:user.id, typeid:8})
+        res.json(user)
+
+    } catch (e) {
+        console.warn(e)
+        res.sendStatus(500)
+    }
+});
+
 export default router;

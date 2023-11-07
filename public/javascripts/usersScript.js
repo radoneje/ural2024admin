@@ -311,12 +311,17 @@ document.body.ondragenter = (ev) => {
 async function addForegnUser(){
     let ctrl=await createPopUp("/foregnUser", ()=>{})
     let foregnBtn=document.getElementById("foregnBtn")
-    foregnBtn.addEventListener("click", e=>{
+    foregnBtn.addEventListener("click", async e=>{
         let dt={}
        document.querySelectorAll(".foregnForm input").forEach((elem)=>{
            dt[elem.getAttribute("name")]=elem.value;
         })
-        console.log(dt);
+        let r=await postJson("/api/addForegnUser", dt)
+        if(r)
+        alert("Зарегистрирован, обносите страницу")
+        else
+            alert("ошибка")
+
         closePopUp();
     })
 }
