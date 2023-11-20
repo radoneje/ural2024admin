@@ -1429,7 +1429,7 @@ router.get('/resendLKmail/:userid', async function (req, res, next) {
         return res.sendStatus(401)
     try {
         let ret = await req.knex("t_email_messages").insert({
-            subj: "Финансовый конгресс 2023: доступ к личному кабинету",
+            subj: "Доступ к личному кабинету",
             text: "/var/www/ural2024admin/views/emails/300_link_to_lk.pug",
             files: [],
             userid: req.params.userid
