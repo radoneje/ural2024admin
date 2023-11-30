@@ -70,7 +70,7 @@ block content
                             .mt-2
                                 div
                                     b АКТ № УФ24-{{user.invoiceid}}
-                                .btn.btn-sm.btn-outline-secondary.mt-2(:onclick="'window.open(\"https://uralcyberfin.ru/static/act/'+user.userguid+'\")'") Скачать акт
+                                .btn.btn-sm.btn-outline-secondary.mt-2(:onclick="'window.open(\"https://uralcyberfin.ru/static/act/'+user.userguid+'/'+user.invoiceid+'\")'") Скачать акт
 
 
                             .mt-2(v-if="user.isPay")
