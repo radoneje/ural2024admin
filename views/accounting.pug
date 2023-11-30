@@ -67,10 +67,10 @@ block content
                             .mt-2
                                 div
                                     b {{user.price-(user.price*(user.discount/100))}} руб.
-                            //.mt-2
+                            .mt-2
                                 div
-                                    b АКТ № ФК-{{user.invoiceid}}
-                                .btn.btn-sm.btn-outline-secondary.mt-2(v-on:click="downloadAkt(user)") Скачать акт
+                                    b АКТ № УФ24-{{user.invoiceid}}
+                                .btn.btn-sm.btn-outline-secondary.mt-2(:onclick="'window.open(\"https://uralcyberfin.ru/static/act/'+user.userguid+'\")'") Скачать акт
 
 
                             .mt-2(v-if="user.isPay")
