@@ -540,7 +540,7 @@ router.post('/loginToLK/', async function(req, res, next) {
             return;
         let users=await req.knex("v_lk_access").where({email:email})
         for(let user of users){
-            let r=await req.knex("t_email_messages").insert({subj:"Финансовый конгресс 2023: доступ к личному кабинету",text:"/var/www/ifcAdmin/views/emails/300_link_to_lk.pug", userid:user.id})
+            let r=await req.knex("t_email_messages").insert({subj:"Кибербезопасность в финансах: доступ к личному кабинету",text:"/var/www/ifcAdmin/views/emails/300_link_to_lk.pug", userid:user.id})
 
         }
 

@@ -1080,7 +1080,7 @@ router.get('/sendSpamToLk', async function (req, res, next) {
             user,
             message
         })
-        let subj = "Финансовый конгресс 2023: новое сообщение"
+        let subj = "Кибербезопасность в финансах: новое сообщение"
         let r = await req.knex("t_email_messages_to_another_person").insert({
             subj, text, email: user.email
         }, "*")
@@ -1125,7 +1125,7 @@ router.post('/messageToUser', async function (req, res, next) {
                 user,
                 message: req.body.text
             })
-            let subj = "Финансовый конгресс 2023: новое сообщение"
+            let subj = "Кибербезопасность в финансах: новое сообщение"
             await req.knex("t_email_messages_to_another_person").insert({
                 subj, text, email: user.email
             })
